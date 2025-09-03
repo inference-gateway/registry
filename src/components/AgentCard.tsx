@@ -8,10 +8,6 @@ interface AgentCardProps {
 export function AgentCard({ agent }: AgentCardProps) {
   const [copied, setCopied] = useState(false);
   
-  const formatSize = (bytes: number) => {
-    const mb = bytes / (1024 * 1024);
-    return `${mb.toFixed(1)} MB`;
-  };
 
   const copyToClipboard = async () => {
     try {
@@ -25,8 +21,8 @@ export function AgentCard({ agent }: AgentCardProps) {
   };
 
   return (
-    <div className="group relative bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-slate-700/50 hover:border-blue-500/50 hover:bg-slate-800/60">
-      <div className="relative p-8">
+    <div className="group relative bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-slate-700/50 hover:border-blue-500/50 hover:bg-slate-800/60 flex flex-col h-full">
+      <div className="relative p-8 flex flex-col flex-1">
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
         <div className="relative flex items-start justify-between mb-6">
@@ -69,6 +65,9 @@ export function AgentCard({ agent }: AgentCardProps) {
           ))}
         </div>
         
+        {/* Flexible spacer to push bottom sections down */}
+        <div className="flex-1"></div>
+        
         <div className="relative border-t border-slate-700/50 pt-6">
           <div className="grid grid-cols-2 gap-4 text-sm mb-4">
             <div>
@@ -80,13 +79,13 @@ export function AgentCard({ agent }: AgentCardProps) {
             <div>
               <span className="text-slate-400 text-xs uppercase tracking-wider">Size</span>
               <p className="font-semibold text-white mt-1">
-                {formatSize(agent.image.size)}
+                {agent.image.size}
               </p>
             </div>
           </div>
           
           {/* OCI Image URL with Copy Button */}
-          <div className="mb-4">
+          <div className="mb-6">
             <span className="text-slate-400 text-xs uppercase tracking-wider mb-2 block">OCI Image</span>
             <div className="flex items-center gap-2 p-3 bg-slate-900/50 rounded-xl border border-slate-700/30">
               <code className="flex-1 text-sm text-blue-300 font-mono truncate">
@@ -113,9 +112,9 @@ export function AgentCard({ agent }: AgentCardProps) {
               </button>
             </div>
           </div>
-        </div>
-        
-        <div className="relative flex gap-3 mt-6 pt-6 border-t border-slate-700/50">
+          
+          {/* Buttons */}
+          <div className="relative flex gap-3 pt-6 border-t border-slate-700/50">
           <a
             href={agent.repository}
             target="_blank"
@@ -142,6 +141,7 @@ export function AgentCard({ agent }: AgentCardProps) {
               Documentation
             </div>
           </a>
+          </div>
         </div>
       </div>
     </div>

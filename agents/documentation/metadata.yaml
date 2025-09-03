@@ -1,7 +1,7 @@
 ---
 id: documentation-server
 name: A2A Documentation Server for Context7
-version: 0.1.0
+version: 0.2.1
 description: Agent-to-agent documentation query server providing instant access to Context7's indexed technical documentation
 longDescription: |
   The A2A Documentation Server is a specialized agent-to-agent service that provides on-demand access 
@@ -20,13 +20,12 @@ longDescription: |
   - Contextual search and intelligent query processing
 
 image:
-  repository: oci://ghcr.io/inference-gateway/documentation-agent
-  tag: v1.0.0
-  digest: sha256:doc789agent456ctx7
-  size: 268435456
+  repository: ghcr.io/inference-gateway/documentation-agent
+  tag: 0.2.1
+  size: 30.7MB
 
 author:
-  name: Context7 Agent Development Team
+  name: Eden Reich
   email: eden.reich@gmail.com
 
 license: MIT

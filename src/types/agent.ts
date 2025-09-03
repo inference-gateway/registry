@@ -7,8 +7,7 @@ export interface Agent {
   image: {
     repository: string;
     tag: string;
-    digest: string;
-    size: number;
+    size: string;
   };
   author: {
     name: string;

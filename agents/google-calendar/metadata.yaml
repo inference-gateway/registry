@@ -1,7 +1,7 @@
 ---
 id: google-calendar-agent
 name: A2A Google Calendar Management Agent
-version: 0.1.0
+version: 0.4.15
 description: Agent-to-agent service for managing Google Calendar events, scheduling, and calendar operations
 longDescription: |
   The A2A Google Calendar Agent is a specialized agent-to-agent service that enables other agents 
@@ -20,10 +20,9 @@ longDescription: |
   - Event reminders and notifications
 
 image:
-  repository: oci://ghcr.io/inference-gateway/google-calendar-agent
-  tag: v0.1.0
-  digest: sha256:cal456agent789ctx7
-  size: 134217728
+  repository: ghcr.io/inference-gateway/google-calendar-agent
+  tag: 0.4.15
+  size: 7.45MB
 
 author:
   name: Eden Reich
