@@ -90,7 +90,7 @@ export function AgentsPage() {
             Agent Registry
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Discover and explore cutting-edge agent-to-agent services in our curated ecosystem
+            Discover and explore cutting-edge agent-to-agent services in this curated ecosystem
           </p>
         </div>
 
