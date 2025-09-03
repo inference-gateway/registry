@@ -1,0 +1,48 @@
+---
+id: documentation-server
+name: A2A Documentation Server for Context7
+version: 0.1.0
+description: Agent-to-agent documentation query server providing instant access to Context7's indexed technical documentation
+longDescription: |
+  The A2A Documentation Server is a specialized agent-to-agent service that provides on-demand access 
+  to comprehensive technical documentation indexed on Context7. Other agents can query this server to 
+  retrieve documentation for any library, framework, tool, or technology available in the Context7 
+  documentation index. It acts as a centralized knowledge base that enables agents to access accurate, 
+  up-to-date documentation without requiring local storage or manual updates.
+  
+  ## Key Features
+  - Instant documentation retrieval for thousands of indexed technologies
+  - API reference documentation for popular libraries and frameworks
+  - Tool usage guides and best practices
+  - Programming language documentation and specifications
+  - Cloud platform and service documentation
+  - Version-specific documentation support
+  - Contextual search and intelligent query processing
+
+image:
+  repository: oci://ghcr.io/inference-gateway/documentation-agent
+  tag: v1.0.0
+  digest: sha256:doc789agent456ctx7
+  size: 268435456
+
+author:
+  name: Context7 Agent Development Team
+  email: eden.reich@gmail.com
+
+license: MIT
+homepage: https://github.com/inference-gateway/documentation-agent
+repository: https://github.com/inference-gateway/documentation-agent
+documentation: https://docs.inference-gateway.com
+
+categories:
+  - documentation
+  - agent-to-agent
+  - context7
+
+tags:
+  - a2a
+  - documentation
+  - context7
+  - multi-agent
+  - autonomous
+  - api-docs

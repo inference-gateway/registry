@@ -1,0 +1,140 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "version": 1,
+    "install": {
+      "nodejs_24": {
+        "pkg-path": "nodejs_24"
+      }
+    },
+    "hook": {},
+    "profile": {},
+    "options": {}
+  },
+  "packages": [
+    {
+      "attr_path": "nodejs_24",
+      "broken": false,
+      "derivation": "/nix/store/k3ih2yg7856nf1fr4d24iy58fj18flbj-nodejs-24.7.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_24",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "nodejs-24.7.0",
+      "pname": "nodejs_24",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:28:56.956766Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "24.7.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/2y7mmq7ca5jd19n4nm03nag23ccq4jxb-nodejs-24.7.0-dev",
+        "libv8": "/nix/store/55y1fbyx230p3w5khfvjzygxm4gss46c-nodejs-24.7.0-libv8",
+        "out": "/nix/store/ccz46k0i3qxsjxm55601qkn4ckdy0j2s-nodejs-24.7.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_24",
+      "broken": false,
+      "derivation": "/nix/store/y8j7yq3d2xgxw4ypyzm9knkz8x12vbrv-nodejs-24.7.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_24",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "nodejs-24.7.0",
+      "pname": "nodejs_24",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:37:28.186961Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "24.7.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/kyhchi0ap5b2k9yflrnvn864pnfrh523-nodejs-24.7.0-dev",
+        "libv8": "/nix/store/y5fbsq27f6bfil7k8wc8shaa6q3rl1lx-nodejs-24.7.0-libv8",
+        "out": "/nix/store/8gh5b8d1rwx06wlbfy4s5plqhpq9n4ai-nodejs-24.7.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_24",
+      "broken": false,
+      "derivation": "/nix/store/hnza26v0bf1r3g5wpk4wmh0a0pp4xgny-nodejs-24.7.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_24",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "nodejs-24.7.0",
+      "pname": "nodejs_24",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:45:30.073291Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "24.7.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/czgn6fkq1zsw04hf12gciprlncz83kgw-nodejs-24.7.0-dev",
+        "libv8": "/nix/store/mwy41qlkg15m1d129mcncxpy19pac3li-nodejs-24.7.0-libv8",
+        "out": "/nix/store/fxp7kvbrylhvfg6daab927sh8q0i3irb-nodejs-24.7.0"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_24",
+      "broken": false,
+      "derivation": "/nix/store/lg7qhp36icjdxj0abqrhl9629fflch1j-nodejs-24.7.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_24",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "name": "nodejs-24.7.0",
+      "pname": "nodejs_24",
+      "rev": "d7600c775f877cd87b4f5a831c28aa94137377aa",
+      "rev_count": 854036,
+      "rev_date": "2025-08-30T08:25:00Z",
+      "scrape_date": "2025-08-31T03:53:06.902163Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "24.7.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/mlaxg9lc79xv0r1mlxnzyr8w4jgnpkj2-nodejs-24.7.0-dev",
+        "libv8": "/nix/store/z8aj3g61ph9c01mfb0nswr3sp7iwi9pd-nodejs-24.7.0-libv8",
+        "out": "/nix/store/xspqdfh7j7g3l4gkxzfhr5qiqb4hj7iv-nodejs-24.7.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    }
+  ]
+}
