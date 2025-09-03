@@ -1,13 +1,27 @@
 import type { Agent } from '../types/agent';
+import { useState } from 'react';
 
 interface AgentCardProps {
   agent: Agent;
 }
 
 export function AgentCard({ agent }: AgentCardProps) {
+  const [copied, setCopied] = useState(false);
+  
   const formatSize = (bytes: number) => {
     const mb = bytes / (1024 * 1024);
     return `${mb.toFixed(1)} MB`;
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      const imageUrl = `${agent.image.repository}:${agent.image.tag}`;
+      await navigator.clipboard.writeText(imageUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+    }
   };
 
   return (
@@ -56,7 +70,7 @@ export function AgentCard({ agent }: AgentCardProps) {
         </div>
         
         <div className="relative border-t border-slate-700/50 pt-6">
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-4 text-sm mb-4">
             <div>
               <span className="text-slate-400 text-xs uppercase tracking-wider">Author</span>
               <p className="font-semibold text-white truncate mt-1">
@@ -68,6 +82,35 @@ export function AgentCard({ agent }: AgentCardProps) {
               <p className="font-semibold text-white mt-1">
                 {formatSize(agent.image.size)}
               </p>
+            </div>
+          </div>
+          
+          {/* OCI Image URL with Copy Button */}
+          <div className="mb-4">
+            <span className="text-slate-400 text-xs uppercase tracking-wider mb-2 block">OCI Image</span>
+            <div className="flex items-center gap-2 p-3 bg-slate-900/50 rounded-xl border border-slate-700/30">
+              <code className="flex-1 text-sm text-blue-300 font-mono truncate">
+                {agent.image.repository}:{agent.image.tag}
+              </code>
+              <button
+                onClick={copyToClipboard}
+                className={`flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 ${
+                  copied 
+                    ? 'bg-green-500/20 text-green-400' 
+                    : 'bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white'
+                }`}
+                title="Copy OCI image URL"
+              >
+                {copied ? (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                )}
+              </button>
             </div>
           </div>
         </div>
