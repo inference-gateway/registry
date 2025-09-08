@@ -22,7 +22,7 @@ export function AgentCard({ agent }: AgentCardProps) {
 
   return (
     <div className="group relative bg-slate-800/40 backdrop-blur-xl rounded-3xl shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-slate-700/50 hover:border-blue-500/50 hover:bg-slate-800/60 flex flex-col h-full">
-      <div className="relative p-8 flex flex-col flex-1">
+      <div className="relative p-6 flex flex-col flex-1">
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
         <div className="relative flex items-start justify-between mb-6">
@@ -87,13 +87,13 @@ export function AgentCard({ agent }: AgentCardProps) {
           {/* OCI Image URL with Copy Button */}
           <div className="mb-6">
             <span className="text-slate-400 text-xs uppercase tracking-wider mb-2 block">OCI Image</span>
-            <div className="flex items-center gap-2 p-3 bg-slate-900/50 rounded-xl border border-slate-700/30">
-              <code className="flex-1 text-sm text-blue-300 font-mono truncate">
+            <div className="flex items-center gap-1 p-2 bg-slate-900/50 rounded-xl border border-slate-700/30">
+              <code className="flex-1 text-xs text-blue-300 font-mono truncate">
                 {agent.image.repository}:{agent.image.tag}
               </code>
               <button
                 onClick={copyToClipboard}
-                className={`flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 ${
+                className={`flex items-center justify-center w-6 h-6 rounded-lg transition-all duration-200 ${
                   copied 
                     ? 'bg-green-500/20 text-green-400' 
                     : 'bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white'

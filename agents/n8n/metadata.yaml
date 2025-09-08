@@ -37,6 +37,7 @@ categories:
   - automation
   - agent-to-agent
   - workflow
+  - n8n
 
 tags:
   - a2a

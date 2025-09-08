@@ -1,13 +1,11 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Agent } from '../types/agent';
 import { AgentCard } from '../components/AgentCard';
 import { loadAgents } from '../services/agentService';
 
-interface AgentsPageProps {
-  onShowHowTo: () => void;
-}
-
-export function AgentsPage({ onShowHowTo }: AgentsPageProps) {
+export function AgentsPage() {
+  const navigate = useNavigate();
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,6 +26,29 @@ export function AgentsPage({ onShowHowTo }: AgentsPageProps) {
     };
     fetchAgents();
   }, []);
+
+  const formatCategoryName = (category: string): string => {
+    const specialCases: { [key: string]: string } = {
+      'n8n': 'n8n',
+      'api': 'API',
+      'ai': 'AI',
+      'ml': 'ML',
+      'llm': 'LLM',
+      'ui': 'UI',
+      'ux': 'UX',
+      'css': 'CSS',
+      'html': 'HTML',
+      'js': 'JS',
+      'ts': 'TS',
+      'sql': 'SQL',
+      'rest': 'REST',
+      'graphql': 'GraphQL',
+      'oauth': 'OAuth'
+    };
+    
+    const lowerCategory = category.toLowerCase();
+    return specialCases[lowerCategory] || category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+  };
 
   const allCategories = useMemo(() => {
     const categories = new Set<string>();
@@ -99,7 +120,7 @@ export function AgentsPage({ onShowHowTo }: AgentsPageProps) {
           
           <div className="flex justify-center">
             <button
-              onClick={onShowHowTo}
+              onClick={() => navigate('/how-to/prerequisites/')}
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white font-semibold rounded-2xl transition-all duration-300 shadow-2xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-105 transform"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,14 +186,14 @@ export function AgentsPage({ onShowHowTo }: AgentsPageProps) {
                     <button
                       key={category}
                       onClick={() => handleCategorySelect(category)}
-                      className={`w-full px-6 py-3 text-left hover:bg-slate-700/50 transition-colors duration-200 flex items-center gap-3 capitalize ${
+                      className={`w-full px-6 py-3 text-left hover:bg-slate-700/50 transition-colors duration-200 flex items-center gap-3 ${
                         selectedCategory === category ? 'text-blue-400 bg-blue-500/10' : 'text-white'
                       }`}
                     >
                       <div className={`w-2 h-2 rounded-full ${
                         selectedCategory === category ? 'bg-blue-400' : 'bg-transparent border border-slate-600'
                       }`}></div>
-                      {category}
+                      {formatCategoryName(category)}
                     </button>
                   ))}
                 </div>

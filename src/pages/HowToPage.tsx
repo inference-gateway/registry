@@ -1,18 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-interface HowToPageProps {
-  onBackToAgents: () => void;
-}
-
-export function HowToPage({ onBackToAgents }: HowToPageProps) {
+export function HowToPage() {
+  const navigate = useNavigate();
+  const { section } = useParams<{ section: string }>();
   const [selectedSection, setSelectedSection] = useState('prerequisites');
+
+  // Update selected section when URL changes
+  useEffect(() => {
+    if (section) {
+      setSelectedSection(section);
+    }
+  }, [section]);
 
   const sections = [
     { id: 'prerequisites', title: 'Prerequisites', icon: '📋' },
     { id: 'local-setup', title: 'Local Development', icon: '💻' },
     { id: 'gateway-setup', title: 'Gateway Setup', icon: '🚀' },
     { id: 'using-agents', title: 'Using Agents', icon: '🤖' },
-    { id: 'production', title: 'Production Setup', icon: '🏭' },
+    { id: 'production', title: 'Enterprise Setup', icon: '🏭' },
   ];
 
   const renderContent = () => {
@@ -75,131 +81,125 @@ export function HowToPage({ onBackToAgents }: HowToPageProps) {
             <div className="space-y-6">
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  📥 1. Pull Available Agent Containers
+                  📁 1. Get the A2A Examples
                 </h3>
-                <p className="text-slate-300 mb-4">Pull the specific agents available in the registry:</p>
+                <p className="text-slate-300 mb-4">Download the complete A2A setup from the inference-gateway CLI repository:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Documentation Server (Context7 integration)<br/>
-                    docker pull ghcr.io/inference-gateway/documentation-agent:0.2.1<br/><br/>
-                    # Google Calendar Management<br/>
-                    docker pull ghcr.io/inference-gateway/google-calendar-agent:0.4.15<br/><br/>
-                    # n8n Workflow Automation<br/>
-                    docker pull ghcr.io/inference-gateway/n8n-agent:0.1.1
-                  </code>
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Clone or download the A2A examples
+git clone https://github.com/inference-gateway/cli.git
+cd cli/examples/a2a
+
+# OR download specific files:
+curl -O https://raw.githubusercontent.com/inference-gateway/cli/main/examples/a2a/docker-compose.yaml
+curl -O https://raw.githubusercontent.com/inference-gateway/cli/main/examples/a2a/.env.gateway.example
+curl -O https://raw.githubusercontent.com/inference-gateway/cli/main/examples/a2a/.env.documentation.example
+curl -O https://raw.githubusercontent.com/inference-gateway/cli/main/examples/a2a/.env.calendar.example`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🔧 2. Configure Environment Files
+                </h3>
+                <p className="text-slate-300 mb-4">Create and configure the required environment files:</p>
+                
+                <div className="space-y-4">
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                    <h4 className="text-blue-300 font-medium mb-2">Gateway Configuration (.env.gateway)</h4>
+                    <code className="text-green-400 block text-sm">
+                      cp .env.gateway.example .env.gateway<br/><br/>
+                      # Key settings:<br/>
+                      ENVIRONMENT=development<br/>
+                      A2A_ENABLE=true<br/>
+                      A2A_EXPOSE=true<br/>
+                      A2A_AGENTS=http://google-calendar-agent:8080,http://documentation-agent:8080<br/>
+                      SERVER_HOST=0.0.0.0<br/>
+                      SERVER_PORT=8080<br/><br/>
+                      # Add your API keys for providers (Anthropic, OpenAI, etc.)
+                    </code>
+                  </div>
+                  
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                    <h4 className="text-blue-300 font-medium mb-2">Documentation Agent (.env.documentation)</h4>
+                    <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`cp .env.documentation.example .env.documentation
+
+# Key settings:
+ENVIRONMENT=development
+CONTEXT7_API_KEY=your_context7_api_key
+A2A_AGENT_URL=http://localhost:8080
+A2A_AGENT_CLIENT_PROVIDER=deepseek
+A2A_AGENT_CLIENT_MODEL=deepseek-chat
+A2A_AGENT_CLIENT_BASE_URL=http://inference-gateway:8080/v1`}
+                    </pre>
+                  </div>
+                  
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                    <h4 className="text-blue-300 font-medium mb-2">Calendar Agent (.env.calendar)</h4>
+                    <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`cp .env.calendar.example .env.calendar
+
+# Key settings:
+ENVIRONMENT=dev
+DEMO_MODE=false
+GOOGLE_CALENDAR_TIMEZONE=CET
+GOOGLE_CALENDAR_READ_ONLY=false
+A2A_AGENT_URL=http://google-calendar-agent:8080
+A2A_AGENT_CLIENT_BASE_URL=http://inference-gateway:8080/v1
+# Add Google Calendar service account JSON`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🚀 3. Start the A2A Environment
+                </h3>
+                <p className="text-slate-300 mb-4">Use Docker Compose to start all services:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Start all A2A services
+docker compose up -d
+
+# View running services
+docker compose ps
+
+# Follow logs from all services
+docker compose logs -f`}
+                  </pre>
                 </div>
                 <p className="text-slate-400 text-sm mt-2">
-                  💡 Each agent has specific capabilities - documentation queries, calendar management, and workflow automation
+                  💡 This starts: inference-gateway, google-calendar-agent, documentation-agent, infer-cli, and a2a-debugger
                 </p>
               </div>
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔧 2. Configure Environment Variables by Agent
+                  ✅ 4. Test A2A Communication
                 </h3>
-                <p className="text-slate-300 mb-4">Each agent has specific configuration requirements:</p>
-                
-                <div className="space-y-4">
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">Documentation Agent (Context7)</h4>
-                    <code className="text-green-400 block">
-                      export PORT=8080<br/>
-                      export CONTEXT7_API_KEY=your_context7_api_key<br/>
-                      export NODE_ENV=development
-                    </code>
-                  </div>
-                  
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">Google Calendar Agent</h4>
-                    <code className="text-green-400 block">
-                      export PORT=8081<br/>
-                      export GOOGLE_CLIENT_ID=your_google_client_id<br/>
-                      export GOOGLE_CLIENT_SECRET=your_google_client_secret<br/>
-                      export GOOGLE_REDIRECT_URI=http://localhost:8081/auth/callback
-                    </code>
-                  </div>
-                  
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">n8n Workflow Agent</h4>
-                    <code className="text-green-400 block">
-                      export PORT=8082<br/>
-                      export N8N_ENCRYPTION_KEY=your_encryption_key<br/>
-                      export N8N_USER_MANAGEMENT_DISABLED=true<br/>
-                      export N8N_BASIC_AUTH_ACTIVE=true
-                    </code>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🚀 3. Run Agents with Proper Configuration
-                </h3>
-                <p className="text-slate-300 mb-4">Start each agent with its specific configuration:</p>
-                
-                <div className="space-y-4">
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">Documentation Agent</h4>
-                    <code className="text-green-400 block">
-                      docker run -d \<br/>
-                      &nbsp;&nbsp;--name documentation-agent \<br/>
-                      &nbsp;&nbsp;-p 8080:8080 \<br/>
-                      &nbsp;&nbsp;-e PORT=8080 \<br/>
-                      &nbsp;&nbsp;-e CONTEXT7_API_KEY=$CONTEXT7_API_KEY \<br/>
-                      &nbsp;&nbsp;-e NODE_ENV=development \<br/>
-                      &nbsp;&nbsp;ghcr.io/inference-gateway/documentation-agent:0.2.1
-                    </code>
-                  </div>
-                  
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">Google Calendar Agent</h4>
-                    <code className="text-green-400 block">
-                      docker run -d \<br/>
-                      &nbsp;&nbsp;--name google-calendar-agent \<br/>
-                      &nbsp;&nbsp;-p 8081:8081 \<br/>
-                      &nbsp;&nbsp;-e PORT=8081 \<br/>
-                      &nbsp;&nbsp;-e GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \<br/>
-                      &nbsp;&nbsp;-e GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \<br/>
-                      &nbsp;&nbsp;-e GOOGLE_REDIRECT_URI=http://localhost:8081/auth/callback \<br/>
-                      &nbsp;&nbsp;ghcr.io/inference-gateway/google-calendar-agent:0.4.15
-                    </code>
-                  </div>
-                  
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">n8n Workflow Agent</h4>
-                    <code className="text-green-400 block">
-                      docker run -d \<br/>
-                      &nbsp;&nbsp;--name n8n-agent \<br/>
-                      &nbsp;&nbsp;-p 8082:8082 \<br/>
-                      &nbsp;&nbsp;-e PORT=8082 \<br/>
-                      &nbsp;&nbsp;-e N8N_ENCRYPTION_KEY=$N8N_ENCRYPTION_KEY \<br/>
-                      &nbsp;&nbsp;-e N8N_USER_MANAGEMENT_DISABLED=true \<br/>
-                      &nbsp;&nbsp;-e N8N_BASIC_AUTH_ACTIVE=true \<br/>
-                      &nbsp;&nbsp;ghcr.io/inference-gateway/n8n-agent:0.1.1
-                    </code>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  ✅ 4. Verify Agents are Running
-                </h3>
-                <p className="text-slate-300 mb-4">Check that your agents are healthy and responsive:</p>
+                <p className="text-slate-300 mb-4">Verify the setup with built-in debugging tools:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Check all agent containers<br/>
-                    docker ps | grep -E '(documentation|calendar|n8n)-agent'<br/><br/>
-                    # Test agent health endpoints<br/>
-                    curl http://localhost:8080/health  # Documentation<br/>
-                    curl http://localhost:8081/health  # Calendar<br/>
-                    curl http://localhost:8082/health  # n8n<br/><br/>
-                    # View agent logs<br/>
-                    docker logs documentation-agent<br/>
-                    docker logs google-calendar-agent<br/>
-                    docker logs n8n-agent
-                  </code>
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# List available tasks
+docker compose run --rm a2a-debugger tasks list
+
+# Test streaming interaction
+docker compose run --rm a2a-debugger tasks submit-streaming "What's on my calendar today?"
+
+# Start interactive CLI session
+docker compose run --rm infer-cli
+
+# View service status
+docker compose ps
+docker compose logs inference-gateway`}
+                  </pre>
                 </div>
+                <p className="text-slate-400 text-sm mt-2">
+                  💡 The debugger provides commands to test agent communication and task submission
+                </p>
               </div>
             </div>
           </div>
@@ -208,101 +208,126 @@ export function HowToPage({ onBackToAgents }: HowToPageProps) {
       case 'gateway-setup':
         return (
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-white mb-4">Agent Coordination Setup</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Inference Gateway Setup</h2>
             <p className="text-slate-300 text-lg leading-relaxed mb-6">
-              Set up service discovery and coordination for agent-to-agent communication. Agents can communicate directly or through a lightweight coordination layer.
+              The Inference Gateway coordinates A2A communication and provides a unified interface to multiple LLM providers. Use the provided Docker Compose setup for seamless integration.
             </p>
 
             <div className="space-y-6">
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔍 1. Service Discovery Setup
+                  🏗️ 1. Docker Compose Architecture
                 </h3>
-                <p className="text-slate-300 mb-4">Create a shared network for agents to discover each other:</p>
+                <p className="text-slate-300 mb-4">The A2A setup uses Docker Compose with a bridge network for service communication:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Create a dedicated network for A2A communication<br/>
-                    docker network create a2a-network<br/><br/>
-                    # Optional: Set up a simple service registry with Consul<br/>
-                    docker run -d \<br/>
-                    &nbsp;&nbsp;--name consul \<br/>
-                    &nbsp;&nbsp;--network a2a-network \<br/>
-                    &nbsp;&nbsp;-p 8500:8500 \<br/>
-                    &nbsp;&nbsp;consul:latest agent -dev -ui -client=0.0.0.0
-                  </code>
-                </div>
-                <p className="text-slate-400 text-sm mt-2">
-                  💡 Service discovery is optional - agents can communicate directly using container names
-                </p>
-              </div>
+                  <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Services in docker-compose.yaml:
+services:
+  inference-gateway:
+    image: ghcr.io/inference-gateway/inference-gateway:latest
+    ports:
+      - 8080:8080
+    env_file:
+      - .env.gateway
+    
+  google-calendar-agent:
+    image: ghcr.io/inference-gateway/google-calendar-agent:latest
+    env_file:
+      - .env.calendar
+    
+  documentation-agent:
+    image: ghcr.io/inference-gateway/documentation-agent:latest
+    env_file:
+      - .env.documentation
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔐 2. Configure Agent Authentication
-                </h3>
-                <p className="text-slate-300 mb-4">Set up authentication for secure agent-to-agent communication:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Generate shared secrets for agent communication<br/>
-                    export A2A_SHARED_SECRET=$(openssl rand -base64 32)<br/>
-                    export JWT_SECRET=$(openssl rand -base64 32)<br/><br/>
-                    # Store secrets in environment file<br/>
-                    echo "A2A_SHARED_SECRET=$A2A_SHARED_SECRET" &gt; .env<br/>
-                    echo "JWT_SECRET=$JWT_SECRET" &gt;&gt; .env<br/><br/>
-                    # Use secrets when running agents<br/>
-                    docker run -d --env-file .env --network a2a-network ...
-                  </code>
-                </div>
-                <p className="text-slate-400 text-sm mt-2">
-                  💡 Each agent can validate requests from other agents using shared secrets or JWT tokens
-                </p>
-              </div>
+  n8n-agent:
+    image: ghcr.io/inference-gateway/n8n-agent:latest
+    env_file:
+      - .env.documentation
+    
+  infer-cli:
+    image: ghcr.io/inference-gateway/infer:latest
+    profiles:
+      - manual
+    
+  a2a-debugger:
+    image: ghcr.io/inference-gateway/a2a-debugger:latest
+    profiles:
+      - manual
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🌐 3. Run Agents on Shared Network
-                </h3>
-                <p className="text-slate-300 mb-4">Deploy all agents on the shared network for direct communication:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Run documentation agent on shared network<br/>
-                    docker run -d \<br/>
-                    &nbsp;&nbsp;--name documentation-agent \<br/>
-                    &nbsp;&nbsp;--network a2a-network \<br/>
-                    &nbsp;&nbsp;-p 8080:8080 \<br/>
-                    &nbsp;&nbsp;-e PORT=8080 \<br/>
-                    &nbsp;&nbsp;-e CONTEXT7_API_KEY=$CONTEXT7_API_KEY \<br/>
-                    &nbsp;&nbsp;-e A2A_SHARED_SECRET=$A2A_SHARED_SECRET \<br/>
-                    &nbsp;&nbsp;ghcr.io/inference-gateway/documentation-agent:0.2.1<br/><br/>
-                    # Run calendar agent on shared network<br/>
-                    docker run -d \<br/>
-                    &nbsp;&nbsp;--name google-calendar-agent \<br/>
-                    &nbsp;&nbsp;--network a2a-network \<br/>
-                    &nbsp;&nbsp;-p 8081:8081 \<br/>
-                    &nbsp;&nbsp;-e PORT=8081 \<br/>
-                    &nbsp;&nbsp;-e GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \<br/>
-                    &nbsp;&nbsp;-e GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \<br/>
-                    &nbsp;&nbsp;-e A2A_SHARED_SECRET=$A2A_SHARED_SECRET \<br/>
-                    &nbsp;&nbsp;ghcr.io/inference-gateway/google-calendar-agent:0.4.15
-                  </code>
+networks:
+  a2a-network:
+    driver: bridge`}
+                  </pre>
                 </div>
               </div>
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  📊 4. Monitor Agent Health
+                  ⚙️ 2. Gateway Configuration
                 </h3>
+                <p className="text-slate-300 mb-4">The gateway is configured to enable A2A protocols and connect multiple LLM providers:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Key gateway settings (.env.gateway):
+
+# A2A Protocol Configuration
+A2A_ENABLE=true
+A2A_EXPOSE=true
+A2A_AGENTS='http://google-calendar-agent:8080,http://documentation-agent:8080,http://n8n-agent:8080'
+
+# Server Configuration
+SERVER_HOST=0.0.0.0
+SERVER_PORT=8080
+
+# LLM Provider Support (add your API keys)
+# ANTHROPIC_API_KEY=
+# OPENAI_API_KEY=
+# GROQ_API_KEY=
+# DEEPSEEK_API_KEY=
+# And many more...`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🔗 3. Agent Network Communication
+                </h3>
+                <p className="text-slate-300 mb-4">Agents communicate through the shared Docker network using service names:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <code className="text-green-400 block">
-                    # Check all agent health endpoints<br/>
-                    curl http://localhost:8080/health  # Documentation<br/>
-                    curl http://localhost:8081/health  # Calendar<br/>
-                    curl http://localhost:8082/health  # n8n<br/><br/>
-                    # Test agent discovery (if using Consul)<br/>
-                    curl http://localhost:8500/v1/catalog/services<br/><br/>
-                    # Monitor agent logs<br/>
-                    docker logs -f documentation-agent<br/>
-                    docker logs -f google-calendar-agent
+                    # Agent-to-Gateway communication endpoints:<br/>
+                    # Documentation Agent → Gateway<br/>
+                    http://inference-gateway:8080/v1<br/><br/>
+                    # Calendar Agent → Gateway<br/>
+                    http://inference-gateway:8080/v1<br/><br/>
+                    # Gateway coordinates requests between agents<br/>
+                    # and manages LLM provider routing<br/><br/>
+                    # All services run on the 'a2a-network' bridge network<br/>
+                    # allowing direct container-to-container communication
+                  </code>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🛠️ 4. Advanced Configuration
+                </h3>
+                <p className="text-slate-300 mb-4">Customize timeout, middleware, and provider settings:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <code className="text-green-400 block text-sm">
+                    # Timeout Configuration<br/>
+                    SERVER_READ_TIMEOUT=130s<br/>
+                    SERVER_WRITE_TIMEOUT=130s<br/>
+                    SERVER_IDLE_TIMEOUT=130s<br/>
+                    A2A_CLIENT_TIMEOUT=130s<br/>
+                    CLIENT_TIMEOUT=130s<br/><br/>
+                    # A2A Configuration<br/>
+                    A2A_ENABLE=true<br/>
+                    A2A_EXPOSE=true<br/><br/>
+                    # Health check endpoint<br/>
+                    curl http://localhost:8080/health
                   </code>
                 </div>
               </div>
@@ -321,174 +346,88 @@ export function HowToPage({ onBackToAgents }: HowToPageProps) {
             <div className="space-y-6">
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔌 1. Direct Agent Communication
+                  🗣️ 1. Interactive CLI Interface
                 </h3>
-                <p className="text-slate-300 mb-4">Interact directly with each agent's specific endpoints:</p>
-                <div className="space-y-4">
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">Documentation Agent (Context7)</h4>
-                    <pre className="text-green-400 whitespace-pre-wrap">
-{`# Query documentation for a specific library
-curl -X POST http://localhost:8080/query \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $A2A_SHARED_SECRET" \\
-  -d '{
-    "library": "react",
-    "topic": "hooks",
-    "version": "latest"
-  }'
-
-# Get documentation for specific function
-curl -X POST http://localhost:8080/docs \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $A2A_SHARED_SECRET" \\
-  -d '{
-    "library": "next.js",
-    "function": "getServerSideProps"
-  }'`}
-                    </pre>
-                  </div>
-                  
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">Google Calendar Agent</h4>
-                    <pre className="text-green-400 whitespace-pre-wrap">
-{`# Create calendar event
-curl -X POST http://localhost:8081/events \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $A2A_SHARED_SECRET" \\
-  -d '{
-    "summary": "Team Standup",
-    "start": {
-      "dateTime": "2025-01-15T10:00:00-08:00",
-      "timeZone": "America/Los_Angeles"
-    },
-    "end": {
-      "dateTime": "2025-01-15T10:30:00-08:00",
-      "timeZone": "America/Los_Angeles"
-    },
-    "attendees": [
-      {"email": "team@company.com"}
-    ]
-  }'`}
-                    </pre>
-                  </div>
-                  
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <h4 className="text-blue-300 font-medium mb-2">n8n Workflow Agent</h4>
-                    <pre className="text-green-400 whitespace-pre-wrap">
-{`# Create workflow via GitOps
-curl -X POST http://localhost:8082/workflows \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $A2A_SHARED_SECRET" \\
-  -d '{
-    "name": "slack-notification",
-    "description": "Send Slack notification on event",
-    "trigger": "webhook",
-    "nodes": [
-      {
-        "type": "webhook",
-        "name": "Webhook"
-      },
-      {
-        "type": "slack",
-        "name": "Slack",
-        "parameters": {
-          "channel": "#notifications"
-        }
-      }
-    ]
-  }'`}
-                    </pre>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🌉 2. Agent-to-Agent Communication
-                </h3>
-                <p className="text-slate-300 mb-4">Agents can communicate directly with each other using container names:</p>
+                <p className="text-slate-300 mb-4">Use the inference CLI for natural language interactions with agents:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre-wrap">
-{`# Example: Calendar agent requesting documentation
-# (This would be done from within a container on a2a-network)
-curl -X POST http://documentation-agent:8080/query \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $A2A_SHARED_SECRET" \\
-  -H "User-Agent: google-calendar-agent/0.4.15" \\
-  -d '{
-    "library": "google-calendar-api",
-    "topic": "event-creation"
-  }'
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Start interactive chat session
+docker compose run --rm infer-cli
 
-# Example: n8n agent triggering calendar event
-curl -X POST http://google-calendar-agent:8081/events \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $A2A_SHARED_SECRET" \\
-  -H "User-Agent: n8n-agent/0.1.1" \\
-  -d '{
-    "summary": "Workflow Completed",
-    "start": {
-      "dateTime": "2025-01-15T14:00:00-08:00"
-    },
-    "end": {
-      "dateTime": "2025-01-15T14:15:00-08:00"
-    }
-  }'`}
+# Example interactions:
+> What's on my calendar today?
+> Schedule a meeting for tomorrow at 2pm about project review
+> What are the latest React hooks best practices?
+> Find documentation about Docker deployment strategies
+
+# The gateway routes requests to appropriate agents:
+# - Calendar queries → google-calendar-agent
+# - Documentation queries → documentation-agent
+# - Complex queries may use multiple agents`}
                   </pre>
                 </div>
               </div>
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  💻 3. Application Integration
+                  🛠️ 2. Task-Based Debugging
                 </h3>
-                <p className="text-slate-300 mb-4">Integrate agents into your applications with HTTP clients:</p>
+                <p className="text-slate-300 mb-4">Use the A2A debugger to submit specific tasks and monitor agent responses:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-blue-400 whitespace-pre-wrap">
-{`// JavaScript/Node.js example
-const axios = require('axios');
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# List available task management commands
+docker compose run --rm a2a-debugger tasks list
 
-// Create an A2A agent client
-class A2AClient {
-  constructor(baseUrl, sharedSecret) {
-    this.baseUrl = baseUrl;
-    this.headers = {
-      'Content-Type': 'application/json',
-      'Authorization': \`Bearer \${sharedSecret}\`,
-      'User-Agent': 'my-app/1.0.0'
-    };
-  }
-  
-  async queryDocumentation(library, topic) {
-    const response = await axios.post(
-      \`\${this.baseUrl}/query\`,
-      { library, topic },
-      { headers: this.headers }
-    );
-    return response.data;
-  }
-  
-  async createCalendarEvent(eventData) {
-    const response = await axios.post(
-      \`\${this.baseUrl}/events\`,
-      eventData,
-      { headers: this.headers }
-    );
-    return response.data;
-  }
-}
+# Submit a streaming task (real-time responses)
+docker compose run --rm a2a-debugger tasks submit-streaming \\
+  "What's on my calendar today?"
 
-// Usage
-const docAgent = new A2AClient('http://documentation-agent:8080', process.env.A2A_SHARED_SECRET);
-const calendarAgent = new A2AClient('http://google-calendar-agent:8081', process.env.A2A_SHARED_SECRET);
+# Submit a task and get task ID
+docker compose run --rm a2a-debugger tasks submit \\
+  "Schedule a meeting with the team for Friday"
 
-const docs = await docAgent.queryDocumentation('react', 'hooks');
-const event = await calendarAgent.createCalendarEvent({
-  summary: 'Code Review',
-  start: { dateTime: '2025-01-15T15:00:00-08:00' },
-  end: { dateTime: '2025-01-15T16:00:00-08:00' }
-});`}
+# Get task status and results
+docker compose run --rm a2a-debugger tasks get <task_id>
+
+# Test agent capabilities
+docker compose run --rm a2a-debugger tasks submit-streaming \\
+  "Find React documentation about useEffect hook"`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🌐 3. HTTP API Integration
+                </h3>
+                <p className="text-slate-300 mb-4">Integrate A2A capabilities into your applications via HTTP API:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-blue-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`// Example: Using the Inference Gateway API
+const gatewayUrl = 'http://localhost:8080/v1';
+
+// Chat completion with A2A agent routing
+const response = await fetch(\`\${gatewayUrl}/chat/completions\`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer your-api-key'
+  },
+  body: JSON.stringify({
+    model: 'deepseek/deepseek-chat',
+    messages: [
+      {
+        role: 'user',
+        content: 'What meetings do I have scheduled for tomorrow? Also find documentation about FastAPI deployment.'
+      }
+    ],
+    stream: false
+  })
+});
+
+const data = await response.json();
+// Gateway automatically routes calendar queries to calendar agent
+// and documentation queries to documentation agent`}
                   </pre>
                 </div>
               </div>
@@ -497,56 +436,55 @@ const event = await calendarAgent.createCalendarEvent({
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🔄 4. Multi-Agent Workflows
                 </h3>
-                <p className="text-slate-300 mb-4">Create complex workflows using n8n agent to coordinate multiple agents:</p>
+                <p className="text-slate-300 mb-4">Create complex interactions that span multiple agents automatically:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre-wrap">
-{`# Create a workflow that researches docs and schedules meetings
-curl -X POST http://localhost:8082/workflows \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $A2A_SHARED_SECRET" \\
-  -d '{
-    "name": "research-and-schedule",
-    "description": "Research documentation and schedule follow-up meeting",
-    "nodes": [
-      {
-        "type": "webhook",
-        "name": "Trigger",
-        "parameters": {
-          "path": "research-request"
-        }
-      },
-      {
-        "type": "http-request",
-        "name": "Query Documentation",
-        "parameters": {
-          "url": "http://documentation-agent:8080/query",
-          "method": "POST",
-          "headers": {
-            "Authorization": "Bearer \\$\\{A2A_SHARED_SECRET\\}"
-          },
-          "body": {
-            "library": "{{$json[\\"library\\"]}}",
-            "topic": "{{$json[\\"topic\\"]}}"
-          }
-        }
-      },
-      {
-        "type": "http-request",
-        "name": "Schedule Meeting",
-        "parameters": {
-          "url": "http://google-calendar-agent:8081/events",
-          "method": "POST",
-          "headers": {
-            "Authorization": "Bearer \\$\\{A2A_SHARED_SECRET\\}"
-          },
-          "body": {
-            "summary": "Discussion: {{$json[\\"topic\\"]}}",
-            "description": "Research findings: {{$node[\\"Query Documentation\\"].json[\\"summary\\"]}}"
-          }
-        }
-      }
-    ]
-  }'`}
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Complex query example - gateway coordinates multiple agents
+docker compose run --rm infer-cli
+
+> "Schedule a code review meeting for next week and find the latest 
+   documentation about our deployment process. Also check if the 
+   conference room is available on Tuesday afternoon."
+
+# The gateway will:
+# 1. Parse the multi-part request
+# 2. Route calendar scheduling → google-calendar-agent
+# 3. Route documentation search → documentation-agent  
+# 4. Route room availability → google-calendar-agent
+# 5. Coordinate responses and provide unified answer
+
+# Monitor the coordination in logs:
+docker compose logs -f inference-gateway
+docker compose logs -f google-calendar-agent
+docker compose logs -f documentation-agent`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  📊 5. Monitoring and Observability
+                </h3>
+                <p className="text-slate-300 mb-4">Track A2A communication and agent performance:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Monitor service health
+docker compose ps
+curl http://localhost:8080/health
+
+# View real-time logs from all services
+docker compose logs -f
+
+# View specific agent logs
+docker compose logs google-calendar-agent
+docker compose logs documentation-agent
+
+# Check agent-specific metrics (if exposed)
+curl http://localhost:8080/metrics
+
+# Debug network connectivity
+docker compose exec inference-gateway ping google-calendar-agent
+docker compose exec inference-gateway ping documentation-agent`}
                   </pre>
                 </div>
               </div>
@@ -572,8 +510,6 @@ curl -X POST http://localhost:8082/workflows \\
                     <h4 className="text-lg font-medium text-white mb-2">Container Orchestration</h4>
                     <ul className="list-disc list-inside text-slate-300 space-y-1 ml-4">
                       <li><strong>Kubernetes:</strong> Recommended for large-scale deployments</li>
-                      <li><strong>Docker Swarm:</strong> Simpler alternative for smaller deployments</li>
-                      <li><strong>Docker Compose:</strong> Development and small production setups</li>
                     </ul>
                   </div>
                   
@@ -591,43 +527,7 @@ curl -X POST http://localhost:8082/workflows \\
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔒 2. Security Best Practices
-                </h3>
-                <div className="space-y-4">
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                    <code className="text-green-400 block">
-                      # Use secrets management<br/>
-                      kubectl create secret generic gateway-secrets \<br/>
-                      &nbsp;&nbsp;--from-literal=jwt-secret=$JWT_SECRET \<br/>
-                      &nbsp;&nbsp;--from-literal=api-keys=$API_KEYS<br/><br/>
-                      # Network policies<br/>
-                      apiVersion: networking.k8s.io/v1<br/>
-                      kind: NetworkPolicy<br/>
-                      metadata:<br/>
-                      &nbsp;&nbsp;name: agent-network-policy<br/>
-                      spec:<br/>
-                      &nbsp;&nbsp;podSelector:<br/>
-                      &nbsp;&nbsp;&nbsp;&nbsp;matchLabels:<br/>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;app: inference-agents<br/>
-                      &nbsp;&nbsp;policyTypes:<br/>
-                      &nbsp;&nbsp;- Ingress<br/>
-                      &nbsp;&nbsp;- Egress
-                    </code>
-                  </div>
-                  
-                  <ul className="list-disc list-inside text-slate-300 space-y-2 ml-4">
-                    <li><strong>Enable authentication:</strong> Always use API keys or JWT tokens</li>
-                    <li><strong>TLS encryption:</strong> Use HTTPS/TLS for all agent communication</li>
-                    <li><strong>Network segmentation:</strong> Isolate agent networks from public internet</li>
-                    <li><strong>Regular updates:</strong> Keep agent images and dependencies current</li>
-                    <li><strong>Audit logging:</strong> Log all agent interactions and requests</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  📊 3. Monitoring & Observability
+                  📊 2. Monitoring & Observability
                 </h3>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <code className="text-green-400 block">
@@ -637,12 +537,6 @@ curl -X POST http://localhost:8082/workflows \\
                     &nbsp;&nbsp;-p 9090:9090 \<br/>
                     &nbsp;&nbsp;-v ./prometheus.yml:/etc/prometheus/prometheus.yml \<br/>
                     &nbsp;&nbsp;prom/prometheus<br/><br/>
-                    # Grafana dashboards<br/>
-                    docker run -d \<br/>
-                    &nbsp;&nbsp;--name grafana \<br/>
-                    &nbsp;&nbsp;-p 3001:3000 \<br/>
-                    &nbsp;&nbsp;-e GF_SECURITY_ADMIN_PASSWORD=admin \<br/>
-                    &nbsp;&nbsp;grafana/grafana
                   </code>
                 </div>
                 <p className="text-slate-300 mt-4">Key metrics to monitor:</p>
@@ -656,37 +550,79 @@ curl -X POST http://localhost:8082/workflows \\
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🚀 4. High Availability Setup
+                  🚀 3. High Availability Setup
                 </h3>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <code className="text-green-400 block">
-                    # Docker Compose HA example<br/>
-                    version: '3.8'<br/>
-                    services:<br/>
-                    &nbsp;&nbsp;gateway:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;image: ghcr.io/inference-gateway/gateway:latest<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;deploy:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replicas: 3<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restart_policy:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: on-failure<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;healthcheck:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test: ["CMD", "curl", "-f", "http://localhost:3000/health"]<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;interval: 30s<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timeout: 10s<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retries: 3<br/><br/>
-                    &nbsp;&nbsp;documentation-agent:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;image: ghcr.io/inference-gateway/documentation-agent:0.2.1<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;deploy:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replicas: 2<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;depends_on:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- gateway
+                    # Deployment<br/>
+                    apiVersion: apps/v1<br/>
+                    kind: Deployment<br/>
+                    metadata:<br/>
+                    &nbsp;&nbsp;name: gateway<br/>
+                    spec:<br/>
+                    &nbsp;&nbsp;replicas: 3<br/>
+                    &nbsp;&nbsp;selector:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;matchLabels:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;app: gateway<br/>
+                    &nbsp;&nbsp;template:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;spec:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containers:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: gateway<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image: ghcr.io/inference-gateway/gateway:latest<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;livenessProbe:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;httpGet:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: /health<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;port: 3000<br/><br/>
+                    # HPA<br/>
+                    apiVersion: autoscaling/v2<br/>
+                    kind: HorizontalPodAutoscaler<br/>
+                    metadata:<br/>
+                    &nbsp;&nbsp;name: gateway-hpa<br/>
+                    spec:<br/>
+                    &nbsp;&nbsp;scaleTargetRef:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;apiVersion: apps/v1<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;kind: Deployment<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;name: gateway<br/>
+                    &nbsp;&nbsp;minReplicas: 2<br/>
+                    &nbsp;&nbsp;maxReplicas: 10<br/>
+                    &nbsp;&nbsp;metrics:<br/>
+                    &nbsp;&nbsp;- type: Resource<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;resource:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: cpu<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: Utilization<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;averageUtilization: 70<br/><br/>
+                    ---<br/>
+                    # Documentation Agent HPA<br/>
+                    apiVersion: autoscaling/v2<br/>
+                    kind: HorizontalPodAutoscaler<br/>
+                    metadata:<br/>
+                    &nbsp;&nbsp;name: documentation-agent-hpa<br/>
+                    spec:<br/>
+                    &nbsp;&nbsp;scaleTargetRef:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;apiVersion: apps/v1<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;kind: Deployment<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;name: documentation-agent<br/>
+                    &nbsp;&nbsp;minReplicas: 1<br/>
+                    &nbsp;&nbsp;maxReplicas: 5<br/>
+                    &nbsp;&nbsp;metrics:<br/>
+                    &nbsp;&nbsp;- type: Resource<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;resource:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: cpu<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: Utilization<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;averageUtilization: 60
                   </code>
                 </div>
+                <p className="text-slate-300 mt-4">
+                  For optimal horizontal scaling, agents can be configured with external queue storage (Redis, RabbitMQ) 
+                  to handle task distribution across multiple replicas efficiently.
+                </p>
               </div>
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔧 5. Performance Optimization
+                  🔧 4. Performance Optimization
                 </h3>
                 <ul className="list-disc list-inside text-slate-300 space-y-2 ml-4">
                   <li><strong>Load balancing:</strong> Distribute requests across agent replicas</li>
@@ -746,7 +682,7 @@ curl -X POST http://localhost:8082/workflows \\
           {/* Back Button */}
           <div className="flex justify-start mb-8">
             <button
-              onClick={onBackToAgents}
+              onClick={() => navigate('/agents/')}
               className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-300 shadow-lg"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -781,7 +717,7 @@ curl -X POST http://localhost:8082/workflows \\
                 {sections.map((section) => (
                   <button
                     key={section.id}
-                    onClick={() => setSelectedSection(section.id)}
+                    onClick={() => navigate(`/how-to/${section.id}/`)}
                     className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 ${
                       selectedSection === section.id
                         ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
