@@ -1,9 +1,11 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Agent } from '../types/agent';
 import { AgentCard } from '../components/AgentCard';
 import { loadAgents } from '../services/agentService';
 
 export function AgentsPage() {
+  const navigate = useNavigate();
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,6 +26,29 @@ export function AgentsPage() {
     };
     fetchAgents();
   }, []);
+
+  const formatCategoryName = (category: string): string => {
+    const specialCases: { [key: string]: string } = {
+      'n8n': 'n8n',
+      'api': 'API',
+      'ai': 'AI',
+      'ml': 'ML',
+      'llm': 'LLM',
+      'ui': 'UI',
+      'ux': 'UX',
+      'css': 'CSS',
+      'html': 'HTML',
+      'js': 'JS',
+      'ts': 'TS',
+      'sql': 'SQL',
+      'rest': 'REST',
+      'graphql': 'GraphQL',
+      'oauth': 'OAuth'
+    };
+    
+    const lowerCategory = category.toLowerCase();
+    return specialCases[lowerCategory] || category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+  };
 
   const allCategories = useMemo(() => {
     const categories = new Set<string>();
@@ -89,9 +114,24 @@ export function AgentsPage() {
           <h1 className="text-6xl font-black bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent mb-6 leading-tight">
             Agent Registry
           </h1>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-8">
             Discover and explore cutting-edge agent-to-agent services in this curated ecosystem
           </p>
+          
+          <div className="flex justify-center">
+            <button
+              onClick={() => navigate('/how-to/prerequisites/')}
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white font-semibold rounded-2xl transition-all duration-300 shadow-2xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-105 transform"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              <span>📖 HOW-TO Guide</span>
+              <span className="text-emerald-200 text-sm bg-emerald-600/30 px-3 py-1 rounded-full">
+                New
+              </span>
+            </button>
+          </div>
         </div>
 
         <div className="mb-12 space-y-6">
@@ -146,14 +186,14 @@ export function AgentsPage() {
                     <button
                       key={category}
                       onClick={() => handleCategorySelect(category)}
-                      className={`w-full px-6 py-3 text-left hover:bg-slate-700/50 transition-colors duration-200 flex items-center gap-3 capitalize ${
+                      className={`w-full px-6 py-3 text-left hover:bg-slate-700/50 transition-colors duration-200 flex items-center gap-3 ${
                         selectedCategory === category ? 'text-blue-400 bg-blue-500/10' : 'text-white'
                       }`}
                     >
                       <div className={`w-2 h-2 rounded-full ${
                         selectedCategory === category ? 'bg-blue-400' : 'bg-transparent border border-slate-600'
                       }`}></div>
-                      {category}
+                      {formatCategoryName(category)}
                     </button>
                   ))}
                 </div>
