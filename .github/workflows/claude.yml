@@ -57,6 +57,32 @@ jobs:
             Examples: "feat(a2a): Add retry mechanism for agent connections", "fix(auth): Resolve token validation issue"
 
             Follow the development workflow specified in the coding instructions.
+
+            Before processing any tasks be aware of the following repositories:
+            - https://github.com/inference-gateway/inference-gateway
+            - https://github.com/inference-gateway/docs
+            - https://github.com/inference-gateway/n8n-agent
+            - https://github.com/inference-gateway/google-calendar-agent
+            - https://github.com/inference-gateway/documentation-agent
+            - https://github.com/inference-gateway/cli
+            - https://github.com/inference-gateway/a2a-debugger
+            - https://github.com/inference-gateway/awesome-a2a
+            - https://github.com/inference-gateway/schemas
+            - https://github.com/inference-gateway/tools
+            - https://github.com/inference-gateway/ui
+            - https://github.com/inference-gateway/adk
+            - https://github.com/inference-gateway/rust-adk
+            - https://github.com/inference-gateway/adl-cli
+            - https://github.com/inference-gateway/adl
+            - https://github.com/inference-gateway/sdk
+            - https://github.com/inference-gateway/typescript-adk
+            - https://github.com/inference-gateway/typescript-sdk
+            - https://github.com/inference-gateway/python-sdk
+            - https://github.com/inference-gateway/rust-sdk
+            - https://github.com/inference-gateway/operator
+
+            They provide examples on how the ecosystem of the inference gateway works.
+
           mcp_config: |
             {
               "mcpServers": {
