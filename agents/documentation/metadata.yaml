@@ -1,10 +1,10 @@
 ---
 id: documentation-server
-name: A2A Documentation Server for Context7
+name: Documentation Server for Context7
 version: 0.2.1
 description: Agent-to-agent documentation query server providing instant access to Context7's indexed technical documentation
 longDescription: |
-  The A2A Documentation Server is a specialized agent-to-agent service that provides on-demand access 
+  The Documentation Server is a specialized agent-to-agent service that provides on-demand access 
   to comprehensive technical documentation indexed on Context7. Other agents can query this server to 
   retrieve documentation for any library, framework, tool, or technology available in the Context7 
   documentation index. It acts as a centralized knowledge base that enables agents to access accurate, 

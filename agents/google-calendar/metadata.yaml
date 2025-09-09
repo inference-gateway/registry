@@ -1,10 +1,10 @@
 ---
 id: google-calendar-agent
-name: A2A Google Calendar Management Agent
+name: Google Calendar Management Agent
 version: 0.4.15
 description: Agent-to-agent service for managing Google Calendar events, scheduling, and calendar operations
 longDescription: |
-  The A2A Google Calendar Agent is a specialized agent-to-agent service that enables other agents 
+  The Google Calendar Agent is a specialized agent-to-agent service that enables other agents 
   to interact with Google Calendar programmatically. This agent handles authentication, event 
   management, scheduling, and calendar queries, allowing other agents to integrate calendar 
   functionality without managing Google API complexities directly.

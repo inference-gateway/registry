@@ -1,10 +1,10 @@
 ---
 id: n8n-agent
-name: A2A n8n Workflow Automation Agent
+name: n8n Workflow Automation Agent
 version: 0.1.1
 description: Agent-to-agent service for managing n8n workflow automation, integrations, and data processing
 longDescription: |
-  The A2A n8n Workflow Automation Agent is a specialized agent-to-agent service that enables other agents 
+  The n8n Workflow Automation Agent is a specialized agent-to-agent service that enables other agents 
   to interact with n8n's powerful workflow automation platform. This agent handles workflow creation, 
   execution, and data transformations, allowing other agents to leverage n8n's extensive 
   integration ecosystem without managing the platform directly - all via GitOps.

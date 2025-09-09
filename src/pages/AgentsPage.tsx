@@ -114,7 +114,7 @@ export function AgentsPage() {
             Agent Registry
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-8">
-            Discover and explore cutting-edge agent-to-agent services in this curated ecosystem
+            Discover and explore specialized A2A (agent-to-agent) services in this curated ecosystem
           </p>
           
           <div className="flex justify-center">
