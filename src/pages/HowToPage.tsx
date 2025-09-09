@@ -446,7 +446,7 @@ docker compose run --rm infer-cli
    and automatically sends them a welcome email with onboarding resources."
 
 # The n8n agent will:
-# 1. Generate a complete workflow JSON
+# 1. Generate a complete workflow JSON or YAML
 # 2. Include Slack webhook trigger for user events
 # 3. Add email composition and sending steps
 # 4. Configure conditional logic for different user types
@@ -457,7 +457,7 @@ docker compose run --rm infer-cli
    and upload the backup to AWS S3, then notify the team via Slack."
 
 # Example: Social media automation  
-> "Create a workflow that posts our latest blog articles to Twitter,
+> "Create a workflow that posts our latest blog articles to X,
    LinkedIn, and Facebook automatically when published."
 
 # Monitor n8n agent activity:
@@ -468,7 +468,7 @@ docker compose logs -f n8n-agent`}
                   <p className="text-blue-200 text-sm">
                     💡 <strong>Pro tip:</strong> The n8n agent creates workflow manifests in Git repositories, 
                     enabling version control and easy synchronization to your n8n instance using 
-                    <code className="bg-blue-800/50 px-1 rounded">edenreich/n8n-cli</code>. This approach provides 
+                    <code className="bg-blue-800/50 px-1 rounded">https://github.com/edenreich/n8n-cli</code>. This approach provides 
                     flexibility, workflow revisions, and seamless GitOps-style deployment of your automation workflows.
                   </p>
                 </div>
