@@ -6,7 +6,6 @@ export function HowToPage() {
   const { section } = useParams<{ section: string }>();
   const [selectedSection, setSelectedSection] = useState('prerequisites');
 
-  // Update selected section when URL changes
   useEffect(() => {
     if (section) {
       setSelectedSection(section);
