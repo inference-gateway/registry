@@ -17,6 +17,7 @@ export function HowToPage() {
     { id: 'local-setup', title: 'Local Development', icon: '💻' },
     { id: 'gateway-setup', title: 'Gateway Setup', icon: '🚀' },
     { id: 'using-agents', title: 'Using Agents', icon: '🤖' },
+    { id: 'build-agents', title: 'Build Dedicated Agents', icon: '🔨' },
     { id: 'production', title: 'Enterprise Setup', icon: '🏭' },
   ];
 
@@ -528,6 +529,294 @@ docker compose exec inference-gateway ping google-calendar-agent
 docker compose exec inference-gateway ping documentation-agent`}
                   </pre>
                 </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'build-agents':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-white mb-4">Build Dedicated Agents</h2>
+            <p className="text-slate-300 text-lg leading-relaxed mb-6">
+              Create custom A2A-compatible agents from scratch using the ADL (Agent Definition Language) CLI tool.
+              Generate production-ready A2A servers with complete project scaffolding and enterprise deployment options.
+            </p>
+
+            <div className="space-y-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🛠️ 1. Install ADL CLI
+                </h3>
+                <p className="text-slate-300 mb-4">Install the ADL CLI tool to generate A2A-compatible agent projects:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Quick install (recommended)
+curl -fsSL https://raw.githubusercontent.com/inference-gateway/adl-cli/main/install.sh | bash
+
+# Install from Go
+go install github.com/inference-gateway/adl-cli@latest
+
+# Build from source
+git clone https://github.com/inference-gateway/adl-cli.git
+cd adl-cli
+go install .
+
+# Verify installation
+adl --help`}
+                  </pre>
+                </div>
+                <div className="mt-4 p-4 bg-blue-900/20 border border-blue-700/50 rounded-lg">
+                  <p className="text-blue-200 text-sm">
+                    <strong>Prerequisites:</strong> Go 1.24+ is required. Optional: Task runner for additional commands.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🎯 2. Create Agent Definition
+                </h3>
+                <p className="text-slate-300 mb-4">Start by creating an ADL manifest file that defines your agent's capabilities:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Interactive agent definition creation
+adl init my-weather-agent
+
+# This creates an agent.yaml file with prompts for:
+# - Agent name and description
+# - AI provider configuration (OpenAI, Anthropic, DeepSeek, etc.)
+# - Skills and capabilities
+# - Authentication settings
+# - Deployment preferences`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  📝 3. Agent Definition Example
+                </h3>
+                <p className="text-slate-300 mb-4">Example ADL manifest for a weather information agent:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-yellow-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# agent.yaml
+apiVersion: adl.dev/v1
+kind: Agent
+metadata:
+  name: "weather-agent"
+  description: "Provides weather information and forecasts"
+  version: "1.0.0"
+
+spec:
+  capabilities:
+    streaming: true
+    pushNotifications: false
+    stateTransitionHistory: false
+
+  agent:
+    provider: "anthropic"  # openai, deepseek, ollama, google, mistral, groq
+    model: "claude-3-sonnet-20240229"
+    systemPrompt: "You are a weather information agent."
+    maxTokens: 4096
+    temperature: 0.1
+
+  skills:
+    - name: "get_weather"
+      description: "Get current weather for a location"
+      schema:
+        type: object
+        properties:
+          location:
+            type: string
+            description: "City name or coordinates"
+        required: ["location"]
+    
+    - name: "get_forecast"
+      description: "Get weather forecast for a location"
+      schema:
+        type: object
+        properties:
+          location:
+            type: string
+            description: "City name or coordinates"
+          days:
+            type: integer
+            description: "Number of days to forecast"
+        required: ["location", "days"]
+
+  server:
+    port: 8080
+    debug: false
+    auth:
+      enabled: true
+
+  language:
+    go:
+      module: "weather-agent"
+      version: "1.21"
+
+  deployment:
+    type: "cloudrun"  # or "kubernetes"`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🚀 4. Generate Project Code
+                </h3>
+                <p className="text-slate-300 mb-4">Generate the complete project structure from your ADL file:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Generate basic project
+adl generate --file agent.yaml --output ./my-weather-agent
+
+# Generate with CI/CD workflows
+adl generate --file agent.yaml --output ./my-weather-agent --ci --cd
+
+# Generate with Cloud Run deployment
+adl generate --file agent.yaml --output ./my-weather-agent --deployment cloudrun
+
+# Generate with AI assistant instructions
+adl generate --file agent.yaml --output ./my-weather-agent --ai
+
+# Validate your ADL file before generation
+adl validate agent.yaml`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  📁 5. Generated Project Structure
+                </h3>
+                <p className="text-slate-300 mb-4">The ADL CLI generates a production-ready project with all necessary components:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-blue-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`my-weather-agent/
+├── main.go              # Main application entry point
+├── skills/              # Generated skill implementations
+│   ├── get_weather.go
+│   └── get_forecast.go
+├── Dockerfile           # Container build configuration
+├── .github/workflows/   # CI/CD workflows (if --ci flag used)
+│   ├── ci.yml
+│   └── cd.yml
+├── deploy/              # Deployment configurations
+│   ├── docker-compose.yml
+│   └── cloudrun.yaml    # If --deployment cloudrun used
+├── go.mod               # Go module definition
+├── go.sum               # Dependency checksums
+├── README.md            # Generated documentation
+└── agent.yaml           # Original ADL manifest`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  ⚙️ 6. Supported AI Providers
+                </h3>
+                <p className="text-slate-300 mb-4">The ADL CLI supports multiple AI providers for powering your agents:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <div className="grid grid-cols-2 gap-4 text-green-400">
+                    <div>
+                      <h4 className="font-medium text-white mb-2">Hosted Providers:</h4>
+                      <ul className="text-sm space-y-1">
+                        <li>• OpenAI (GPT models)</li>
+                        <li>• Anthropic (Claude models)</li>
+                        <li>• DeepSeek</li>
+                        <li>• Google AI (Gemini)</li>
+                        <li>• Mistral AI</li>
+                        <li>• Groq</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-white mb-2">Self-Hosted:</h4>
+                      <ul className="text-sm space-y-1">
+                        <li>• Ollama (local models)</li>
+                        <li>• Inference Gateway</li>
+                        <li>• Custom OpenAI-compatible APIs</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🔧 7. Build and Deploy
+                </h3>
+                <p className="text-slate-300 mb-4">Build and deploy your generated agent:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Navigate to generated project
+cd my-weather-agent
+
+# Build the Go application
+go build -o agent main.go
+
+# Run locally for testing
+./agent
+
+# Build Docker container
+docker build -t ghcr.io/myorg/weather-agent:latest .
+
+# Test with docker-compose
+docker-compose up -d
+
+# Deploy to production
+docker push ghcr.io/myorg/weather-agent:latest
+
+# Add to your inference gateway configuration
+# Update .env.gateway:
+A2A_AGENTS="...,http://weather-agent:8080"`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🧪 8. Test Your Agent
+                </h3>
+                <p className="text-slate-300 mb-4">Test your custom agent using the A2A ecosystem tools:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Test with A2A debugger
+docker compose run --rm a2a-debugger tasks submit-streaming \\
+  "What's the weather like in London today?"
+
+# Interactive testing
+docker compose run --rm infer-cli
+
+> "Get me the weather forecast for New York for the next 3 days"
+> "What's the current weather in Tokyo?"
+
+# Verify agent registration on the gateway
+curl http://localhost:8080/v1/a2a/agents
+# Should include your weather agent
+
+# Check agent health
+curl http://weather-agent:8080/health`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-emerald-900/20 border border-emerald-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-emerald-200 mb-4 flex items-center gap-2">
+                  💡 Key Benefits of ADL CLI
+                </h3>
+                <ul className="list-disc list-inside text-emerald-100 space-y-2 ml-4">
+                  <li><strong>Enterprise-Ready:</strong> Generates enterprise-grade code with proper structure and best practices</li>
+                  <li><strong>Multi-Language:</strong> Supports Go and Rust for high-performance agent development</li>
+                  <li><strong>CI/CD Integration:</strong> Automatically generates GitHub workflows for continuous integration and deployment</li>
+                  <li><strong>Flexible Deployment:</strong> Supports Docker, Cloud Run, and Kubernetes deployment options</li>
+                  <li><strong>AI Provider Agnostic:</strong> Works with multiple AI providers including self-hosted solutions</li>
+                  <li><strong>Schema Validation:</strong> Built-in validation ensures your ADL files are correctly formatted</li>
+                  <li><strong>A2A Compatible:</strong> Generated agents are fully compatible with the inference gateway ecosystem</li>
+                  <li><strong>Minimal Configuration:</strong> Generate complete projects with minimal manual setup required</li>
+                </ul>
               </div>
             </div>
           </div>
