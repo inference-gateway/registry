@@ -243,7 +243,7 @@ services:
   n8n-agent:
     image: ghcr.io/inference-gateway/n8n-agent:latest
     env_file:
-      - .env.documentation
+      - .env.n8n
     
   infer-cli:
     image: ghcr.io/inference-gateway/infer:latest
@@ -434,7 +434,49 @@ const data = await response.json();
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔄 4. Multi-Agent Workflows
+                  🔄 4. n8n Workflow Automation
+                </h3>
+                <p className="text-slate-300 mb-4">Use the n8n agent to generate and execute automated workflows:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Example: Generate a workflow to reach out to new Slack users
+docker compose run --rm infer-cli
+
+> "Create an n8n workflow that monitors new users joining our Slack workspace
+   and automatically sends them a welcome email with onboarding resources."
+
+# The n8n agent will:
+# 1. Generate a complete workflow JSON
+# 2. Include Slack webhook trigger for user events
+# 3. Add email composition and sending steps
+# 4. Configure conditional logic for different user types
+# 5. Write the workflow manifest to a Git-tracked file for deployment
+
+# Example: Database backup automation
+> "Generate a workflow to backup our PostgreSQL database daily at 2 AM
+   and upload the backup to AWS S3, then notify the team via Slack."
+
+# Example: Social media automation  
+> "Create a workflow that posts our latest blog articles to Twitter,
+   LinkedIn, and Facebook automatically when published."
+
+# Monitor n8n agent activity:
+docker compose logs -f n8n-agent`}
+                  </pre>
+                </div>
+                <div className="mt-4 p-4 bg-blue-900/20 border border-blue-700/50 rounded-lg">
+                  <p className="text-blue-200 text-sm">
+                    💡 <strong>Pro tip:</strong> The n8n agent creates workflow manifests in Git repositories, 
+                    enabling version control and easy synchronization to your n8n instance using 
+                    <code className="bg-blue-800/50 px-1 rounded">edenreich/n8n-cli</code>. This approach provides 
+                    flexibility, workflow revisions, and seamless GitOps-style deployment of your automation workflows.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🔄 5. Multi-Agent Workflows
                 </h3>
                 <p className="text-slate-300 mb-4">Create complex interactions that span multiple agents automatically:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
