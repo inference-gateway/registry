@@ -32,7 +32,7 @@ export function HowToPage() {
             </p>
             
             <div className="space-y-4">
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-3 flex items-center gap-2">
                   🐳 Container Runtime
                 </h3>
@@ -44,7 +44,7 @@ export function HowToPage() {
                 </ul>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-3 flex items-center gap-2">
                   🌐 Network Access
                 </h3>
@@ -56,7 +56,7 @@ export function HowToPage() {
                 </ul>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-3 flex items-center gap-2">
                   💾 System Requirements
                 </h3>
@@ -78,14 +78,14 @@ export function HowToPage() {
               Set up your local environment to interact with A2A agents for development and testing purposes.
             </p>
 
-            <div className="space-y-6">
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+            <div className="space-y-6 w-full">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   📁 1. Get the A2A Examples
                 </h3>
                 <p className="text-slate-300 mb-4">Download the complete A2A setup from the inference-gateway CLI repository:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Clone or download the A2A examples
 git clone https://github.com/inference-gateway/cli.git
 cd cli/examples/a2a
@@ -99,29 +99,31 @@ curl -O https://raw.githubusercontent.com/inference-gateway/cli/main/examples/a2
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🔧 2. Configure Environment Files
                 </h3>
                 <p className="text-slate-300 mb-4">Create and configure the required environment files:</p>
                 
                 <div className="space-y-4">
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                     <h4 className="text-blue-300 font-medium mb-2">Gateway Configuration (.env.gateway)</h4>
-                    <code className="text-green-400 block text-sm">
-                      cp .env.gateway.example .env.gateway<br/><br/>
-                      # Key settings:<br/>
-                      ENVIRONMENT=development<br/>
-                      A2A_ENABLE=true<br/>
-                      A2A_EXPOSE=true<br/>
-                      A2A_AGENTS=http://google-calendar-agent:8080,http://documentation-agent:8080<br/>
-                      SERVER_HOST=0.0.0.0<br/>
-                      SERVER_PORT=8080<br/><br/>
-                      # Add your API keys for providers (Anthropic, OpenAI, etc.)
-                    </code>
+                    <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
+{`cp .env.gateway.example .env.gateway
+
+# Key settings:
+ENVIRONMENT=development
+A2A_ENABLE=true
+A2A_EXPOSE=true
+A2A_AGENTS=http://google-calendar-agent:8080,http://documentation-agent:8080
+SERVER_HOST=0.0.0.0
+SERVER_PORT=8080
+
+# Add your API keys for providers (Anthropic, OpenAI, etc.)`}
+                    </pre>
                   </div>
                   
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                     <h4 className="text-blue-300 font-medium mb-2">Documentation Agent (.env.documentation)</h4>
                     <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`cp .env.documentation.example .env.documentation
@@ -136,7 +138,7 @@ A2A_AGENT_CLIENT_BASE_URL=http://inference-gateway:8080/v1`}
                     </pre>
                   </div>
                   
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                     <h4 className="text-blue-300 font-medium mb-2">Calendar Agent (.env.calendar)</h4>
                     <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`cp .env.calendar.example .env.calendar
@@ -154,13 +156,13 @@ A2A_AGENT_CLIENT_BASE_URL=http://inference-gateway:8080/v1
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🚀 3. Start the A2A Environment
                 </h3>
                 <p className="text-slate-300 mb-4">Use Docker Compose to start all services:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Start all A2A services
 docker compose up -d
 
@@ -176,13 +178,13 @@ docker compose logs -f`}
                 </p>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   ✅ 4. Test A2A Communication
                 </h3>
                 <p className="text-slate-300 mb-4">Verify the setup with built-in debugging tools:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# List available tasks
 docker compose run --rm a2a-debugger tasks list
 
@@ -213,13 +215,13 @@ docker compose logs inference-gateway`}
               The Inference Gateway coordinates A2A communication and provides a unified interface to multiple LLM providers. Use the provided Docker Compose setup for seamless integration.
             </p>
 
-            <div className="space-y-6">
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+            <div className="space-y-6 w-full">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🏗️ 1. Docker Compose Architecture
                 </h3>
                 <p className="text-slate-300 mb-4">The A2A setup uses Docker Compose with a bridge network for service communication:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                   <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`# Services in docker-compose.yaml:
 services:
@@ -262,12 +264,12 @@ networks:
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   ⚙️ 2. Gateway Configuration
                 </h3>
                 <p className="text-slate-300 mb-4">The gateway is configured to enable A2A protocols and connect multiple LLM providers:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                   <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`# Key gateway settings (.env.gateway):
 
@@ -290,45 +292,50 @@ SERVER_PORT=8080
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🔗 3. Agent Network Communication
                 </h3>
                 <p className="text-slate-300 mb-4">Agents communicate through the shared Docker network using service names:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Agent-to-Gateway communication endpoints:<br/>
-                    # Documentation Agent → Gateway<br/>
-                    http://inference-gateway:8080/v1<br/><br/>
-                    # Calendar Agent → Gateway<br/>
-                    http://inference-gateway:8080/v1<br/><br/>
-                    # Gateway coordinates requests between agents<br/>
-                    # and manages LLM provider routing<br/><br/>
-                    # All services run on the 'a2a-network' bridge network<br/>
-                    # allowing direct container-to-container communication
-                  </code>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
+{`# Agent-to-Gateway communication endpoints:
+# Documentation Agent → Gateway
+http://inference-gateway:8080/v1
+
+# Calendar Agent → Gateway
+http://inference-gateway:8080/v1
+
+# Gateway coordinates requests between agents
+# and manages LLM provider routing
+
+# All services run on the 'a2a-network' bridge network
+# allowing direct container-to-container communication`}
+                  </pre>
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🛠️ 4. Advanced Configuration
                 </h3>
                 <p className="text-slate-300 mb-4">Customize timeout, middleware, and provider settings:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block text-sm">
-                    # Timeout Configuration<br/>
-                    SERVER_READ_TIMEOUT=130s<br/>
-                    SERVER_WRITE_TIMEOUT=130s<br/>
-                    SERVER_IDLE_TIMEOUT=130s<br/>
-                    A2A_CLIENT_TIMEOUT=130s<br/>
-                    CLIENT_TIMEOUT=130s<br/><br/>
-                    # A2A Configuration<br/>
-                    A2A_ENABLE=true<br/>
-                    A2A_EXPOSE=true<br/><br/>
-                    # Health check endpoint<br/>
-                    curl http://localhost:8080/health
-                  </code>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
+{`# Timeout Configuration
+SERVER_READ_TIMEOUT=130s
+SERVER_WRITE_TIMEOUT=130s
+SERVER_IDLE_TIMEOUT=130s
+A2A_CLIENT_TIMEOUT=130s
+CLIENT_TIMEOUT=130s
+
+# A2A Configuration
+A2A_ENABLE=true
+A2A_EXPOSE=true
+
+# Health check endpoint
+curl http://localhost:8080/health`}
+                  </pre>
                 </div>
               </div>
             </div>
@@ -343,14 +350,14 @@ SERVER_PORT=8080
               Learn how to interact with agents and leverage their capabilities in your applications.
             </p>
 
-            <div className="space-y-6">
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+            <div className="space-y-6 w-full">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🗣️ 1. Interactive CLI Interface
                 </h3>
                 <p className="text-slate-300 mb-4">Use the inference CLI for natural language interactions with agents:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Start interactive chat session
 docker compose run --rm infer-cli
 
@@ -368,13 +375,13 @@ docker compose run --rm infer-cli
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🛠️ 2. Task-Based Debugging
                 </h3>
                 <p className="text-slate-300 mb-4">Use the A2A debugger to submit specific tasks and monitor agent responses:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# List available task management commands
 docker compose run --rm a2a-debugger tasks list
 
@@ -396,12 +403,12 @@ docker compose run --rm a2a-debugger tasks submit-streaming \\
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🌐 3. HTTP API Integration
                 </h3>
                 <p className="text-slate-300 mb-4">Integrate A2A capabilities into your applications via HTTP API:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                   <pre className="text-blue-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`// Example: Using the Inference Gateway API
 const gatewayUrl = 'http://localhost:8080/v1';
@@ -432,13 +439,13 @@ const data = await response.json();
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🔄 4. n8n Workflow Automation
                 </h3>
                 <p className="text-slate-300 mb-4">Use the n8n agent to generate and execute automated workflows:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Example: Generate a workflow to reach out to new Slack users
 docker compose run --rm infer-cli
 
@@ -474,13 +481,13 @@ docker compose logs -f n8n-agent`}
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🔄 5. Multi-Agent Workflows
                 </h3>
                 <p className="text-slate-300 mb-4">Create complex interactions that span multiple agents automatically:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Complex query example - gateway coordinates multiple agents
 docker compose run --rm infer-cli
 
@@ -503,13 +510,13 @@ docker compose logs -f documentation-agent`}
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   📊 5. Monitoring and Observability
                 </h3>
                 <p className="text-slate-300 mb-4">Track A2A communication and agent performance:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Monitor service health
 docker compose ps
 curl http://localhost:8080/health
@@ -543,14 +550,14 @@ docker compose exec inference-gateway ping documentation-agent`}
               Generate production-ready A2A servers with complete project scaffolding and enterprise deployment options.
             </p>
 
-            <div className="space-y-6">
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+            <div className="space-y-6 w-full">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🛠️ 1. Install ADL CLI
                 </h3>
                 <p className="text-slate-300 mb-4">Install the ADL CLI tool to generate A2A-compatible agent projects:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Quick install (recommended)
 curl -fsSL https://raw.githubusercontent.com/inference-gateway/adl-cli/main/install.sh | bash
 
@@ -573,13 +580,13 @@ adl --help`}
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🎯 2. Create Agent Definition
                 </h3>
                 <p className="text-slate-300 mb-4">Start by creating an ADL manifest file that defines your agent's capabilities:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Interactive agent definition creation
 adl init my-weather-agent
 
@@ -593,12 +600,12 @@ adl init my-weather-agent
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   📝 3. Agent Definition Example
                 </h3>
                 <p className="text-slate-300 mb-4">Example ADL manifest for a weather information agent:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                   <pre className="text-yellow-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`# agent.yaml
 apiVersion: adl.dev/v1
@@ -662,13 +669,13 @@ spec:
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🚀 4. Generate Project Code
                 </h3>
                 <p className="text-slate-300 mb-4">Generate the complete project structure from your ADL file:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Generate basic project
 adl generate --file agent.yaml --output ./my-weather-agent
 
@@ -687,12 +694,12 @@ adl validate agent.yaml`}
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   📁 5. Generated Project Structure
                 </h3>
                 <p className="text-slate-300 mb-4">The ADL CLI generates a production-ready project with all necessary components:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                   <pre className="text-blue-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`my-weather-agent/
 ├── main.go              # Main application entry point
@@ -714,12 +721,12 @@ adl validate agent.yaml`}
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   ⚙️ 6. Supported AI Providers
                 </h3>
                 <p className="text-slate-300 mb-4">The ADL CLI supports multiple AI providers for powering your agents:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                   <div className="grid grid-cols-2 gap-4 text-green-400">
                     <div>
                       <h4 className="font-medium text-white mb-2">Hosted Providers:</h4>
@@ -744,13 +751,13 @@ adl validate agent.yaml`}
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🔧 7. Build and Deploy
                 </h3>
                 <p className="text-slate-300 mb-4">Build and deploy your generated agent:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Navigate to generated project
 cd my-weather-agent
 
@@ -776,13 +783,13 @@ A2A_AGENTS="...,http://weather-agent:8080"`}
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🧪 8. Test Your Agent
                 </h3>
                 <p className="text-slate-300 mb-4">Test your custom agent using the A2A ecosystem tools:</p>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
 {`# Test with A2A debugger
 docker compose run --rm a2a-debugger tasks submit-streaming \\
   "What's the weather like in London today?"
@@ -830,20 +837,20 @@ curl http://weather-agent:8080/health`}
               Best practices and recommendations for deploying A2A agents in production environments.
             </p>
 
-            <div className="space-y-6">
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+            <div className="space-y-6 w-full">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🏗️ 1. Infrastructure Recommendations
                 </h3>
                 <div className="space-y-4">
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                     <h4 className="text-lg font-medium text-white mb-2">Container Orchestration</h4>
                     <ul className="list-disc list-inside text-slate-300 space-y-1 ml-4">
                       <li><strong>Kubernetes:</strong> Recommended for large-scale deployments</li>
                     </ul>
                   </div>
                   
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
                     <h4 className="text-lg font-medium text-white mb-2">Resource Requirements</h4>
                     <ul className="list-disc list-inside text-slate-300 space-y-1 ml-4">
                       <li><strong>CPU:</strong> 2+ cores per agent instance</li>
@@ -855,19 +862,19 @@ curl http://weather-agent:8080/health`}
                 </div>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   📊 2. Monitoring & Observability
                 </h3>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Prometheus monitoring<br/>
-                    docker run -d \<br/>
-                    &nbsp;&nbsp;--name prometheus \<br/>
-                    &nbsp;&nbsp;-p 9090:9090 \<br/>
-                    &nbsp;&nbsp;-v ./prometheus.yml:/etc/prometheus/prometheus.yml \<br/>
-                    &nbsp;&nbsp;prom/prometheus<br/><br/>
-                  </code>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
+{`# Prometheus monitoring
+docker run -d \\
+  --name prometheus \\
+  -p 9090:9090 \\
+  -v ./prometheus.yml:/etc/prometheus/prometheus.yml \\
+  prom/prometheus`}
+                  </pre>
                 </div>
                 <p className="text-slate-300 mt-4">Key metrics to monitor:</p>
                 <ul className="list-disc list-inside text-slate-300 space-y-1 ml-4">
@@ -878,71 +885,73 @@ curl http://weather-agent:8080/health`}
                 </ul>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🚀 3. High Availability Setup
                 </h3>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Deployment<br/>
-                    apiVersion: apps/v1<br/>
-                    kind: Deployment<br/>
-                    metadata:<br/>
-                    &nbsp;&nbsp;name: gateway<br/>
-                    spec:<br/>
-                    &nbsp;&nbsp;replicas: 3<br/>
-                    &nbsp;&nbsp;selector:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;matchLabels:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;app: gateway<br/>
-                    &nbsp;&nbsp;template:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;spec:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containers:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: gateway<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image: ghcr.io/inference-gateway/gateway:latest<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;livenessProbe:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;httpGet:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: /health<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;port: 3000<br/><br/>
-                    # HPA<br/>
-                    apiVersion: autoscaling/v2<br/>
-                    kind: HorizontalPodAutoscaler<br/>
-                    metadata:<br/>
-                    &nbsp;&nbsp;name: gateway-hpa<br/>
-                    spec:<br/>
-                    &nbsp;&nbsp;scaleTargetRef:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;apiVersion: apps/v1<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;kind: Deployment<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;name: gateway<br/>
-                    &nbsp;&nbsp;minReplicas: 2<br/>
-                    &nbsp;&nbsp;maxReplicas: 10<br/>
-                    &nbsp;&nbsp;metrics:<br/>
-                    &nbsp;&nbsp;- type: Resource<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;resource:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: cpu<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: Utilization<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;averageUtilization: 70<br/><br/>
-                    ---<br/>
-                    # Documentation Agent HPA<br/>
-                    apiVersion: autoscaling/v2<br/>
-                    kind: HorizontalPodAutoscaler<br/>
-                    metadata:<br/>
-                    &nbsp;&nbsp;name: documentation-agent-hpa<br/>
-                    spec:<br/>
-                    &nbsp;&nbsp;scaleTargetRef:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;apiVersion: apps/v1<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;kind: Deployment<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;name: documentation-agent<br/>
-                    &nbsp;&nbsp;minReplicas: 1<br/>
-                    &nbsp;&nbsp;maxReplicas: 5<br/>
-                    &nbsp;&nbsp;metrics:<br/>
-                    &nbsp;&nbsp;- type: Resource<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;resource:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: cpu<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: Utilization<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;averageUtilization: 60
-                  </code>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 w-full min-w-0">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500 w-full min-w-0 text-sm">
+{`# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    spec:
+      containers:
+      - name: gateway
+        image: ghcr.io/inference-gateway/gateway:latest
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+
+# HPA
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gateway-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gateway
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+
+---
+# Documentation Agent HPA
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: documentation-agent-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: documentation-agent
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60`}
+                  </pre>
                 </div>
                 <p className="text-slate-300 mt-4">
                   For optimal horizontal scaling, agents can be configured with external queue storage (Redis, RabbitMQ) 
@@ -950,7 +959,7 @@ curl http://weather-agent:8080/health`}
                 </p>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-6 w-full min-w-0">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   🔧 4. Performance Optimization
                 </h3>
@@ -1041,7 +1050,7 @@ curl http://weather-agent:8080/health`}
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Navigation Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 sticky top-8">
+            <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 sticky top-8 w-full">
               <h3 className="text-lg font-semibold text-white mb-4">Guide Sections</h3>
               <nav className="space-y-2">
                 {sections.map((section) => (
@@ -1063,8 +1072,8 @@ curl http://weather-agent:8080/health`}
           </div>
 
           {/* Content Area */}
-          <div className="lg:col-span-3">
-            <div className="bg-slate-800/30 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8">
+          <div className="lg:col-span-3 w-full min-w-0">
+            <div className="bg-slate-800/30 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-4 sm:p-8 w-full">
               {renderContent()}
             </div>
           </div>
