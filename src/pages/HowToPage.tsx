@@ -246,7 +246,7 @@ services:
       - .env.n8n
     
   infer-cli:
-    image: ghcr.io/inference-gateway/infer:latest
+    image: ghcr.io/inference-gateway/cli:latest
     profiles:
       - manual
     
