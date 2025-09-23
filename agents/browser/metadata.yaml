@@ -1,0 +1,43 @@
+---
+id: browser-agent
+name: Browser Automation Agent
+version: 0.1.3
+description: A2A agent server for browser automation and web testing using Playwright
+longDescription: |
+  The Browser Automation Agent is a specialized agent-to-agent service that enables other agents 
+  to interact with web browsers programmatically using Playwright. This agent handles browser 
+  automation, web scraping, testing, and interaction tasks, allowing other agents to leverage 
+  powerful browser capabilities without managing browser instances directly.
+  
+  ## Key Features
+  - Automated web page navigation and interaction
+  - Web scraping and data extraction from websites
+  - Automated testing of web applications
+  - Screenshot and PDF generation from web pages
+  - Form filling and submission automation
+  - JavaScript execution in browser contexts
+  - Multi-browser support (Chromium, Firefox, Safari)
+  - Mobile browser emulation and responsive testing
+
+image:
+  repository: ghcr.io/inference-gateway/browser-agent
+  tag: 0.1.3
+  size: 1.6GB
+
+author:
+  name: Eden Reich
+  email: eden.reich@gmail.com
+  url: https://github.com/inference-gateway
+
+license: MIT
+homepage: https://github.com/inference-gateway/browser-agent
+repository: https://github.com/inference-gateway/browser-agent
+documentation: https://docs.inference-gateway.com
+
+categories:
+  - browser
+  - automation
+
+tags:
+  - a2a
+  - multi-agent
