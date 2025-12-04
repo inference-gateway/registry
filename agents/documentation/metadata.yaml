@@ -1,5 +1,5 @@
 ---
-id: documentation-server
+id: documentation-agent
 name: Documentation Server for Context7
 version: 0.2.24
 description: A2A agent server that provides Context7-style documentation capabilities for your agents
