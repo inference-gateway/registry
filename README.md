@@ -9,13 +9,17 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF.svg)](https://vitejs.dev/)
 
-A modern web application for managing and discovering agent-to-agent (A2A) services in the inference-gateway ecosystem. This registry serves as a centralized hub for containerized agents that provide specialized services and can communicate with each other autonomously.
+A modern web application for managing and discovering agent-to-agent (A2A) services in the inference-gateway
+ecosystem. This registry serves as a centralized hub for containerized agents that provide specialized services and
+can communicate with each other autonomously.
 
 </div>
 
 ## Overview
 
-The Agents Registry is built with React 19, TypeScript, and Vite, providing a fast and responsive interface for browsing available agents. Each agent is packaged as an OCI container and includes rich metadata about its capabilities, usage, and integration requirements.
+The Agents Registry is built with React 19, TypeScript, and Vite, providing a fast and responsive interface for
+browsing available agents. Each agent is packaged as an OCI container and includes rich metadata about its
+capabilities, usage, and integration requirements.
 
 ## Features
 
