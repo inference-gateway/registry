@@ -17,15 +17,30 @@ npm install
 # Start development server with hot module replacement
 npm run dev
 
-# Build for production
+# Build for production (includes TypeScript compilation)
 npm run build
 
-# Lint code
+# Lint code with ESLint
 npm run lint
 
 # Preview production build
 npm run preview
 ```
+
+### Task Automation (Optional)
+
+The project includes a `Taskfile.yml` for task automation. If you have [Task](https://taskfile.dev/) installed:
+
+```bash
+# Run any task
+task dev     # Start dev server
+task build   # Build for production
+task lint    # Lint code with ESLint AND markdownlint
+task preview # Preview production build
+task --list  # Show all available tasks
+```
+
+Note: The `task lint` command runs both ESLint on code files and markdownlint on markdown files.
 
 ## Architecture
 
@@ -88,6 +103,30 @@ npm run preview
 4. `agentService.ts` provides async interface for agent data access
 5. Components consume agent data through the service layer
 
+**Adding New Agents**:
+
+To add a new agent to the registry:
+
+1. Create a new directory under `/agents/` (e.g., `/agents/my-agent/`)
+2. Add a `metadata.yaml` file following the schema (see Agent Metadata Schema section)
+3. Add a static import in `/src/data/agents.ts`:
+
+   ```typescript
+   import myAgentMetadata from '../../agents/my-agent/metadata.yaml';
+   ```
+
+4. Add the agent to the exported array:
+
+   ```typescript
+   export const agents: Agent[] = [
+     // ... existing agents
+     myAgentMetadata as Agent,
+   ];
+   ```
+
+5. Rebuild the application (`npm run build` or `task build`)
+6. The agent will automatically appear in the registry
+
 ### Agent Metadata Schema
 
 Agents are defined using YAML files with the following structure:
@@ -138,3 +177,25 @@ Agents are defined using YAML files with the following structure:
 
 8. **YAML Processing**: Custom Vite plugin handles YAML files, converting them to JavaScript modules at build time
    for type-safe imports.
+
+## CI/CD
+
+The project uses GitHub Actions for continuous integration and deployment:
+
+- **Static Pages Deployment** (`.github/workflows/static.yml`): Automatically builds and deploys to GitHub Pages on
+  push to main
+- **Claude Code Analysis** (`.github/workflows/claude.yml`): Runs Claude Code for automated code analysis
+- **Infer Agent** (`.github/workflows/infer.yml`): Responds to `@infer` mentions in GitHub issues for automated
+  assistance using the inference-gateway infer-action
+
+## Development Environment Setup
+
+The project uses several configuration files:
+
+- `.flox/` - Flox environment configuration for reproducible development environments
+- `.infer/` - Infer CLI configuration and state (local only, gitignored except config.yaml)
+- `.markdownlint.json` - Markdown linting configuration
+- `Taskfile.yml` - Task automation definitions
+- `tsconfig.*.json` - TypeScript project references for app code and build tooling
+- `vite.config.ts` - Vite build configuration with custom YAML plugin
+- `eslint.config.js` - Modern flat ESLint configuration
