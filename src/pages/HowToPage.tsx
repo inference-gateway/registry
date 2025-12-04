@@ -1,16 +1,10 @@
-import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export function HowToPage() {
   const navigate = useNavigate();
   const { section } = useParams<{ section: string }>();
-  const [selectedSection, setSelectedSection] = useState('prerequisites');
 
-  useEffect(() => {
-    if (section) {
-      setSelectedSection(section);
-    }
-  }, [section]);
+  const selectedSection = section || 'prerequisites';
 
   const sections = [
     { id: 'prerequisites', title: 'Prerequisites', icon: '📋' },
