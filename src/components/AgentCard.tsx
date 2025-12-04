@@ -6,15 +6,27 @@ interface AgentCardProps {
 }
 
 export function AgentCard({ agent }: AgentCardProps) {
-  const [copied, setCopied] = useState(false);
-  
+  const [copiedImage, setCopiedImage] = useState(false);
+  const [copiedCommand, setCopiedCommand] = useState(false);
 
-  const copyToClipboard = async () => {
+
+  const copyImageToClipboard = async () => {
     try {
       const imageUrl = `${agent.image.repository}:${agent.image.tag}`;
       await navigator.clipboard.writeText(imageUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setCopiedImage(true);
+      setTimeout(() => setCopiedImage(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+    }
+  };
+
+  const copyCommandToClipboard = async () => {
+    try {
+      const command = `infer agents add ${agent.id}`;
+      await navigator.clipboard.writeText(command);
+      setCopiedCommand(true);
+      setTimeout(() => setCopiedCommand(false), 2000);
     } catch (err) {
       console.error('Failed to copy to clipboard:', err);
     }
@@ -84,6 +96,35 @@ export function AgentCard({ agent }: AgentCardProps) {
             </div>
           </div>
           
+          {/* CLI Command with Copy Button */}
+          <div className="mb-4">
+            <span className="text-slate-400 text-xs uppercase tracking-wider mb-2 block">Add to CLI</span>
+            <div className="flex items-center gap-1 p-2 bg-slate-900/50 rounded-xl border border-slate-700/30">
+              <code className="flex-1 text-xs text-green-300 font-mono truncate">
+                infer agents add {agent.id}
+              </code>
+              <button
+                onClick={copyCommandToClipboard}
+                className={`flex items-center justify-center w-6 h-6 rounded-lg transition-all duration-200 ${
+                  copiedCommand
+                    ? 'bg-green-500/20 text-green-400'
+                    : 'bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white'
+                }`}
+                title="Copy CLI command"
+              >
+                {copiedCommand ? (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+
           {/* OCI Image URL with Copy Button */}
           <div className="mb-6">
             <span className="text-slate-400 text-xs uppercase tracking-wider mb-2 block">OCI Image</span>
@@ -92,15 +133,15 @@ export function AgentCard({ agent }: AgentCardProps) {
                 {agent.image.repository}:{agent.image.tag}
               </code>
               <button
-                onClick={copyToClipboard}
+                onClick={copyImageToClipboard}
                 className={`flex items-center justify-center w-6 h-6 rounded-lg transition-all duration-200 ${
-                  copied 
-                    ? 'bg-green-500/20 text-green-400' 
+                  copiedImage
+                    ? 'bg-green-500/20 text-green-400'
                     : 'bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white'
                 }`}
                 title="Copy OCI image URL"
               >
-                {copied ? (
+                {copiedImage ? (
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>

@@ -106,9 +106,6 @@ curl -O https://raw.githubusercontent.com/inference-gateway/cli/main/examples/a2
                       cp .env.gateway.example .env.gateway<br/><br/>
                       # Key settings:<br/>
                       ENVIRONMENT=development<br/>
-                      A2A_ENABLE=true<br/>
-                      A2A_EXPOSE=true<br/>
-                      A2A_AGENTS=http://google-calendar-agent:8080,http://documentation-agent:8080<br/>
                       SERVER_HOST=0.0.0.0<br/>
                       SERVER_PORT=8080<br/><br/>
                       # Add your API keys for providers (Anthropic, OpenAI, etc.)
@@ -260,19 +257,15 @@ networks:
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   ⚙️ 2. Gateway Configuration
                 </h3>
-                <p className="text-slate-300 mb-4">The gateway is configured to enable A2A protocols and connect multiple LLM providers:</p>
+                <p className="text-slate-300 mb-4">The gateway is configured to connect multiple LLM providers:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <pre className="text-green-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`# Key gateway settings (.env.gateway):
 
-# A2A Protocol Configuration
-A2A_ENABLE=true
-A2A_EXPOSE=true
-A2A_AGENTS='http://google-calendar-agent:8080,http://documentation-agent:8080,http://n8n-agent:8080'
-
 # Server Configuration
 SERVER_HOST=0.0.0.0
 SERVER_PORT=8080
+ENVIRONMENT=development
 
 # LLM Provider Support (add your API keys)
 # ANTHROPIC_API_KEY=
@@ -317,9 +310,6 @@ SERVER_PORT=8080
                     SERVER_IDLE_TIMEOUT=130s<br/>
                     A2A_CLIENT_TIMEOUT=130s<br/>
                     CLIENT_TIMEOUT=130s<br/><br/>
-                    # A2A Configuration<br/>
-                    A2A_ENABLE=true<br/>
-                    A2A_EXPOSE=true<br/><br/>
                     # Health check endpoint<br/>
                     curl http://localhost:8080/health
                   </code>
@@ -340,7 +330,38 @@ SERVER_PORT=8080
             <div className="space-y-6">
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🗣️ 1. Interactive CLI Interface
+                  ⚡ 1. Quick Add from Registry
+                </h3>
+                <p className="text-slate-300 mb-4">The fastest way to add an agent is directly from the registry using the one-click copy feature:</p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50 mb-4">
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# 1. Browse the agent registry at https://registry.inference-gateway.com
+# 2. Find an agent you want to use
+# 3. Click the copy button next to "Add to CLI" on the agent card
+# 4. Paste and run the command in your terminal
+
+# Example command (copied from registry):
+infer agents add documentation-agent
+
+# Example: Add multiple agents
+infer agents add google-calendar-agent
+infer agents add n8n-agent
+infer agents add browser-agent`}
+                  </pre>
+                </div>
+                <div className="mt-4 p-4 bg-emerald-900/20 border border-emerald-700/50 rounded-lg">
+                  <p className="text-emerald-200 text-sm">
+                    💡 <strong>Pro tip:</strong> Each agent card in the registry displays a ready-to-use CLI command.
+                    Simply click the copy icon next to the green command text to copy it to your clipboard, then paste
+                    it in your terminal. This automatically configures the agent with the correct ID and pulls the
+                    latest container image from the registry.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🗣️ 2. Interactive CLI Interface
                 </h3>
                 <p className="text-slate-300 mb-4">Use the inference CLI for natural language interactions with agents:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
@@ -364,7 +385,7 @@ docker compose run --rm infer-cli
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🛠️ 2. Task-Based Debugging
+                  🛠️ 3. Task-Based Debugging
                 </h3>
                 <p className="text-slate-300 mb-4">Use the A2A debugger to submit specific tasks and monitor agent responses:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
@@ -392,7 +413,7 @@ docker compose run --rm a2a-debugger tasks submit-streaming \\
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🌐 3. HTTP API Integration
+                  🌐 4. HTTP API Integration
                 </h3>
                 <p className="text-slate-300 mb-4">Integrate A2A capabilities into your applications via HTTP API:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
@@ -428,7 +449,7 @@ const data = await response.json();
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔄 4. n8n Workflow Automation
+                  🔄 5. n8n Workflow Automation
                 </h3>
                 <p className="text-slate-300 mb-4">Use the n8n agent to generate and execute automated workflows:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
@@ -470,7 +491,7 @@ docker compose logs -f n8n-agent`}
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔄 5. Multi-Agent Workflows
+                  🔄 6. Multi-Agent Workflows
                 </h3>
                 <p className="text-slate-300 mb-4">Create complex interactions that span multiple agents automatically:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
@@ -499,7 +520,7 @@ docker compose logs -f documentation-agent`}
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  📊 5. Monitoring and Observability
+                  📊 7. Monitoring and Observability
                 </h3>
                 <p className="text-slate-300 mb-4">Track A2A communication and agent performance:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
