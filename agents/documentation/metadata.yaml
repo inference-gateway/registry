@@ -1,7 +1,7 @@
 ---
 id: documentation-server
 name: Documentation Server for Context7
-version: 0.2.3
+version: 0.2.24
 description: A2A agent server that provides Context7-style documentation capabilities for your agents
 longDescription: |
   The Documentation Server is a specialized agent-to-agent service that provides on-demand access 
@@ -21,8 +21,8 @@ longDescription: |
 
 image:
   repository: ghcr.io/inference-gateway/documentation-agent
-  tag: 0.2.19
-  size: 31.9MB
+  tag: 0.2.24
+  size: 32.8MB
 
 author:
   name: Eden Reich

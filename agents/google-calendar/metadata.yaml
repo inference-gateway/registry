@@ -1,7 +1,7 @@
 ---
 id: google-calendar-agent
 name: Google Calendar Management Agent
-version: 0.4.16
+version: 0.4.20
 description: A2A agent server enabling Google Calendar scheduling, retrieval, and automation
 longDescription: |
   The Google Calendar Agent is a specialized agent-to-agent service that enables other agents 
@@ -21,8 +21,8 @@ longDescription: |
 
 image:
   repository: ghcr.io/inference-gateway/google-calendar-agent
-  tag: 0.4.16
-  size: 35.4MB
+  tag: 0.4.20
+  size: 36.4MB
 
 author:
   name: Eden Reich

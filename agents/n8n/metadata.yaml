@@ -1,7 +1,7 @@
 ---
 id: n8n-agent
 name: n8n Workflow Automation Agent
-version: 0.1.4
+version: 0.2.1
 description: A2A agent server specialized in generating and automating n8n workflows
 longDescription: |
   The n8n Workflow Automation Agent is a specialized agent-to-agent service that enables other agents 
@@ -20,8 +20,8 @@ longDescription: |
 
 image:
   repository: ghcr.io/inference-gateway/n8n-agent
-  tag: 0.1.10
-  size: 33.1MB
+  tag: 0.2.1
+  size: 35.2MB
 
 author:
   name: Eden Reich
