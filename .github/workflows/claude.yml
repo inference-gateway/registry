@@ -31,70 +31,33 @@ jobs:
       actions: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
+      - name: Install task
+        run: |
+          curl -s https://taskfile.dev/install.sh | sh -s -- -b /usr/local/bin v3.45.5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.1.0
+        with:
+          node-version: 'lts/*'
+
+      - name: Install additional dependencies
+        run: npm install -g markdownlint-cli
+
       - name: Run Claude Code
         id: claude
-        uses: anthropics/claude-code-action@beta
+        uses: anthropics/claude-code-action@main
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           additional_permissions: |
             actions: read
           use_commit_signing: true
           base_branch: main
-          branch_prefix: 'claude/'
-          custom_instructions: |
-            IMPORTANT: You must NEVER push directly to the main branch. Always:
-            1. Create a new feature branch (claude/feature-name)
-            2. Make your changes on the feature branch
-            3. Open a pull request to main
-            4. Wait for review and approval before merging
-
-            COMMIT MESSAGE FORMAT: Always use conventional commits with capital letters. 
-            Follow the format: "type(scope): Description" where the description starts with a capital letter.
-            Examples: "feat(a2a): Add retry mechanism for agent connections", "fix(auth): Resolve token validation issue"
-
-            Follow the development workflow specified in the coding instructions.
-
-            Before processing any tasks be aware of the following repositories:
-            - https://github.com/inference-gateway/inference-gateway
-            - https://github.com/inference-gateway/docs
-            - https://github.com/inference-gateway/n8n-agent
-            - https://github.com/inference-gateway/google-calendar-agent
-            - https://github.com/inference-gateway/documentation-agent
-            - https://github.com/inference-gateway/cli
-            - https://github.com/inference-gateway/a2a-debugger
-            - https://github.com/inference-gateway/awesome-a2a
-            - https://github.com/inference-gateway/schemas
-            - https://github.com/inference-gateway/tools
-            - https://github.com/inference-gateway/ui
-            - https://github.com/inference-gateway/adk
-            - https://github.com/inference-gateway/rust-adk
-            - https://github.com/inference-gateway/adl-cli
-            - https://github.com/inference-gateway/adl
-            - https://github.com/inference-gateway/sdk
-            - https://github.com/inference-gateway/typescript-adk
-            - https://github.com/inference-gateway/typescript-sdk
-            - https://github.com/inference-gateway/python-sdk
-            - https://github.com/inference-gateway/rust-sdk
-            - https://github.com/inference-gateway/operator
-
-            They provide examples on how the ecosystem of the inference gateway works.
-
-          mcp_config: |
-            {
-              "mcpServers": {
-                "context7": {
-                  "command": "npx",
-                  "args": ["-y", "@upstash/context7-mcp@latest"],
-                  "env": {}
-                }
-              }
-            }
-          allowed_tools: |
-            Bash(task:*)
-            Bash(npm:*)
-            Bash(gh:*)
-            Bash(git:*)
+          branch_prefix: "claude/"
+          claude_args: |
+            --system-prompt "IMPORTANT: You must NEVER push directly to the main branch. Always: 1. Create a new feature branch (claude/feature-name). 2. Make your changes on the feature branch. 3. Open a pull request to main. COMMIT MESSAGE FORMAT: Always use conventional commits with capital letters. Follow the format: 'type(scope): Description' where the description starts with a capital letter. Examples: 'feat(registry): Add retry mechanism for agent connections', 'fix(ui): Resolve token validation issue'. Follow the development workflow specified in the coding instructions. Before processing any tasks be aware of the following repositories: https://github.com/inference-gateway/inference-gateway, https://github.com/inference-gateway/docs, https://github.com/inference-gateway/n8n-agent, https://github.com/inference-gateway/google-calendar-agent, https://github.com/inference-gateway/documentation-agent, https://github.com/inference-gateway/cli, https://github.com/inference-gateway/a2a-debugger, https://github.com/inference-gateway/awesome-a2a, https://github.com/inference-gateway/schemas, https://github.com/inference-gateway/tools, https://github.com/inference-gateway/ui, https://github.com/inference-gateway/adk, https://github.com/inference-gateway/rust-adk, https://github.com/inference-gateway/adl-cli, https://github.com/inference-gateway/adl, https://github.com/inference-gateway/sdk, https://github.com/inference-gateway/typescript-adk, https://github.com/inference-gateway/typescript-sdk, https://github.com/inference-gateway/python-sdk, https://github.com/inference-gateway/rust-sdk, https://github.com/inference-gateway/operator. They provide examples on how the ecosystem of the inference gateway works."
+            --allowedTools "Bash(task:*),Bash(npm:*),Bash(gh:*),Bash(git:*)"
+            --mcp-config '{"mcpServers":{"context7":{"command":"npx","args":["-y","@upstash/context7-mcp@latest"]}}}'

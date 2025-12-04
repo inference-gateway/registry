@@ -1,0 +1,29 @@
+---
+version: '3'
+
+tasks:
+  dev:
+    desc: Start development server with hot module replacement
+    cmd: npm run dev
+
+  build:
+    desc: Build for production
+    cmd: npm run build
+
+  lint:
+    desc: Lint code with ESLint
+    cmds:
+      - npm run lint
+      - markdownlint --ignore '**/node_modules/**' --fix .
+
+  preview:
+    desc: Preview production build
+    cmd: npm run preview
+
+  install:
+    desc: Install dependencies
+    cmd: npm install
+
+  default:
+    desc: Show available tasks
+    cmd: task --list
