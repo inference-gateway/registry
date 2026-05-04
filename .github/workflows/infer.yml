@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Generate GitHub App Token
-        uses: actions/create-github-app-token@v2.2.0
+        uses: actions/create-github-app-token@v3.1.1
         id: app_token
         with:
-          app-id: ${{ secrets.INFER_APP_ID }}
+          client-id: ${{ secrets.INFER_APP_ID }}
           private-key: ${{ secrets.INFER_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: |
@@ -35,7 +35,7 @@ jobs:
           token: ${{ steps.app_token.outputs.token }}
 
       - name: Run Infer Agent
-        uses: inference-gateway/infer-action@v0.3.1
+        uses: inference-gateway/infer-action@v0.4.0
         with:
           github-token: ${{ steps.app_token.outputs.token }}
           trigger-phrase: "@infer"

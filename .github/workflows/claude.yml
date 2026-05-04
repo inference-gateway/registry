@@ -1,3 +1,4 @@
+---
 name: Claude Code
 
 on:
@@ -37,12 +38,13 @@ jobs:
 
       - name: Install task
         run: |
-          curl -s https://taskfile.dev/install.sh | sh -s -- -b /usr/local/bin v3.45.5
+          curl -s https://taskfile.dev/install.sh | sh -s -- -b /usr/local/bin v3.48.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6.1.0
+        uses: actions/setup-node@v6.4.0
         with:
-          node-version: 'lts/*'
+          node-version-file: 'package.json'
+          cache: 'npm'
 
       - name: Install additional dependencies
         run: npm install -g markdownlint-cli
