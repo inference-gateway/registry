@@ -7,10 +7,10 @@
     "node": "^24.14.1"
   },
   "scripts": {
-    "postinstall": "node scripts/fetch-skills.mjs --if-missing",
-    "predev": "node scripts/fetch-skills.mjs --if-missing",
+    "postinstall": "node scripts/fetch-skills.ts --if-missing",
+    "predev": "node scripts/fetch-skills.ts --if-missing",
     "dev": "vite",
-    "prebuild": "node scripts/fetch-skills.mjs",
+    "prebuild": "node scripts/fetch-skills.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
