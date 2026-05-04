@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "updated": "2026-05-05T00:00:00Z",
+  "skills": [
+    {
+      "name": "pdf",
+      "description": "Read, merge, split, and OCR PDF documents.",
+      "source": "https://github.com/anthropics/skills/tree/main/skills/pdf",
+      "ref": "main",
+      "vendor": "anthropic",
+      "license": "Source-available",
+      "tags": ["document", "pdf", "ocr"],
+      "categories": ["productivity", "documents"],
+      "homepage": "https://github.com/anthropics/skills"
+    },
+    {
+      "name": "mcp-builder",
+      "description": "Scaffold and validate Model Context Protocol servers.",
+      "source": "https://github.com/anthropics/skills/tree/main/skills/mcp-builder",
+      "ref": "main",
+      "vendor": "anthropic",
+      "license": "Apache-2.0",
+      "tags": ["mcp", "scaffolding", "developer"],
+      "categories": ["developer-tools"],
+      "homepage": "https://github.com/anthropics/skills"
+    }
+  ]
+}
