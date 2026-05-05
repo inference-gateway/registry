@@ -194,10 +194,10 @@ export function SkillsPage() {
             <p className="text-slate-300">
               The full catalog is also served as JSON at{' '}
               <a
-                href="/skills/index.json"
+                href="/skills.json"
                 className="text-blue-400 hover:text-blue-300 transition-colors font-mono text-sm"
               >
-                /skills/index.json
+                /skills.json
               </a>
               . To submit a skill, open a PR against{' '}
               <a

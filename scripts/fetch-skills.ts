@@ -10,7 +10,7 @@ const CATALOG_URL =
   process.env.SKILLS_CATALOG_URL ||
   'https://raw.githubusercontent.com/inference-gateway/skills/main/catalog.json';
 const APP_TARGET = resolve(ROOT, 'src/data/skills.json');
-const PUBLIC_TARGET = resolve(ROOT, 'public/skills/index.json');
+const PUBLIC_TARGET = resolve(ROOT, 'public/skills.json');
 const ifMissing = process.argv.includes('--if-missing');
 
 async function main(): Promise<void> {
