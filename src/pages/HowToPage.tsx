@@ -163,7 +163,7 @@ docker compose logs -f`}
                   </pre>
                 </div>
                 <p className="text-slate-400 text-sm mt-2">
-                  💡 This starts: inference-gateway, google-calendar-agent, documentation-agent, infer-cli, and a2a-debugger
+                  💡 This starts: inference-gateway, google-calendar-agent, documentation-agent, n8n-agent, browser-agent, mock-agent, cli, and a2a-debugger
                 </p>
               </div>
 
@@ -181,7 +181,7 @@ docker compose run --rm a2a-debugger tasks list
 docker compose run --rm a2a-debugger tasks submit-streaming "What's on my calendar today?"
 
 # Start interactive CLI session
-docker compose run --rm infer-cli
+docker compose run --rm cli
 
 # View service status
 docker compose ps
@@ -220,12 +220,12 @@ services:
       - 8080:8080
     env_file:
       - .env.gateway
-    
+
   google-calendar-agent:
     image: ghcr.io/inference-gateway/google-calendar-agent:latest
     env_file:
       - .env.calendar
-    
+
   documentation-agent:
     image: ghcr.io/inference-gateway/documentation-agent:latest
     env_file:
@@ -235,12 +235,20 @@ services:
     image: ghcr.io/inference-gateway/n8n-agent:latest
     env_file:
       - .env.n8n
-    
-  infer-cli:
+
+  browser-agent:
+    image: ghcr.io/inference-gateway/browser-agent:latest
+    env_file:
+      - .env.browser
+
+  mock-agent:
+    image: ghcr.io/inference-gateway/mock-agent:latest
+
+  cli:
     image: ghcr.io/inference-gateway/cli:latest
     profiles:
       - manual
-    
+
   a2a-debugger:
     image: ghcr.io/inference-gateway/a2a-debugger:latest
     profiles:
@@ -308,7 +316,7 @@ ENVIRONMENT=development
                     SERVER_READ_TIMEOUT=130s<br/>
                     SERVER_WRITE_TIMEOUT=130s<br/>
                     SERVER_IDLE_TIMEOUT=130s<br/>
-                    A2A_CLIENT_TIMEOUT=130s<br/>
+                    A2A_AGENT_CLIENT_TIMEOUT=130s<br/>
                     CLIENT_TIMEOUT=130s<br/><br/>
                     # Health check endpoint<br/>
                     curl http://localhost:8080/health
@@ -367,7 +375,7 @@ infer agents add browser-agent`}
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`# Start interactive chat session
-docker compose run --rm infer-cli
+docker compose run --rm cli
 
 # Example interactions:
 > What's on my calendar today?
@@ -455,7 +463,7 @@ const data = await response.json();
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`# Example: Generate a workflow to reach out to new Slack users
-docker compose run --rm infer-cli
+docker compose run --rm cli
 
 > "Create an n8n workflow that monitors new users joining our Slack workspace
    and automatically sends them a welcome email with onboarding resources."
@@ -497,7 +505,7 @@ docker compose logs -f n8n-agent`}
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`# Complex query example - gateway coordinates multiple agents
-docker compose run --rm infer-cli
+docker compose run --rm cli
 
 > "Schedule a code review meeting for next week and find the latest 
    documentation about our deployment process. Also check if the 
@@ -536,7 +544,7 @@ docker compose logs -f
 docker compose logs google-calendar-agent
 docker compose logs documentation-agent
 
-# Check agent-specific metrics (if exposed)
+# Check Prometheus metrics (requires TELEMETRY_ENABLE=true on the gateway)
 curl http://localhost:8080/metrics
 
 # Debug network connectivity
@@ -784,9 +792,12 @@ docker-compose up -d
 # Deploy to production
 docker push ghcr.io/myorg/weather-agent:latest
 
-# Add to your inference gateway configuration
-# Update .env.gateway:
-A2A_AGENTS="...,http://weather-agent:8080"`}
+# Register the agent with the CLI (interactive)
+docker compose run --rm cli infer agents add weather-agent http://weather-agent:8080
+
+# OR set it on the cli service in docker-compose.yaml:
+# environment:
+#   INFER_A2A_AGENTS: "http://weather-agent:8080,http://other-agent:8080"`}
                   </pre>
                 </div>
               </div>
@@ -803,7 +814,7 @@ docker compose run --rm a2a-debugger tasks submit-streaming \\
   "What's the weather like in London today?"
 
 # Interactive testing
-docker compose run --rm infer-cli
+docker compose run --rm cli
 
 > "Get me the weather forecast for New York for the next 3 days"
 > "What's the current weather in Tokyo?"
@@ -840,9 +851,13 @@ curl http://weather-agent:8080/health`}
       case 'production':
         return (
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-white mb-4">Production Deployment</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Enterprise Setup</h2>
             <p className="text-slate-300 text-lg leading-relaxed mb-6">
-              Best practices and recommendations for deploying A2A agents in production environments.
+              The recommended path for production is the{' '}
+              <a href="https://github.com/inference-gateway/operator" className="text-blue-400 hover:text-blue-300 transition-colors">
+                Inference Gateway Operator
+              </a>
+              , which manages gateways and A2A agents as first-class Kubernetes resources via custom CRDs — replacing hand-written Deployment + HPA manifests.
             </p>
 
             <div className="space-y-6">
@@ -854,10 +869,11 @@ curl http://weather-agent:8080/health`}
                   <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                     <h4 className="text-lg font-medium text-white mb-2">Container Orchestration</h4>
                     <ul className="list-disc list-inside text-slate-300 space-y-1 ml-4">
-                      <li><strong>Kubernetes:</strong> Recommended for large-scale deployments</li>
+                      <li><strong>Kubernetes:</strong> Recommended for production deployments</li>
+                      <li><strong>Operator:</strong> Use the Inference Gateway Operator for declarative management of gateways, A2A agents, MCP servers, and orchestrators</li>
                     </ul>
                   </div>
-                  
+
                   <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                     <h4 className="text-lg font-medium text-white mb-2">Resource Requirements</h4>
                     <ul className="list-disc list-inside text-slate-300 space-y-1 ml-4">
@@ -872,18 +888,144 @@ curl http://weather-agent:8080/health`}
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  📊 2. Monitoring & Observability
+                  📦 2. Install the Operator
                 </h3>
+                <p className="text-slate-300 mb-4">Install the operator with a single <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">kubectl apply</code>:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Prometheus monitoring<br/>
-                    docker run -d \<br/>
-                    &nbsp;&nbsp;--name prometheus \<br/>
-                    &nbsp;&nbsp;-p 9090:9090 \<br/>
-                    &nbsp;&nbsp;-v ./prometheus.yml:/etc/prometheus/prometheus.yml \<br/>
-                    &nbsp;&nbsp;prom/prometheus<br/><br/>
-                  </code>
+                  <pre className="text-green-400 whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`# Install the latest release
+kubectl apply -f https://github.com/inference-gateway/operator/releases/latest/download/install.yaml
+
+# Verify the operator is running
+kubectl get pods -n inference-gateway-system
+
+# Inspect the installed CRDs
+kubectl get crds | grep inference-gateway.com`}
+                  </pre>
                 </div>
+                <p className="text-slate-300 mt-4">The operator ships four CRDs under <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">core.inference-gateway.com/v1alpha1</code>:</p>
+                <ul className="list-disc list-inside text-slate-300 space-y-1 ml-4 mt-2">
+                  <li><strong>Gateway:</strong> The inference gateway itself (providers, auth, telemetry, HPA, ingress)</li>
+                  <li><strong>Agent:</strong> A2A worker agents discoverable by orchestrators</li>
+                  <li><strong>Orchestrator:</strong> Channel managers (e.g., Telegram bot) that fan out to agents</li>
+                  <li><strong>MCP:</strong> Model Context Protocol servers (tools / extensions)</li>
+                </ul>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🚀 3. Deploy a Gateway with Native HPA
+                </h3>
+                <p className="text-slate-300 mb-4">
+                  Define the gateway declaratively. The operator generates the underlying Deployment, Service, and HorizontalPodAutoscaler — no separate manifests needed.
+                </p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-yellow-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`apiVersion: core.inference-gateway.com/v1alpha1
+kind: Gateway
+metadata:
+  name: inference-gateway
+  namespace: inference-gateway
+spec:
+  image: ghcr.io/inference-gateway/inference-gateway:latest
+  environment: production
+
+  # Native HPA — no separate HorizontalPodAutoscaler resource needed
+  hpa:
+    enabled: true
+    config:
+      minReplicas: 3
+      maxReplicas: 10
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 80
+
+  telemetry:
+    enabled: true
+    metrics:
+      enabled: true
+      port: 9464
+
+  server:
+    timeouts:
+      read: "60s"
+      write: "60s"
+      idle: "300s"
+
+  providers:
+    - name: DeepSeek
+      enabled: true
+      env:
+        - name: DEEPSEEK_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: inference-gateway-providers-secret
+              key: DEEPSEEK_API_KEY
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "1000m"
+      memory: "512Mi"
+
+  ingress:
+    enabled: true
+    host: api.inference-gateway.local
+    tls:
+      enabled: true
+      secretName: inference-gateway-tls`}
+                  </pre>
+                </div>
+                <p className="text-slate-400 text-sm mt-2">
+                  💡 Full example with auth, MCP, and multi-provider config: <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">operator/examples/gateway-complete</code>
+                </p>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  🤖 4. Deploy A2A Agents
+                </h3>
+                <p className="text-slate-300 mb-4">
+                  Each A2A agent is its own <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">Agent</code> resource. The operator wires it to the gateway and exposes it on the cluster network.
+                </p>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
+                  <pre className="text-yellow-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
+{`apiVersion: core.inference-gateway.com/v1alpha1
+kind: Agent
+metadata:
+  name: google-calendar-agent
+  namespace: agents
+  labels:
+    orchestrator: orchestrator  # opt-in to orchestrator service discovery
+spec:
+  image: ghcr.io/inference-gateway/google-calendar-agent:latest
+  agent:
+    llm:
+      baseURL: "http://inference-gateway.inference-gateway.svc.cluster.local:8080/v1"
+      model: "deepseek/deepseek-v4-flash"
+  env:
+    - name: GOOGLE_CALENDAR_MOCK_MODE
+      value: "true"`}
+                  </pre>
+                </div>
+                <p className="text-slate-400 text-sm mt-2">
+                  💡 End-to-end example (Gateway + multiple Agents + Orchestrator + Redis): <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">operator/examples/orchestrator</code>
+                </p>
+              </div>
+
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  📊 5. Monitoring & Observability
+                </h3>
+                <p className="text-slate-300 mb-4">
+                  Setting <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">spec.telemetry.metrics.enabled: true</code> on the Gateway exposes Prometheus metrics on the configured port (default <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">9464</code>). Scrape it with your existing Prometheus / OpenTelemetry stack.
+                </p>
                 <p className="text-slate-300 mt-4">Key metrics to monitor:</p>
                 <ul className="list-disc list-inside text-slate-300 space-y-1 ml-4">
                   <li>Agent response times and throughput</li>
@@ -895,86 +1037,14 @@ curl http://weather-agent:8080/health`}
 
               <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🚀 3. High Availability Setup
-                </h3>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
-                  <code className="text-green-400 block">
-                    # Deployment<br/>
-                    apiVersion: apps/v1<br/>
-                    kind: Deployment<br/>
-                    metadata:<br/>
-                    &nbsp;&nbsp;name: gateway<br/>
-                    spec:<br/>
-                    &nbsp;&nbsp;replicas: 3<br/>
-                    &nbsp;&nbsp;selector:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;matchLabels:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;app: gateway<br/>
-                    &nbsp;&nbsp;template:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;spec:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containers:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- name: gateway<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image: ghcr.io/inference-gateway/gateway:latest<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;livenessProbe:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;httpGet:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: /health<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;port: 3000<br/><br/>
-                    # HPA<br/>
-                    apiVersion: autoscaling/v2<br/>
-                    kind: HorizontalPodAutoscaler<br/>
-                    metadata:<br/>
-                    &nbsp;&nbsp;name: gateway-hpa<br/>
-                    spec:<br/>
-                    &nbsp;&nbsp;scaleTargetRef:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;apiVersion: apps/v1<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;kind: Deployment<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;name: gateway<br/>
-                    &nbsp;&nbsp;minReplicas: 2<br/>
-                    &nbsp;&nbsp;maxReplicas: 10<br/>
-                    &nbsp;&nbsp;metrics:<br/>
-                    &nbsp;&nbsp;- type: Resource<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;resource:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: cpu<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: Utilization<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;averageUtilization: 70<br/><br/>
-                    ---<br/>
-                    # Documentation Agent HPA<br/>
-                    apiVersion: autoscaling/v2<br/>
-                    kind: HorizontalPodAutoscaler<br/>
-                    metadata:<br/>
-                    &nbsp;&nbsp;name: documentation-agent-hpa<br/>
-                    spec:<br/>
-                    &nbsp;&nbsp;scaleTargetRef:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;apiVersion: apps/v1<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;kind: Deployment<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;name: documentation-agent<br/>
-                    &nbsp;&nbsp;minReplicas: 1<br/>
-                    &nbsp;&nbsp;maxReplicas: 5<br/>
-                    &nbsp;&nbsp;metrics:<br/>
-                    &nbsp;&nbsp;- type: Resource<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;resource:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: cpu<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target:<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type: Utilization<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;averageUtilization: 60
-                  </code>
-                </div>
-                <p className="text-slate-300 mt-4">
-                  For optimal horizontal scaling, agents can be configured with external queue storage (Redis, RabbitMQ) 
-                  to handle task distribution across multiple replicas efficiently.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                  🔧 4. Performance Optimization
+                  🔧 6. Performance Optimization
                 </h3>
                 <ul className="list-disc list-inside text-slate-300 space-y-2 ml-4">
                   <li><strong>Load balancing:</strong> Distribute requests across agent replicas</li>
                   <li><strong>Caching:</strong> Implement response caching for frequently requested data</li>
                   <li><strong>Connection pooling:</strong> Reuse connections between agents and gateway</li>
-                  <li><strong>Horizontal scaling:</strong> Add more agent instances based on demand</li>
-                  <li><strong>Resource limits:</strong> Set appropriate CPU and memory limits</li>
+                  <li><strong>Horizontal scaling:</strong> Tune <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">spec.hpa</code> on the Gateway CR for traffic-based scaling</li>
+                  <li><strong>Resource limits:</strong> Set appropriate CPU and memory limits via <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">spec.resources</code></li>
                   <li><strong>Circuit breakers:</strong> Implement fallback mechanisms for failed agents</li>
                 </ul>
               </div>
