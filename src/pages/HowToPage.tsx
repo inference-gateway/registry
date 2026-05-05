@@ -917,11 +917,19 @@ kubectl get crds | grep inference-gateway.com`}
                   🚀 3. Deploy a Gateway with Native HPA
                 </h3>
                 <p className="text-slate-300 mb-4">
-                  Define the gateway declaratively. The operator generates the underlying Deployment, Service, and HorizontalPodAutoscaler — no separate manifests needed.
+                  Define the gateway declaratively. The operator generates the underlying Deployment, Service, and HorizontalPodAutoscaler — no separate manifests needed. The namespace must carry the <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">inference-gateway.com/managed: "true"</code> label so the operator opts in to managing resources inside it.
                 </p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <pre className="text-yellow-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
-{`apiVersion: core.inference-gateway.com/v1alpha1
+{`---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: inference-gateway
+  labels:
+    inference-gateway.com/managed: "true"
+---
+apiVersion: core.inference-gateway.com/v1alpha1
 kind: Gateway
 metadata:
   name: inference-gateway
@@ -992,11 +1000,19 @@ spec:
                   🤖 4. Deploy A2A Agents
                 </h3>
                 <p className="text-slate-300 mb-4">
-                  Each A2A agent is its own <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">Agent</code> resource. The operator wires it to the gateway and exposes it on the cluster network.
+                  Each A2A agent is its own <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">Agent</code> resource. The operator wires it to the gateway and exposes it on the cluster network. Don't forget the managed-namespace label here too.
                 </p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <pre className="text-yellow-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
-{`apiVersion: core.inference-gateway.com/v1alpha1
+{`---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: agents
+  labels:
+    inference-gateway.com/managed: "true"
+---
+apiVersion: core.inference-gateway.com/v1alpha1
 kind: Agent
 metadata:
   name: google-calendar-agent
