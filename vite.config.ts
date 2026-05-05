@@ -20,7 +20,7 @@ export default defineConfig({
         '/how-to/gateway-setup/',
         '/how-to/using-agents/',
         '/how-to/build-agents/',
-        '/how-to/production/',
+        '/how-to/enterprise/',
       ],
     }),
   ],

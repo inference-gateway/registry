@@ -12,7 +12,7 @@ export function HowToPage() {
     { id: 'gateway-setup', title: 'Gateway Setup', icon: '🚀' },
     { id: 'using-agents', title: 'Using Agents', icon: '🤖' },
     { id: 'build-agents', title: 'Build Dedicated Agents', icon: '🔨' },
-    { id: 'production', title: 'Enterprise Setup', icon: '🏭' },
+    { id: 'enterprise', title: 'Enterprise Setup', icon: '🏭' },
   ];
 
   const renderContent = () => {
@@ -563,7 +563,7 @@ docker compose exec inference-gateway ping documentation-agent`}
             <h2 className="text-3xl font-bold text-white mb-4">Build Dedicated Agents</h2>
             <p className="text-slate-300 text-lg leading-relaxed mb-6">
               Create custom A2A-compatible agents from scratch using the ADL (Agent Definition Language) CLI tool.
-              Generate production-ready A2A servers with complete project scaffolding and enterprise deployment options.
+              Generate enterprise-ready A2A servers with complete project scaffolding and enterprise deployment options.
             </p>
 
             <div className="space-y-6">
@@ -714,7 +714,7 @@ adl validate agent.yaml`}
                 <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                   📁 5. Generated Project Structure
                 </h3>
-                <p className="text-slate-300 mb-4">The ADL CLI generates a production-ready project with all necessary components:</p>
+                <p className="text-slate-300 mb-4">The ADL CLI generates a enterprise-ready project with all necessary components:</p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <pre className="text-blue-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
 {`my-weather-agent/
@@ -848,7 +848,7 @@ curl http://weather-agent:8080/health`}
           </div>
         );
 
-      case 'production':
+      case 'enterprise':
         return (
           <div className="space-y-6">
             <h2 className="text-3xl font-bold text-white mb-4">Enterprise Setup</h2>
