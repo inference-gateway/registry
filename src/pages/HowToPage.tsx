@@ -122,7 +122,7 @@ ENVIRONMENT=development
 CONTEXT7_API_KEY=your_context7_api_key
 A2A_AGENT_URL=http://localhost:8080
 A2A_AGENT_CLIENT_PROVIDER=deepseek
-A2A_AGENT_CLIENT_MODEL=deepseek-chat
+A2A_AGENT_CLIENT_MODEL=deepseek-v4-flash
 A2A_AGENT_CLIENT_BASE_URL=http://inference-gateway:8080/v1`}
                     </pre>
                   </div>
@@ -437,7 +437,7 @@ const response = await fetch(\`\${gatewayUrl}/chat/completions\`, {
     'Authorization': 'Bearer your-api-key'
   },
   body: JSON.stringify({
-    model: 'deepseek/deepseek-chat',
+    model: 'deepseek/deepseek-v4-flash',
     messages: [
       {
         role: 'user',
