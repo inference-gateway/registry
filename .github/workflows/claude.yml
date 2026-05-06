@@ -51,15 +51,16 @@ jobs:
 
       - name: Run Claude Code
         id: claude
-        uses: anthropics/claude-code-action@main
+        uses: anthropics/claude-code-action@v1.0.114
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           additional_permissions: |
             actions: read
           use_commit_signing: true
           base_branch: main
-          branch_prefix: "claude/"
+          branch_prefix: 'claude/'
           claude_args: |
-            --system-prompt "IMPORTANT: You must NEVER push directly to the main branch. Always: 1. Create a new feature branch (claude/feature-name). 2. Make your changes on the feature branch. 3. Open a pull request to main. COMMIT MESSAGE FORMAT: Always use conventional commits with capital letters. Follow the format: 'type(scope): Description' where the description starts with a capital letter. Examples: 'feat(registry): Add retry mechanism for agent connections', 'fix(ui): Resolve token validation issue'. Follow the development workflow specified in the coding instructions. Before processing any tasks be aware of the following repositories: https://github.com/inference-gateway/inference-gateway, https://github.com/inference-gateway/docs, https://github.com/inference-gateway/n8n-agent, https://github.com/inference-gateway/google-calendar-agent, https://github.com/inference-gateway/documentation-agent, https://github.com/inference-gateway/cli, https://github.com/inference-gateway/a2a-debugger, https://github.com/inference-gateway/awesome-a2a, https://github.com/inference-gateway/schemas, https://github.com/inference-gateway/tools, https://github.com/inference-gateway/ui, https://github.com/inference-gateway/adk, https://github.com/inference-gateway/rust-adk, https://github.com/inference-gateway/adl-cli, https://github.com/inference-gateway/adl, https://github.com/inference-gateway/sdk, https://github.com/inference-gateway/typescript-adk, https://github.com/inference-gateway/typescript-sdk, https://github.com/inference-gateway/python-sdk, https://github.com/inference-gateway/rust-sdk, https://github.com/inference-gateway/operator. They provide examples on how the ecosystem of the inference gateway works."
-            --allowedTools "Bash(task:*),Bash(npm:*),Bash(gh:*),Bash(git:*)"
+            --model claude-opus-4-7
+            --system-prompt "You must NEVER push directly to the main branch. Always create a new feature branch (claude/feature-name), make changes there, and open a pull request to main. Use conventional commits with a capital description, e.g. 'feat(client): Add retry mechanism for streaming requests' or 'fix(auth): Resolve token validation issue'. Follow the development workflow specified in the coding instructions."
+            --allowedTools "Bash(task:*),Bash(go:*),Bash(gh:*),Bash(git:*)"
             --mcp-config '{"mcpServers":{"context7":{"command":"npx","args":["-y","@upstash/context7-mcp@latest"]}}}'
