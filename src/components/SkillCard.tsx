@@ -40,8 +40,7 @@ export function SkillCard({ skill }: SkillCardProps) {
               {skill.name}
             </h3>
             <p className="text-slate-400 text-sm font-medium truncate">
-              <span className="text-blue-400">{skill.vendor}</span> • ref{' '}
-              <span className="text-slate-300 font-mono">{skill.ref}</span>
+              <span className="text-blue-400">{skill.vendor}</span>
             </p>
           </div>
           <span className="ml-4 shrink-0 px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-bold rounded-full shadow-lg shadow-blue-500/25">

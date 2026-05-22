@@ -2,7 +2,6 @@ export interface Skill {
   name: string;
   description: string;
   source: string;
-  ref: string;
   vendor: string;
   license: string;
   tags: string[];
@@ -12,6 +11,7 @@ export interface Skill {
 
 export interface SkillCatalog {
   version: number;
+  release?: string;
   updated: string;
   skills: Skill[];
 }
