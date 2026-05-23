@@ -4,7 +4,7 @@
 
 [![Deploy to Pages](https://github.com/inference-gateway/registry/actions/workflows/static.yml/badge.svg)](https://github.com/inference-gateway/registry/actions/workflows/static.yml)
 [![Claude Code](https://github.com/inference-gateway/registry/actions/workflows/claude.yml/badge.svg)](https://github.com/inference-gateway/registry/actions/workflows/claude.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF.svg)](https://vitejs.dev/)
@@ -75,7 +75,7 @@ image:
 author:
   name: Author Name
   email: author@example.com
-license: MIT
+license: Apache-2.0
 homepage: https://github.com/org/agent
 repository: https://github.com/org/agent
 documentation: https://docs.example.com
@@ -105,4 +105,4 @@ tags:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the Apache 2.0 License - see the LICENSE file for details.

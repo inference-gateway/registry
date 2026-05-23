@@ -292,7 +292,7 @@ The most common task is adding a new agent to the registry.
      email: your.email@example.com
      url: https://github.com/your-profile
 
-   license: MIT
+   license: Apache-2.0
    homepage: https://github.com/inference-gateway/your-agent
    repository: https://github.com/inference-gateway/your-agent
    documentation: https://docs.inference-gateway.com
@@ -346,7 +346,7 @@ interface Agent {
     email: string;
     url?: string;
   };
-  license: string;               // e.g., "MIT"
+  license: string;               // e.g., "Apache-2.0"
   homepage: string;              // GitHub repo or project page
   repository: string;            // Source code URL
   documentation: string;         // Docs URL

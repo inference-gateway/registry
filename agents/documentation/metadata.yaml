@@ -28,7 +28,7 @@ author:
   name: Eden Reich
   email: eden.reich@gmail.com
 
-license: MIT
+license: Apache-2.0
 homepage: https://github.com/inference-gateway/documentation-agent
 repository: https://github.com/inference-gateway/documentation-agent
 documentation: https://docs.inference-gateway.com

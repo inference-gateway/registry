@@ -29,7 +29,7 @@ author:
   email: eden.reich@gmail.com
   url: https://github.com/inference-gateway
 
-license: MIT
+license: Apache-2.0
 homepage: https://github.com/inference-gateway/browser-agent
 repository: https://github.com/inference-gateway/browser-agent
 documentation: https://docs.inference-gateway.com
