@@ -1,4 +1,4 @@
-# AGENTS.md — AI Agent Guide for inference-gateway/registry
+# AGENTS.md - AI Agent Guide for inference-gateway/registry
 
 This file provides guidance for AI coding agents (Claude Code, Cursor, Copilot, etc.) when working with
 this repository. It complements `CLAUDE.md` with an agent-focused perspective covering workflow,
@@ -8,7 +8,7 @@ conventions, and actionable patterns.
 
 ## 1. Project Overview
 
-This is the **Agents Registry** — a React + TypeScript + Vite web application that serves as a registry for
+This is the **Agents Registry** - a React + TypeScript + Vite web application that serves as a registry for
 agent-to-agent (A2A) services in the [inference-gateway](https://github.com/inference-gateway) ecosystem.
 
 **Purpose:** Browse, discover, and manage containerized A2A agents with rich metadata. Deployed as a static site at [registry.inference-gateway.com](https://registry.inference-gateway.com).
@@ -42,16 +42,16 @@ agent-to-agent (A2A) services in the [inference-gateway](https://github.com/infe
 YAML metadata (/agents/*/metadata.yaml)
   │
   ▼
-Custom Vite plugin (vite-plugin-yaml.ts) — converts YAML → JS module at build time
+Custom Vite plugin (vite-plugin-yaml.ts) - converts YAML → JS module at build time
   │
   ▼
-Static imports (src/data/agents.ts) — imports all agent metadata
+Static imports (src/data/agents.ts) - imports all agent metadata
   │
   ▼
-Service layer (src/services/agentService.ts) — async wrapper around static data
+Service layer (src/services/agentService.ts) - async wrapper around static data
   │
   ▼
-React components (AgentCard, AgentsPage) — render UI
+React components (AgentCard, AgentsPage) - render UI
 ```
 
 For skills:
@@ -60,13 +60,13 @@ For skills:
 External URL (github.com/inference-gateway/skills/catalog.json)
   │
   ▼
-scripts/fetch-skills.ts — fetches at build/install time
+scripts/fetch-skills.ts - fetches at build/install time
   │
   ▼
-src/data/skills.json — local cache, also copied to public/skills.json
+src/data/skills.json - local cache, also copied to public/skills.json
   │
   ▼
-React components (SkillCard, SkillsPage) — render UI
+React components (SkillCard, SkillsPage) - render UI
 ```
 
 ### Directory Structure
@@ -131,10 +131,10 @@ Config files at root:
 
 Both are defined inline in the repo:
 
-1. **`vite-plugin-yaml.ts`** — Transforms `.yaml`/`.yml` imports into JavaScript objects at build time
+1. **`vite-plugin-yaml.ts`** - Transforms `.yaml`/`.yml` imports into JavaScript objects at build time
    using `js-yaml`. No runtime YAML parsing needed.
 
-2. **`vite-plugin-sitemap.ts`** — Generates `sitemap.xml` in the build output with configured hostname and
+2. **`vite-plugin-sitemap.ts`** - Generates `sitemap.xml` in the build output with configured hostname and
    routes. Only runs during production builds (`apply: 'build'`).
 
 ### Routing (React Router DOM)
@@ -224,9 +224,9 @@ The dev server starts on `http://localhost:5173` (Vite default).
 
 ### Build Pipeline (`npm run build`)
 
-1. `prebuild` — runs `scripts/fetch-skills.ts` to download the latest skills catalog
-2. `tsc -b` — TypeScript type-check using project references (`tsconfig.app.json` + `tsconfig.node.json`)
-3. `vite build` — Vite bundles the app:
+1. `prebuild` - runs `scripts/fetch-skills.ts` to download the latest skills catalog
+2. `tsc -b` - TypeScript type-check using project references (`tsconfig.app.json` + `tsconfig.node.json`)
+3. `vite build` - Vite bundles the app:
    - Inlines YAML metadata via custom plugin
    - Applies TailwindCSS via Vite plugin
    - Generates sitemap.xml
@@ -247,9 +247,9 @@ The dev server starts on `http://localhost:5173` (Vite default).
 
 When adding tests, consider:
 
-- **Vitest** is the natural choice — it integrates seamlessly with Vite and shares the same config/plugins
+- **Vitest** is the natural choice - it integrates seamlessly with Vite and shares the same config/plugins
 - **React Testing Library** for component tests
-- The service layer (`agentService.ts`, `skillService.ts`) is the easiest place to start — pure async wrappers
+- The service layer (`agentService.ts`, `skillService.ts`) is the easiest place to start - pure async wrappers
 - Pages with search/filter logic (`AgentsPage`, `SkillsPage`) are good candidates for integration tests
 
 ---
@@ -371,10 +371,10 @@ interface Agent {
 
 - **Strict mode** enabled (`strict: true`)
 - **Unused locals/params** cause errors (`noUnusedLocals: true`, `noUnusedParameters: true`)
-- **`verbatimModuleSyntax: true`** — must use `import type` for type-only imports
-- **`erasableSyntaxOnly: true`** — no enums, no namespaces (TypeScript 6 feature)
+- **`verbatimModuleSyntax: true`** - must use `import type` for type-only imports
+- **`erasableSyntaxOnly: true`** - no enums, no namespaces (TypeScript 6 feature)
 - **ES2023 target** with DOM lib
-- **Project references** — app code (`tsconfig.app.json`) and build config (`tsconfig.node.json`) are separate
+- **Project references** - app code (`tsconfig.app.json`) and build config (`tsconfig.node.json`) are separate
 - **JSX** uses `react-jsx` runtime (automatic transform)
 
 ### React
@@ -390,13 +390,13 @@ interface Agent {
 ### Styling (TailwindCSS)
 
 - **Custom color system** defined in `index.css` via `@theme`:
-  - `primary-*` — Deep ocean blues (main UI elements)
-  - `accent-*` — Sky blues (interactive elements)
-  - `secondary-*` — Cyan tones (backgrounds, gradients)
+  - `primary-*` - Deep ocean blues (main UI elements)
+  - `accent-*` - Sky blues (interactive elements)
+  - `secondary-*` - Cyan tones (backgrounds, gradients)
 - **Dark theme** with glassmorphism effects (`bg-slate-800/40 backdrop-blur-xl`)
-- **Responsive grid** — `grid-cols-1 md:grid-cols-2 xl:grid-cols-3`
+- **Responsive grid** - `grid-cols-1 md:grid-cols-2 xl:grid-cols-3`
 - **Custom scrollbar** class `.custom-scrollbar` for dropdown menus
-- **Consistent card design** — `AgentCard` and `SkillCard` share the same visual pattern
+- **Consistent card design** - `AgentCard` and `SkillCard` share the same visual pattern
 
 ### ESLint
 
@@ -457,7 +457,7 @@ The project uses GitHub Actions for CI/CD:
 - Output goes to `dist/` directory
 - Deployed to GitHub Pages via the `static.yml` workflow
 - Custom domain configured via `CNAME` file
-- Fully static — no backend server needed
+- Fully static - no backend server needed
 - 404 page at `public/404.html` handles SPA routing on GitHub Pages
 
 ---
@@ -515,7 +515,7 @@ This is important context for understanding the broader ecosystem, even though i
 
 ## 13. Future Considerations
 
-- **No test framework yet** — Vitest is the recommended addition
-- **No CI/CD configuration in this repo's `.github/` (external)** — workflows may need to be added back if restructuring
-- **Skills catalog is external** — sourced from `inference-gateway/skills` repo; changes to that repo require a rebuild
-- **Agent metadata is build-time** — to make it dynamic, would need to add API endpoints and runtime data fetching
+- **No test framework yet** - Vitest is the recommended addition
+- **No CI/CD configuration in this repo's `.github/` (external)** - workflows may need to be added back if restructuring
+- **Skills catalog is external** - sourced from `inference-gateway/skills` repo; changes to that repo require a rebuild
+- **Agent metadata is build-time** - to make it dynamic, would need to add API endpoints and runtime data fetching

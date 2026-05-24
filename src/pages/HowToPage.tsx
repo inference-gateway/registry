@@ -857,7 +857,7 @@ curl http://weather-agent:8080/health`}
               <a href="https://github.com/inference-gateway/operator" className="text-blue-400 hover:text-blue-300 transition-colors">
                 Inference Gateway Operator
               </a>
-              , which manages gateways and A2A agents as first-class Kubernetes resources via custom CRDs — replacing hand-written Deployment + HPA manifests.
+              , which manages gateways and A2A agents as first-class Kubernetes resources via custom CRDs - replacing hand-written Deployment + HPA manifests.
             </p>
 
             <div className="space-y-6">
@@ -917,7 +917,7 @@ kubectl get crds | grep inference-gateway.com`}
                   🚀 3. Deploy a Gateway with Native HPA
                 </h3>
                 <p className="text-slate-300 mb-4">
-                  Define the gateway declaratively. The operator generates the underlying Deployment, Service, and HorizontalPodAutoscaler — no separate manifests needed. The namespace must carry the <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">inference-gateway.com/managed: "true"</code> label so the operator opts in to managing resources inside it.
+                  Define the gateway declaratively. The operator generates the underlying Deployment, Service, and HorizontalPodAutoscaler - no separate manifests needed. The namespace must carry the <code className="bg-slate-900 px-2 py-1 rounded text-blue-400">inference-gateway.com/managed: "true"</code> label so the operator opts in to managing resources inside it.
                 </p>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700/50">
                   <pre className="text-yellow-400 text-sm whitespace-pre overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-800 [&::-webkit-scrollbar-thumb]:bg-slate-600 [&::-webkit-scrollbar-thumb:hover]:bg-slate-500">
@@ -938,7 +938,7 @@ spec:
   image: ghcr.io/inference-gateway/inference-gateway:latest
   environment: production
 
-  # Native HPA — no separate HorizontalPodAutoscaler resource needed
+  # Native HPA - no separate HorizontalPodAutoscaler resource needed
   hpa:
     enabled: true
     config:
