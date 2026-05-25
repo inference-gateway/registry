@@ -97,3 +97,18 @@ jobs:
             echo "Release failed"
             exit 1
           fi
+
+  trigger_deploy:
+    name: Trigger Pages deploy
+    needs: github_release
+    if: needs.github_release.outputs.new_release_published == 'true'
+    runs-on: ubuntu-24.04
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Dispatch static.yml on main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run static.yml --ref main

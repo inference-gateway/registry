@@ -134,15 +134,19 @@ schema there, then `npm run codegen` inside `docs/` here to refresh
 ## CI
 
 - `.github/workflows/static.yml` - builds `docs/` with VitePress and deploys
-  to GitHub Pages. Triggers on `release: published` (so the live site only
-  moves forward when a versioned release is cut) or manual
-  `workflow_dispatch`. **Merging to `main` no longer deploys on its own.**
+  to GitHub Pages. **Triggered only via `workflow_dispatch`** — either
+  manually from the Actions tab, or automatically by `release.yml` after a
+  successful release. Merging to `main` no longer deploys on its own. The
+  trigger uses `--ref main` so the deploy runs from the default branch and
+  satisfies the `github-pages` environment protection rule (a tag-ref
+  trigger would be rejected).
 - `.github/workflows/release.yml` - manually-dispatched semantic-release run
   (`workflow_dispatch`). Bootstraps `v0.1.0` if no release exists, then uses
   `.releaserc.yaml` to analyze conventional commits, write `CHANGELOG.md`,
   commit it back as `chore(release): ... [skip ci]`, and create a GitHub
-  release. The release event then fans out to `static.yml` for deploy.
-  Requires `BOT_GH_APP_ID` / `BOT_GH_APP_PRIVATE_KEY` org secrets.
+  release. A follow-up `trigger_deploy` job dispatches `static.yml` on
+  `main` only when `new_release_published == 'true'`. Requires
+  `BOT_GH_APP_ID` / `BOT_GH_APP_PRIVATE_KEY` org secrets.
 - `.github/workflows/ci.yml` - builds `docs/` on PR + push to `main`, runs
   `prettier --check .` over the repo (pinned to the same Prettier version as
   Flox), and verifies `docs/.vitepress/types/adl.ts` is fresh against the
