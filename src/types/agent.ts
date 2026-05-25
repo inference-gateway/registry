@@ -21,3 +21,10 @@ export interface Agent {
   categories: string[];
   tags: string[];
 }
+
+export interface AgentCatalog {
+  version: number;
+  release?: string;
+  updated: string;
+  agents: Agent[];
+}

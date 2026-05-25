@@ -6,6 +6,7 @@ import { loadAgents } from '../services/agentService';
 export function AgentsPage() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -16,8 +17,10 @@ export function AgentsPage() {
       try {
         const loadedAgents = await loadAgents();
         setAgents(loadedAgents);
+        setLoadError(null);
       } catch (error) {
         console.error('Failed to load agents:', error);
+        setLoadError(error instanceof Error ? error.message : String(error));
       } finally {
         setLoading(false);
       }
@@ -90,6 +93,28 @@ export function AgentsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-400"></div>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center px-4">
+        <div className="max-w-md text-center bg-slate-800/50 backdrop-blur-xl border border-red-500/30 rounded-2xl p-8 shadow-2xl shadow-red-500/10">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/20 rounded-2xl mb-4">
+            <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M4.93 19h14.14a2 2 0 001.74-3l-7.07-12a2 2 0 00-3.48 0L3.19 16a2 2 0 001.74 3z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Couldn't load the agents catalog</h2>
+          <p className="text-slate-400 text-sm mb-6 font-mono break-all">{loadError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white font-medium rounded-xl transition-colors"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -217,6 +242,32 @@ export function AgentsPage() {
             ))}
           </div>
         )}
+
+        <div className="mt-16 text-center">
+          <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 max-w-3xl mx-auto">
+            <p className="text-slate-300">
+              The full catalog is also served as JSON at{' '}
+              <a
+                href="https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 transition-colors font-mono text-sm"
+              >
+                catalog.json
+              </a>
+              . To submit an agent, open a PR against{' '}
+              <a
+                href="https://github.com/inference-gateway/agents"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                inference-gateway/agents
+              </a>
+              .
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

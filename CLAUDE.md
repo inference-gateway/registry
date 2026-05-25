@@ -20,23 +20,22 @@ There is no test framework configured. Don't invent one — flag it if tests are
 
 ## Architecture
 
-This is a static SPA deployed to GitHub Pages at `registry.inference-gateway.com`. It catalogs two kinds of things,
-**and the two have completely different data-loading models** — this is the single most important thing to internalize:
+This is a static SPA deployed to GitHub Pages at `registry.inference-gateway.com`. It catalogs two kinds of things;
+both are loaded the same way — **at runtime from an external catalog repo on the CDN**. There is no agent or skill
+metadata in this repo.
 
-### Agents: build-time, static
+### Agents: runtime, external
 
-- Metadata lives in `agents/<name>/metadata.yaml` (schema in `src/types/agent.ts`).
-- `vite-plugin-yaml.ts` transforms `.yaml` imports into JS modules at build time via `js-yaml`.
-- `src/data/agents.ts` **statically imports each YAML file by name** — adding a new agent requires both:
-  1. Creating `agents/<new-agent>/metadata.yaml`
-  2. Adding a matching `import` + array entry in `src/data/agents.ts` (it does **not** glob the directory)
-- `src/services/agentService.ts` wraps the static array in a Promise to keep the consumer API uniform with skills.
+- Fetched at runtime from `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json` (override with
+  `VITE_AGENTS_CATALOG_URL`). The agents catalog lives in a **separate repo** (`inference-gateway/agents`) where
+  per-agent `metadata.yaml` files are the source of truth and a workflow regenerates `catalog.json` on push.
+- `src/services/agentService.ts` memoizes the fetch in a module-level promise; on failure it clears the cache so the
+  next call retries. Same pattern as `skillService.ts`.
 
 ### Skills: runtime, external
 
 - Fetched at runtime from `https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json` (override with
-  `VITE_SKILLS_CATALOG_URL`). The skills catalog lives in a **separate repo** (`inference-gateway/skills`) — there
-  is no skill metadata in this repo.
+  `VITE_SKILLS_CATALOG_URL`). The skills catalog lives in a **separate repo** (`inference-gateway/skills`).
 - `src/services/skillService.ts` memoizes the fetch in a module-level promise; on failure it clears the cache so the
   next call retries.
 - A previous build-time fetch script (`scripts/fetch-skills.mjs`) was removed in commit `ad8ea17`. The `.gitignore`
@@ -57,10 +56,10 @@ When adding a new top-level route in `App.tsx`, also add it to the `routes` arra
 
 ## Adding a new agent
 
-1. `agents/<id>/metadata.yaml` — match the `Agent` interface in `src/types/agent.ts` (id, name, version, description,
-   image{repository,tag,size}, author, license, homepage, repository, documentation, categories[], tags[]).
-2. Add the import + array entry in `src/data/agents.ts`.
-3. `npm run build` to verify YAML parses and types match.
+Agent metadata is **not** in this repo. To add one, open a PR against `inference-gateway/agents` adding
+`agents/<id>/metadata.yaml`. CI there regenerates `catalog.json`; the registry picks up the change within the
+jsdelivr `@main` cache window (~12h). The `Agent` interface in `src/types/agent.ts` defines the schema both sides
+must agree on — when the schema changes, update both repos.
 
 ## Conventions
 

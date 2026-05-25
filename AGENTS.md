@@ -4,11 +4,11 @@
 
 This repository is a static React 19, TypeScript, and Vite application for the inference-gateway agents registry.
 Application code lives in `src/`: pages in `src/pages/`, reusable UI in `src/components/`, data services in
-`src/services/`, shared types in `src/types/`, and static agent imports in `src/data/agents.ts`.
+`src/services/`, and shared types in `src/types/`.
 
-Agent metadata lives in `agents/<agent-id>/metadata.yaml`. Public deployment assets are in `public/`, while custom
-Vite plugins are kept at the repository root (`vite-plugin-yaml.ts`, `vite-plugin-sitemap.ts`). Production output is
-generated into `dist/`.
+Agent and skill metadata do not live in this repo — both are fetched at runtime from sibling catalog repos
+(`inference-gateway/agents` and `inference-gateway/skills`) via jsdelivr. Public deployment assets are in `public/`,
+the sitemap plugin is at the repository root (`vite-plugin-sitemap.ts`). Production output is generated into `dist/`.
 
 ## Build, Test, and Development Commands
 
@@ -30,16 +30,15 @@ Markdown should stay within 120 characters per line. If spell checking flags val
 
 ## Testing Guidelines
 
-No test framework is currently configured. For now, validate changes with `npm run build` and `npm run lint`. When
-adding or changing agent metadata, confirm the YAML parses by building the site.
+No test framework is currently configured. For now, validate changes with `npm run build` and `npm run lint`.
 
-## Agent Metadata Workflow
+## Agent and Skill Metadata Workflow
 
-Adding an agent requires two changes: create `agents/<agent-id>/metadata.yaml` matching `src/types/agent.ts`, then add
-the import and array entry in `src/data/agents.ts`. The project does not glob agent directories automatically.
+Agent metadata lives in `inference-gateway/agents`; skill metadata lives in `inference-gateway/skills`. Open a PR
+against the relevant repo to add or update entries — they are fetched at runtime from jsdelivr and do not require a
+registry redeploy. Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` / `VITE_SKILLS_CATALOG_URL`.
 
-Skills are fetched at runtime from an external catalog. Do not add skill catalog data to this repository unless the
-architecture changes intentionally.
+Do not add agent or skill catalog data to this repository unless the architecture changes intentionally.
 
 ## Commit & Pull Request Guidelines
 
