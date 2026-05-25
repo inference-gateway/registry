@@ -1,23 +1,27 @@
-import { useEffect, useState, useMemo, useRef } from 'react';
-import type { Agent } from '../types/agent';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import type { CatalogAgent } from '../types/adl';
 import { AgentCard } from '../components/AgentCard';
 import { loadAgents } from '../services/agentService';
+import { deriveTags } from '../utils/adl';
 
 export function AgentsPage() {
-  const [agents, setAgents] = useState<Agent[]>([]);
+  const [agents, setAgents] = useState<CatalogAgent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedTag, setSelectedTag] = useState<string>('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const loadedAgents = await loadAgents();
-        setAgents(loadedAgents);
+        const loaded = await loadAgents();
+        setAgents(loaded);
+        setLoadError(null);
       } catch (error) {
         console.error('Failed to load agents:', error);
+        setLoadError(error instanceof Error ? error.message : String(error));
       } finally {
         setLoading(false);
       }
@@ -25,51 +29,35 @@ export function AgentsPage() {
     fetchAgents();
   }, []);
 
-  const formatCategoryName = (category: string): string => {
-    const specialCases: { [key: string]: string } = {
-      'n8n': 'n8n',
-      'api': 'API',
-      'ai': 'AI',
-      'ml': 'ML',
-      'llm': 'LLM',
-      'ui': 'UI',
-      'ux': 'UX',
-      'css': 'CSS',
-      'html': 'HTML',
-      'js': 'JS',
-      'ts': 'TS',
-      'sql': 'SQL',
-      'rest': 'REST',
-      'graphql': 'GraphQL',
-      'oauth': 'OAuth'
-    };
-    
-    const lowerCategory = category.toLowerCase();
-    return specialCases[lowerCategory] || category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
-  };
-
-  const allCategories = useMemo(() => {
-    const categories = new Set<string>();
-    agents.forEach(agent => {
-      agent.categories.forEach(cat => categories.add(cat));
-    });
-    return Array.from(categories).sort();
+  const agentTags = useMemo(() => {
+    const map = new Map<string, string[]>();
+    for (const agent of agents) {
+      map.set(agent.metadata.name, deriveTags(agent));
+    }
+    return map;
   }, [agents]);
 
+  const allTags = useMemo(() => {
+    const tags = new Set<string>();
+    for (const list of agentTags.values()) {
+      for (const tag of list) tags.add(tag);
+    }
+    return Array.from(tags).sort();
+  }, [agentTags]);
+
   const filteredAgents = useMemo(() => {
-    return agents.filter(agent => {
-      const matchesSearch = searchTerm === '' || 
-        agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        agent.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        agent.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        agent.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-      
-      const matchesCategory = selectedCategory === '' || 
-        agent.categories.includes(selectedCategory);
-      
-      return matchesSearch && matchesCategory;
+    const q = searchTerm.toLowerCase();
+    return agents.filter((agent) => {
+      const tags = agentTags.get(agent.metadata.name) ?? [];
+      const matchesSearch =
+        searchTerm === '' ||
+        agent.metadata.name.toLowerCase().includes(q) ||
+        agent.metadata.description.toLowerCase().includes(q) ||
+        tags.some((tag) => tag.toLowerCase().includes(q));
+      const matchesTag = selectedTag === '' || tags.includes(selectedTag);
+      return matchesSearch && matchesTag;
     });
-  }, [agents, searchTerm, selectedCategory]);
+  }, [agents, agentTags, searchTerm, selectedTag]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -81,8 +69,8 @@ export function AgentsPage() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
+  const handleTagSelect = (tag: string) => {
+    setSelectedTag(tag);
     setIsDropdownOpen(false);
   };
 
@@ -94,12 +82,33 @@ export function AgentsPage() {
     );
   }
 
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center px-4">
+        <div className="max-w-md text-center bg-slate-800/50 backdrop-blur-xl border border-red-500/30 rounded-2xl p-8 shadow-2xl shadow-red-500/10">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/20 rounded-2xl mb-4">
+            <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M4.93 19h14.14a2 2 0 001.74-3l-7.07-12a2 2 0 00-3.48 0L3.19 16a2 2 0 001.74 3z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Couldn't load the agents catalog</h2>
+          <p className="text-slate-400 text-sm mb-6 font-mono break-all">{loadError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white font-medium rounded-xl transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
-      {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-r from-blue-500/10 via-transparent to-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-l from-purple-500/10 via-transparent to-blue-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-l from-purple-500/10 via-transparent to-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-16 text-center">
@@ -112,7 +121,16 @@ export function AgentsPage() {
             Agent Registry
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Discover and explore specialized A2A (agent-to-agent) services in this curated ecosystem
+            Discover specialized A2A (agent-to-agent) services. All entries follow the{' '}
+            <a
+              href="https://github.com/inference-gateway/adl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-300 hover:text-blue-200 transition-colors"
+            >
+              Agent Definition Language
+            </a>{' '}
+            schema.
           </p>
         </div>
 
@@ -126,56 +144,50 @@ export function AgentsPage() {
               </div>
               <input
                 type="text"
-                placeholder="Search agents by name, description, or tags..."
+                placeholder="Search agents by name, description, or tag..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-700/50 bg-slate-800/50 backdrop-blur-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 shadow-2xl shadow-black/20"
               />
             </div>
-            
+
             <div className="relative min-w-[200px]" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="w-full px-6 py-4 rounded-2xl border border-slate-700/50 bg-slate-800/50 backdrop-blur-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 shadow-2xl shadow-black/20 flex items-center justify-between hover:bg-slate-700/50"
               >
-                <span className="truncate">
-                  {selectedCategory || 'All Categories'}
-                </span>
-                <svg 
-                  className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
+                <span className="truncate">{selectedTag ? `#${selectedTag}` : 'All Tags'}</span>
+                <svg
+                  className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
+
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 py-2 bg-slate-800/95 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl shadow-black/40 z-50 max-h-64 overflow-y-auto custom-scrollbar">
                   <button
-                    onClick={() => handleCategorySelect('')}
+                    onClick={() => handleTagSelect('')}
                     className={`w-full px-6 py-3 text-left hover:bg-slate-700/50 transition-colors duration-200 flex items-center gap-3 ${
-                      selectedCategory === '' ? 'text-blue-400 bg-blue-500/10' : 'text-white'
+                      selectedTag === '' ? 'text-blue-400 bg-blue-500/10' : 'text-white'
                     }`}
                   >
-                    <div className={`w-2 h-2 rounded-full ${
-                      selectedCategory === '' ? 'bg-blue-400' : 'bg-transparent border border-slate-600'
-                    }`}></div>
-                    All Categories
+                    <div className={`w-2 h-2 rounded-full ${selectedTag === '' ? 'bg-blue-400' : 'bg-transparent border border-slate-600'}`}></div>
+                    All Tags
                   </button>
-                  {allCategories.map(category => (
+                  {allTags.map((tag) => (
                     <button
-                      key={category}
-                      onClick={() => handleCategorySelect(category)}
+                      key={tag}
+                      onClick={() => handleTagSelect(tag)}
                       className={`w-full px-6 py-3 text-left hover:bg-slate-700/50 transition-colors duration-200 flex items-center gap-3 ${
-                        selectedCategory === category ? 'text-blue-400 bg-blue-500/10' : 'text-white'
+                        selectedTag === tag ? 'text-blue-400 bg-blue-500/10' : 'text-white'
                       }`}
                     >
-                      <div className={`w-2 h-2 rounded-full ${
-                        selectedCategory === category ? 'bg-blue-400' : 'bg-transparent border border-slate-600'
-                      }`}></div>
-                      {formatCategoryName(category)}
+                      <div className={`w-2 h-2 rounded-full ${selectedTag === tag ? 'bg-blue-400' : 'bg-transparent border border-slate-600'}`}></div>
+                      #{tag}
                     </button>
                   ))}
                 </div>
@@ -187,11 +199,11 @@ export function AgentsPage() {
             <span className="text-sm text-slate-400 bg-slate-800/30 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-700/30">
               {filteredAgents.length} {filteredAgents.length === 1 ? 'agent' : 'agents'} found
             </span>
-            {(searchTerm || selectedCategory) && (
+            {(searchTerm || selectedTag) && (
               <button
                 onClick={() => {
                   setSearchTerm('');
-                  setSelectedCategory('');
+                  setSelectedTag('');
                 }}
                 className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors bg-slate-800/30 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-700/30 hover:border-blue-500/30"
               >
@@ -213,10 +225,37 @@ export function AgentsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {filteredAgents.map((agent) => (
-              <AgentCard key={agent.id} agent={agent} />
+              <AgentCard key={agent.metadata.name} agent={agent} />
             ))}
           </div>
         )}
+
+        <div className="mt-16 text-center">
+          <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 max-w-3xl mx-auto">
+            <p className="text-slate-300">
+              The full catalog is also served as JSON at{' '}
+              <a
+                href="https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 transition-colors font-mono text-sm"
+              >
+                catalog.json
+              </a>
+              . To list a new agent, open a PR against{' '}
+              <a
+                href="https://github.com/inference-gateway/agents"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                inference-gateway/agents
+              </a>{' '}
+              with the repo URL of any public agent that ships an{' '}
+              <code className="text-blue-300">agent.yaml</code> at its root.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

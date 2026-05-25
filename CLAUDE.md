@@ -9,6 +9,7 @@ npm run dev      # Vite dev server with HMR (http://localhost:5173)
 npm run build    # tsc -b && vite build → outputs to dist/
 npm run lint     # ESLint only
 npm run preview  # Serve the production build from dist/
+npm run codegen  # Regenerate src/types/adl.ts from the upstream ADL JSON Schema
 
 task lint        # ESLint + markdownlint --fix (this is the full lint, not `npm run lint`)
 ```
@@ -20,23 +21,39 @@ There is no test framework configured. Don't invent one — flag it if tests are
 
 ## Architecture
 
-This is a static SPA deployed to GitHub Pages at `registry.inference-gateway.com`. It catalogs two kinds of things,
-**and the two have completely different data-loading models** — this is the single most important thing to internalize:
+This is a static SPA deployed to GitHub Pages at `registry.inference-gateway.com`. It catalogs two kinds of things;
+both are loaded the same way — **at runtime from an external catalog repo on the CDN**. There is no agent or skill
+metadata in this repo.
 
-### Agents: build-time, static
+### Agents: runtime, external, ADL-typed
 
-- Metadata lives in `agents/<name>/metadata.yaml` (schema in `src/types/agent.ts`).
-- `vite-plugin-yaml.ts` transforms `.yaml` imports into JS modules at build time via `js-yaml`.
-- `src/data/agents.ts` **statically imports each YAML file by name** — adding a new agent requires both:
-  1. Creating `agents/<new-agent>/metadata.yaml`
-  2. Adding a matching `import` + array entry in `src/data/agents.ts` (it does **not** glob the directory)
-- `src/services/agentService.ts` wraps the static array in a Promise to keep the consumer API uniform with skills.
+- **Contract**: [ADL](https://github.com/inference-gateway/adl) (Agent Definition Language,
+  `apiVersion: adl.inference-gateway.com/v1`). Each agent's `agent.yaml` lives in its own GitHub repo and is the
+  canonical source.
+- **Catalog**: aggregated from those `agent.yaml` files by `inference-gateway/agents`, which keeps an `agents.yaml`
+  list of repo URLs + refs and runs a build job (push + daily cron) to fetch, validate, and bundle them into
+  `catalog.json`. The registry fetches that at runtime via
+  `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json` (override with `VITE_AGENTS_CATALOG_URL`).
+- **Types are generated**, not hand-written. `src/types/adl.ts` is produced by `scripts/codegen-adl.mjs` from the
+  ADL JSON Schema. Run `npm run codegen` after ADL changes; commit the regenerated file. The CI check job
+  `npm run codegen && git diff --exit-code src/types/adl.ts` catches stale committed types. **Do not hand-edit
+  `src/types/adl.ts`.**
+- The catalog injects a non-schema `_source` block per agent (`{ url, ref, fetchedAt }`) so the registry can show
+  provenance. The generated `CatalogAgent` type extends `ADLAgent` with optional `_source`.
+- `src/services/agentService.ts` memoizes the fetch in a module-level promise; on failure it clears the cache so the
+  next call retries. It also rejects payloads where any entry has the wrong `apiVersion`. Same memoization pattern
+  as `skillService.ts`.
+- Display fields the old hand-rolled `Agent` schema had but ADL doesn't (author, license@agent, categories,
+  tags@agent, image.size, longDescription) are gone. The UI surfaces ADL-defined data instead — capabilities badges,
+  tool/skill counts, derived tags from `spec.tools[].tags ∪ spec.skills[].tags`, model info from `spec.agent`. Image
+  is computed: prefer `spec.deployment.{cloudrun,kubernetes}.image`, fall back to
+  `ghcr.io/inference-gateway/<name>:<version>` only when the source repo is in the `inference-gateway` org.
+  Derivation helpers live in `src/utils/adl.ts`.
 
 ### Skills: runtime, external
 
 - Fetched at runtime from `https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json` (override with
-  `VITE_SKILLS_CATALOG_URL`). The skills catalog lives in a **separate repo** (`inference-gateway/skills`) — there
-  is no skill metadata in this repo.
+  `VITE_SKILLS_CATALOG_URL`). The skills catalog lives in a **separate repo** (`inference-gateway/skills`).
 - `src/services/skillService.ts` memoizes the fetch in a module-level promise; on failure it clears the cache so the
   next call retries.
 - A previous build-time fetch script (`scripts/fetch-skills.mjs`) was removed in commit `ad8ea17`. The `.gitignore`
@@ -57,10 +74,18 @@ When adding a new top-level route in `App.tsx`, also add it to the `routes` arra
 
 ## Adding a new agent
 
-1. `agents/<id>/metadata.yaml` — match the `Agent` interface in `src/types/agent.ts` (id, name, version, description,
-   image{repository,tag,size}, author, license, homepage, repository, documentation, categories[], tags[]).
-2. Add the import + array entry in `src/data/agents.ts`.
-3. `npm run build` to verify YAML parses and types match.
+Agent metadata is **not** in this repo. Any public GitHub repo that ships an ADL `agent.yaml` at its root is
+eligible. Open a PR against `inference-gateway/agents` appending one entry to `agents.yaml`:
+
+```yaml
+- url: https://github.com/<owner>/<repo>
+  ref: main # branch / tag / SHA; pinning a release tag is recommended for third-party agents
+```
+
+CI in the agents repo (push + daily cron) refetches each `agent.yaml`, validates against the ADL schema, and
+regenerates `catalog.json`. The registry picks up the change within the jsdelivr `@main` cache window (~12h).
+Schema changes happen upstream in [`inference-gateway/adl`](https://github.com/inference-gateway/adl) — bump the
+schema there, then `npm run codegen` here to refresh `src/types/adl.ts`.
 
 ## Conventions
 

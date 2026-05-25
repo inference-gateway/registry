@@ -45,47 +45,27 @@ npm run build
 
 ## Architecture
 
-The registry uses a static build approach where agent metadata is defined in YAML files and processed at build time:
+The registry is a pure static SPA. Both catalogs it shows — agents and skills — are fetched at runtime from sibling
+repos on the jsdelivr CDN, so adding or updating an entry does not require redeploying this app:
 
-- **Agent Metadata**: YAML files in `/agents/` directory define each agent's specifications
-- **Custom YAML Plugin**: Vite plugin converts YAML to JavaScript modules for type-safe imports
-- **Static Generation**: No backend required - can be deployed to any static hosting service
-- **Agent Data Flow**: YAML → Build-time processing → Static imports → React components
+- **Agents catalog**: [`inference-gateway/agents`](https://github.com/inference-gateway/agents) →
+  `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json`
+- **Skills catalog**: [`inference-gateway/skills`](https://github.com/inference-gateway/skills) →
+  `https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json`
+
+Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` / `VITE_SKILLS_CATALOG_URL`.
+
+Agents follow the [Agent Definition Language](https://github.com/inference-gateway/adl) (ADL) schema. The TypeScript
+types in `src/types/adl.ts` are **generated** from the upstream ADL JSON Schema via `npm run codegen` — do not
+hand-edit. The agents catalog repo aggregates each agent's canonical `agent.yaml` (hosted in that agent's own
+repo) into a single `catalog.json` on push and on a daily cron.
 
 ## Adding New Agents
 
-1. Create a new directory under `/agents/` for your agent
-2. Add a `metadata.yaml` file with the agent specification
-3. Rebuild the application to include the new agent
-4. The agent will automatically appear in the registry
-
-## Agent Metadata Schema
-
-```yaml
-id: unique-agent-id
-name: Human-readable Agent Name
-version: 1.0.0
-description: Brief description of the agent's purpose
-longDescription: |
-  Detailed description with features and capabilities
-image:
-  repository: ghcr.io/inference-gateway/agent-name
-  tag: 1.0.0
-  size: 25.3MB
-author:
-  name: Author Name
-  email: author@example.com
-license: Apache-2.0
-homepage: https://github.com/org/agent
-repository: https://github.com/org/agent
-documentation: https://docs.example.com
-categories:
-  - category1
-  - category2
-tags:
-  - tag1
-  - tag2
-```
+Any public GitHub repo with an ADL `agent.yaml` at its root is eligible. Open a PR against
+[`inference-gateway/agents`](https://github.com/inference-gateway/agents) adding one entry to `agents.yaml` with
+the repo URL and an optional `ref`. CI rebuilds `catalog.json` on merge; the new agent appears in this registry
+within the jsdelivr `@main` cache window (up to ~12h) with no redeploy here.
 
 ## Technology Stack
 
@@ -94,14 +74,15 @@ tags:
 - **Vite 7** - Fast build tool and development server
 - **TailwindCSS 4.1** - Utility-first CSS framework
 - **React Router DOM 7** - Client-side routing
-- **js-yaml** - YAML parsing for agent metadata
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
-3. Add your agent metadata or improvements
+3. Make your improvements (UI, routing, services, docs)
 4. Submit a pull request
+
+To submit a new **agent**, open a PR against `inference-gateway/agents` instead.
 
 ## License
 
