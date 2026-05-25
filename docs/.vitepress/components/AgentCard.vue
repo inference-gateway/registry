@@ -37,6 +37,11 @@ const badgeText = computed(
   () => provider.value || model.value || language.value || "",
 );
 
+const languageLogo = computed<"go" | "rust" | "typescript" | null>(() => {
+  const t = badgeText.value.toLowerCase();
+  return t === "go" || t === "rust" || t === "typescript" ? t : null;
+});
+
 function togglePanel(p: Exclude<Panel, null>) {
   openPanel.value = openPanel.value === p ? null : p;
 }
@@ -62,7 +67,14 @@ async function copy(text: string, flag: { value: boolean }) {
           <span class="reg-card__sub-accent">{{ agent.metadata.name }}</span>
         </div>
       </div>
-      <span v-if="badgeText" class="reg-card__badge">{{ badgeText }}</span>
+      <span
+        v-if="languageLogo"
+        class="reg-card__lang"
+        :class="`reg-card__lang--${languageLogo}`"
+        role="img"
+        :aria-label="languageLogo"
+      ></span>
+      <span v-else-if="badgeText" class="reg-card__badge">{{ badgeText }}</span>
     </header>
 
     <p class="reg-card__desc">{{ agent.metadata.description }}</p>

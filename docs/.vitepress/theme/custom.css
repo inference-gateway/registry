@@ -147,6 +147,37 @@
   white-space: nowrap;
 }
 
+.reg-card__lang {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.reg-card__lang--go {
+  background-color: #00add8;
+  -webkit-mask-image: url("/languages/go.svg");
+  mask-image: url("/languages/go.svg");
+}
+
+.reg-card__lang--rust {
+  background-color: #ce412b;
+  -webkit-mask-image: url("/languages/rust.svg");
+  mask-image: url("/languages/rust.svg");
+}
+
+.reg-card__lang--typescript {
+  background-color: #3178c6;
+  -webkit-mask-image: url("/languages/typescript.svg");
+  mask-image: url("/languages/typescript.svg");
+}
+
 .reg-card__desc {
   margin: 0;
   font-size: 14px;
