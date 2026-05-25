@@ -186,18 +186,20 @@ Key metrics to monitor:
 
 ## Production checklist
 
-::: warning
-**Security**
+::: warning Security
 
 - Authentication enabled
 - TLS certificates configured
 - Secrets properly managed
 - Network policies applied
 
-**Reliability**
+:::
+
+::: warning Reliability
 
 - Health checks implemented
 - Auto-scaling configured
 - Backup strategy in place
 - Disaster recovery tested
-  :::
+
+:::

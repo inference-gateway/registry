@@ -52,6 +52,23 @@ jobs:
       - name: Check formatting with Prettier
         run: npx --yes prettier@3.8.3 --check .
 
+  lint:
+    name: Lint markdown
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version-file: "docs/package.json"
+
+      - name: Run markdownlint
+        run: npx --yes markdownlint-cli@0.48.0 --ignore '**/node_modules/**' --ignore '**/.vitepress/cache/**' --ignore '**/.vitepress/dist/**' --ignore AGENTS.md --ignore CLAUDE.md --ignore CHANGELOG.md .
+
   codegen-fresh:
     name: ADL types up to date
     runs-on: ubuntu-24.04

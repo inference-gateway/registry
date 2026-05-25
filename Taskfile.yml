@@ -28,8 +28,12 @@ tasks:
     dir: docs
 
   lint:
+    desc: Run markdownlint (same check CI runs)
+    cmd: markdownlint --ignore '**/node_modules/**' --ignore '**/.vitepress/cache/**' --ignore '**/.vitepress/dist/**' --ignore AGENTS.md --ignore CLAUDE.md --ignore CHANGELOG.md .
+
+  lint:fix:
     desc: Run markdownlint with auto-fix
-    cmd: markdownlint --ignore '**/node_modules/**' --ignore '**/.vitepress/cache/**' --ignore '**/.vitepress/dist/**' --fix .
+    cmd: markdownlint --ignore '**/node_modules/**' --ignore '**/.vitepress/cache/**' --ignore '**/.vitepress/dist/**' --ignore AGENTS.md --ignore CLAUDE.md --ignore CHANGELOG.md --fix .
 
   format:
     desc: Format the repo with Prettier

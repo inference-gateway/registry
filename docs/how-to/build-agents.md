@@ -154,7 +154,7 @@ my-weather-agent/
 
 The ADL CLI supports multiple AI providers for powering your agents.
 
-**Hosted providers**
+### Hosted providers
 
 - OpenAI (GPT models)
 - Anthropic (Claude models)
@@ -163,7 +163,7 @@ The ADL CLI supports multiple AI providers for powering your agents.
 - Mistral AI
 - Groq
 
-**Self-hosted**
+### Self-hosted
 
 - Ollama (local models)
 - Inference Gateway
