@@ -1,205 +1,58 @@
-# Enterprise Setup
+# Enterprise Deployment
 
-The recommended path for production is the
-[Inference Gateway Operator](https://github.com/inference-gateway/operator),
-which manages gateways and A2A agents as first-class Kubernetes resources via
-custom CRDs - replacing hand-written Deployment + HPA manifests.
+Enterprise deployment of catalog agents is the
+[Inference Gateway Operator](https://github.com/inference-gateway/operator)'s
+job. This page is the registry-side blurb - it covers how a catalog entry
+gets into the cluster, not Operator setup itself.
 
-## 1. Infrastructure recommendations
+## The Operator owns production
 
-### Container orchestration
+The Operator ships four CRDs under `core.inference-gateway.com/v1alpha1`:
+`Gateway`, `Agent`, `Orchestrator`, and `MCP`. HPA tuning, telemetry,
+ingress, multi-provider config, RBAC, secret management - all of that
+lives in the [Operator repo](https://github.com/inference-gateway/operator).
+Start there for installation and the full CRD reference.
 
-- **Kubernetes**: recommended for production deployments.
-- **Operator**: use the Inference Gateway Operator for declarative management of
-  gateways, A2A agents, MCP servers, and orchestrators.
+## Don't hand-write the Agent CR
 
-### Resource requirements
-
-- **CPU**: 2+ cores per agent instance
-- **Memory**: 4-8 GB RAM per agent (varies by agent type)
-- **Storage**: 20 GB+ for logs and temporary data
-- **Network**: low latency between agent instances
-
-## 2. Install the operator
-
-Install the operator with a single `kubectl apply`:
-
-```sh
-# Install the latest release
-kubectl apply -f https://github.com/inference-gateway/operator/releases/latest/download/install.yaml
-
-# Verify the operator is running
-kubectl get pods -n inference-gateway-system
-
-# Inspect the installed CRDs
-kubectl get crds | grep inference-gateway.com
-```
-
-The operator ships four CRDs under `core.inference-gateway.com/v1alpha1`:
-
-- **Gateway**: the inference gateway itself (providers, auth, telemetry, HPA, ingress)
-- **Agent**: A2A worker agents discoverable by orchestrators
-- **Orchestrator**: channel managers (e.g. a Telegram bot) that fan out to agents
-- **MCP**: Model Context Protocol servers (tools / extensions)
-
-## 3. Deploy a gateway with native HPA
-
-Define the gateway declaratively. The operator generates the underlying
-Deployment, Service, and HorizontalPodAutoscaler - no separate manifests needed.
-The namespace must carry the `inference-gateway.com/managed: "true"` label so the
-operator opts in to managing resources inside it.
+The CR is generated from the ADL manifest. Add a `spec.deployment.kubernetes`
+block to the agent's `agent.yaml`:
 
 ```yaml
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: inference-gateway
-  labels:
-    inference-gateway.com/managed: "true"
----
-apiVersion: core.inference-gateway.com/v1alpha1
-kind: Gateway
-metadata:
-  name: inference-gateway
-  namespace: inference-gateway
 spec:
-  image: ghcr.io/inference-gateway/inference-gateway:latest
-  environment: production
-
-  # Native HPA - no separate HorizontalPodAutoscaler resource needed
-  hpa:
-    enabled: true
-    config:
-      minReplicas: 3
-      maxReplicas: 10
-      metrics:
-        - type: Resource
-          resource:
-            name: cpu
-            target:
-              type: Utilization
-              averageUtilization: 80
-
-  telemetry:
-    enabled: true
-    metrics:
-      enabled: true
-      port: 9464
-
-  server:
-    timeouts:
-      read: "60s"
-      write: "60s"
-      idle: "300s"
-
-  providers:
-    - name: DeepSeek
-      enabled: true
-      env:
-        - name: DEEPSEEK_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: inference-gateway-providers-secret
-              key: DEEPSEEK_API_KEY
-
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "128Mi"
-    limits:
-      cpu: "1000m"
-      memory: "512Mi"
-
-  ingress:
-    enabled: true
-    host: api.inference-gateway.local
-    tls:
-      enabled: true
-      secretName: inference-gateway-tls
+  deployment:
+    type: kubernetes
+    kubernetes:
+      image:
+        registry: ghcr.io
+        repository: inference-gateway/documentation-agent
+        tag: 0.6.3
 ```
 
-::: tip
-Full example with auth, MCP, and multi-provider config:
-`operator/examples/gateway-complete`.
-:::
+Then `adl generate --deployment kubernetes` writes the matching `Agent`
+CR (and any supporting manifests) under the project's `deploy/` directory.
+`kubectl apply -f deploy/` installs it, the Operator reconciles it into a
+Deployment + Service + HPA, and orchestrators discover it. See the
+[ADL CLI docs](https://adl.inference-gateway.com/) for the full
+`adl generate` flow.
 
-## 4. Deploy A2A agents
+## Picking a version from the catalog
 
-Each A2A agent is its own `Agent` resource. The operator wires it to the gateway
-and exposes it on the cluster network. Don't forget the managed-namespace label
-here too.
+When you browse [Agents](/agents/), the **OCI Image** row on each card
+shows the published tag (e.g. `ghcr.io/inference-gateway/documentation-agent:0.6.3`).
+Use that tag in your ADL `spec.deployment.kubernetes.image` block so the
+generated CR pins to the exact image you reviewed. `latest` works for
+experimentation but should not be used in production - it breaks the link
+between the manifest you reviewed in the catalog and the image actually
+running.
 
-```yaml
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: agents
-  labels:
-    inference-gateway.com/managed: "true"
----
-apiVersion: core.inference-gateway.com/v1alpha1
-kind: Agent
-metadata:
-  name: google-calendar-agent
-  namespace: agents
-  labels:
-    orchestrator: orchestrator # opt-in to orchestrator service discovery
-spec:
-  image: ghcr.io/inference-gateway/google-calendar-agent:latest
-  agent:
-    llm:
-      baseURL: "http://inference-gateway.inference-gateway.svc.cluster.local:8080/v1"
-      model: "deepseek/deepseek-v4-flash"
-  env:
-    - name: GOOGLE_CALENDAR_MOCK_MODE
-      value: "true"
-```
+## Where to go next
 
-::: tip
-End-to-end example (Gateway + multiple Agents + Orchestrator + Redis):
-`operator/examples/orchestrator`.
-:::
-
-## 5. Monitoring and observability
-
-Setting `spec.telemetry.metrics.enabled: true` on the Gateway exposes Prometheus
-metrics on the configured port (default `9464`). Scrape it with your existing
-Prometheus / OpenTelemetry stack.
-
-Key metrics to monitor:
-
-- Agent response times and throughput
-- Error rates and failure patterns
-- Resource utilization (CPU, memory, network)
-- Gateway health and load balancing
-
-## 6. Performance optimization
-
-- **Load balancing**: distribute requests across agent replicas.
-- **Caching**: implement response caching for frequently requested data.
-- **Connection pooling**: reuse connections between agents and the gateway.
-- **Horizontal scaling**: tune `spec.hpa` on the Gateway CR for traffic-based scaling.
-- **Resource limits**: set appropriate CPU and memory limits via `spec.resources`.
-- **Circuit breakers**: implement fallback mechanisms for failed agents.
-
-## Production checklist
-
-::: warning Security
-
-- Authentication enabled
-- TLS certificates configured
-- Secrets properly managed
-- Network policies applied
-
-:::
-
-::: warning Reliability
-
-- Health checks implemented
-- Auto-scaling configured
-- Backup strategy in place
-- Disaster recovery tested
-
-:::
+- [Operator README](https://github.com/inference-gateway/operator) -
+  installation, RBAC, CRD reference.
+- [Operator examples](https://github.com/inference-gateway/operator/tree/main/examples) -
+  full Gateway + Agents + Orchestrator stacks.
+- [ADL CLI docs](https://adl.inference-gateway.com/) - `adl generate`
+  flags and the full deployment field reference.
+- [Gateway repo](https://github.com/inference-gateway/inference-gateway) -
+  the underlying gateway image and provider config.

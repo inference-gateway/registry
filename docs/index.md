@@ -37,7 +37,7 @@ features:
     details: Swap providers (OpenAI, Anthropic, DeepSeek, Google, Mistral, Ollama, Groq) and runtimes without rewriting the agent. ADL keeps everything portable.
   - icon: 🛠️
     title: How-to guides
-    details: Step-by-step instructions for local development, gateway setup, multi-agent workflows, building your own agent, and enterprise deployment with the operator.
+    details: Step-by-step instructions for browsing the catalog, installing entries with the `infer` CLI, and contributing your own agent or skill.
 ---
 
 ## Submit yours

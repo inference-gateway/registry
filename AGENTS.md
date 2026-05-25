@@ -11,8 +11,8 @@ All site code lives under `docs/`:
 - `docs/index.md` - landing page (hero + feature cards, VitePress `layout: home`).
 - `docs/agents/index.md` and `docs/skills/index.md` - thin shells that embed
   `<AgentsBrowser />` and `<SkillsBrowser />`.
-- `docs/how-to/*.md` - six markdown how-to guides (prerequisites, local-setup,
-  gateway-setup, using-agents, build-agents, enterprise).
+- `docs/how-to/*.md` - six markdown how-to guides (prerequisites,
+  browse-and-install, list-an-agent, list-a-skill, build-agents, enterprise).
 - `docs/.vitepress/config.ts` - nav, sidebar, theme color, head meta, sitemap.
 - `docs/.vitepress/theme/{index.ts,custom.css}` - default-theme extension and
   brand overrides (teal CSS vars + Inter font).
