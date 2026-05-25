@@ -8,7 +8,7 @@ dist
 docs/.vitepress/cache
 docs/.vitepress/dist
 
-# Generated code (refresh with `task codegen`)
+# Generated code (refresh with `task generate`)
 docs/.vitepress/types/adl.ts
 
 # Lockfiles

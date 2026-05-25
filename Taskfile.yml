@@ -22,7 +22,7 @@ tasks:
     cmd: npm install
     dir: docs
 
-  codegen:
+  generate:
     desc: Regenerate docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema
     cmd: npm run codegen
     dir: docs

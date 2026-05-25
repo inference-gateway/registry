@@ -15,7 +15,7 @@ npm run preview  # serve the production build
 npm run codegen  # regenerate docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema
 ```
 
-`task dev`, `task build`, `task preview`, `task install`, and `task codegen`
+`task dev`, `task build`, `task preview`, `task install`, and `task generate`
 wrap the same `npm` scripts and `cd` into `docs/` for you. At the repo root,
 `task lint` runs `markdownlint --fix`, and `task format` / `task format:check`
 run Prettier (`prettier --write .` / `prettier --check .`). `AGENTS.md`,
