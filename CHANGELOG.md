@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1](https://github.com/inference-gateway/registry/compare/v0.2.0...v0.2.1) (2026-05-25)
+
+### 📚 Documentation
+
+* **how-to:** Update the how to guide ([d938257](https://github.com/inference-gateway/registry/commit/d93825730207dfe17e2a18d6bf2fd3667d7536db))
+
 ## [0.2.0](https://github.com/inference-gateway/registry/compare/v0.1.2...v0.2.0) (2026-05-25)
 
 ### ✨ Features
