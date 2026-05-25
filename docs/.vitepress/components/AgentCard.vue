@@ -62,10 +62,7 @@ function copyCommand() {
 
 function copyImage() {
   if (!image.value) return;
-  copyToClipboard(
-    `${image.value.repository}:${image.value.tag}`,
-    copiedImage,
-  );
+  copyToClipboard(`${image.value.repository}:${image.value.tag}`, copiedImage);
 }
 </script>
 
