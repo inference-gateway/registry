@@ -73,10 +73,7 @@ onBeforeUnmount(() => {
     >
       <div class="reg-dialog__content">
         <header class="reg-dialog__head">
-          <h3
-            :id="`reg-dialog-title-${filename}`"
-            class="reg-dialog__title"
-          >
+          <h3 :id="`reg-dialog-title-${filename}`" class="reg-dialog__title">
             {{ title }}
           </h3>
           <button
@@ -135,11 +132,7 @@ onBeforeUnmount(() => {
         </div>
 
         <footer class="reg-dialog__actions">
-          <button
-            type="button"
-            class="reg-dialog__cancel"
-            @click="close"
-          >
+          <button type="button" class="reg-dialog__cancel" @click="close">
             Cancel
           </button>
           <button

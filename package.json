@@ -1,0 +1,11 @@
+{
+  "name": "registry-tooling",
+  "private": true,
+  "description": "Root-level dev tooling (Husky) for the registry repo. App lives in docs/.",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
