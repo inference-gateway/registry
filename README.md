@@ -55,11 +55,17 @@ repos on the jsdelivr CDN, so adding or updating an entry does not require redep
 
 Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` / `VITE_SKILLS_CATALOG_URL`.
 
+Agents follow the [Agent Definition Language](https://github.com/inference-gateway/adl) (ADL) schema. The TypeScript
+types in `src/types/adl.ts` are **generated** from the upstream ADL JSON Schema via `npm run codegen` — do not
+hand-edit. The agents catalog repo aggregates each agent's canonical `agent.yaml` (hosted in that agent's own
+repo) into a single `catalog.json` on push and on a daily cron.
+
 ## Adding New Agents
 
-Open a PR against [`inference-gateway/agents`](https://github.com/inference-gateway/agents) — that repo holds the
-per-agent `metadata.yaml` files and the CI workflow that regenerates `catalog.json`. The new agent appears in this
-registry within the jsdelivr `@main` cache window (up to ~12h) with no redeploy here.
+Any public GitHub repo with an ADL `agent.yaml` at its root is eligible. Open a PR against
+[`inference-gateway/agents`](https://github.com/inference-gateway/agents) adding one entry to `agents.yaml` with
+the repo URL and an optional `ref`. CI rebuilds `catalog.json` on merge; the new agent appears in this registry
+within the jsdelivr `@main` cache window (up to ~12h) with no redeploy here.
 
 ## Technology Stack
 
