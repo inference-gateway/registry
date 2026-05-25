@@ -167,7 +167,7 @@ All container images are hosted at `ghcr.io/inference-gateway/`.
 
 ### Prerequisites
 
-- **Node.js** `^24.14.1` (check `package.json` engines field)
+- **Node.js** `^24.15.0` (check `package.json` engines field)
 - **npm** (comes with Node.js)
 - Optional: [Task](https://taskfile.dev/) runner for `task` commands
 
