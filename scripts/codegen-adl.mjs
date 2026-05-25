@@ -1,28 +1,33 @@
 #!/usr/bin/env node
-// Regenerates src/types/adl.ts from the upstream ADL JSON Schema.
+// Regenerates docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema.
 // Run with `npm run codegen` whenever ADL changes.
 // CI verifies the committed output is fresh:
-//   npm run codegen && git diff --exit-code src/types/adl.ts
-import { writeFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
-import { compile } from 'json-schema-to-typescript';
+//   npm run codegen && git diff --exit-code docs/.vitepress/types/adl.ts
+import { writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+import { compile } from "json-schema-to-typescript";
 
 const SCHEMA_URL =
   process.env.ADL_SCHEMA_URL ??
-  'https://cdn.jsdelivr.net/gh/inference-gateway/adl@main/schema/v1/schema.json';
+  "https://cdn.jsdelivr.net/gh/inference-gateway/adl@main/schema/v1/schema.json";
 
 const OUTPUT = resolve(
   dirname(fileURLToPath(import.meta.url)),
-  '..',
-  'src',
-  'types',
-  'adl.ts',
+  "..",
+  "docs",
+  ".vitepress",
+  "types",
+  "adl.ts",
 );
 
-const res = await fetch(SCHEMA_URL, { headers: { accept: 'application/json' } });
+const res = await fetch(SCHEMA_URL, {
+  headers: { accept: "application/json" },
+});
 if (!res.ok) {
-  throw new Error(`ADL schema fetch failed (${res.status} ${res.statusText}) from ${SCHEMA_URL}`);
+  throw new Error(
+    `ADL schema fetch failed (${res.status} ${res.statusText}) from ${SCHEMA_URL}`,
+  );
 }
 const schema = await res.json();
 
@@ -31,19 +36,19 @@ const schema = await res.json();
 delete schema.title;
 delete schema.$id;
 
-const compiled = await compile(schema, 'ADLAgent', {
-  bannerComment: '',
+const compiled = await compile(schema, "ADLAgent", {
+  bannerComment: "",
   additionalProperties: false,
   style: { singleQuote: true, semi: true, printWidth: 100 },
 });
 
-const banner = `// AUTO-GENERATED — DO NOT EDIT.
+const banner = `// AUTO-GENERATED - DO NOT EDIT.
 // Regenerate with: npm run codegen
 // Source: ${SCHEMA_URL}
 
 `;
 
-// Catalog envelope and provenance — not part of ADL itself; defined by the registry+aggregator.
+// Catalog envelope and provenance - not part of ADL itself; defined by the registry+aggregator.
 const envelope = `
 /** Provenance for a catalog entry; injected by the aggregator (inference-gateway/agents). */
 export interface AgentSource {

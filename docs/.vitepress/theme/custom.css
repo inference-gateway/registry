@@ -1,0 +1,616 @@
+/**
+ * Brand override for the registry. Matches the ADL docs site:
+ *   - teal #3c8772 as the primary brand color
+ *   - Inter as the body font
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+:root {
+  --vp-c-brand-1: #3c8772;
+  --vp-c-brand-2: #2e6e5c;
+  --vp-c-brand-3: #2a5b4d;
+  --vp-c-brand-soft: rgba(60, 135, 114, 0.14);
+
+  --vp-button-brand-bg: #3c8772;
+  --vp-button-brand-hover-bg: #2e6e5c;
+  --vp-button-brand-active-bg: #2a5b4d;
+  --vp-button-brand-border: #3c8772;
+  --vp-button-brand-hover-border: #2e6e5c;
+  --vp-button-brand-active-border: #2a5b4d;
+
+  --vp-c-default-soft: rgba(60, 135, 114, 0.08);
+
+  --vp-font-family-base:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.dark {
+  --vp-c-brand-1: #5aa991;
+  --vp-c-brand-2: #4c9381;
+  --vp-c-brand-3: #3c8772;
+  --vp-c-brand-soft: rgba(90, 169, 145, 0.16);
+}
+
+/**
+ * Browser pages (Agents, Skills) use VitePress' bare "page" layout to
+ * skip the doc sidebar gutter + right-side outline aside that the default
+ * doc layout reserves. Give them a wide container with typography sized
+ * to match VitePress doc pages.
+ */
+.reg-page .VPPage {
+  padding: 32px 24px 96px;
+}
+
+.reg-page__container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.reg-page__container > h1 {
+  margin: 0 0 16px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--vp-c-text-1);
+  letter-spacing: -0.02em;
+}
+
+.reg-page__container > h1 .header-anchor {
+  display: none;
+}
+
+.reg-page__container > p {
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+  max-width: 720px;
+}
+
+@media (min-width: 768px) {
+  .reg-page .VPPage {
+    padding: 48px 32px 96px;
+  }
+}
+
+/**
+ * Catalog card layout shared by AgentCard and SkillCard.
+ * Uses VitePress tokens so light/dark theme tracks automatically.
+ */
+.reg-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background-color: var(--vp-c-bg-soft);
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+
+.reg-card:hover {
+  border-color: var(--vp-c-brand-1);
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.06),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.dark .reg-card:hover {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.reg-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reg-card__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--vp-c-text-1);
+}
+
+.reg-card__sub {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.reg-card__sub-accent {
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+}
+
+.reg-card__badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.reg-card__desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.reg-card__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.reg-pill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.reg-pill--accent {
+  background-color: var(--vp-c-brand-soft);
+  border-color: transparent;
+  color: var(--vp-c-brand-1);
+}
+
+.reg-pill--tag {
+  font-family: var(--vp-font-family-mono);
+  font-size: 11px;
+  color: var(--vp-c-text-3);
+}
+
+.reg-card__section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reg-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+}
+
+.reg-card__code-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background-color: var(--vp-c-bg);
+}
+
+.reg-card__code-row code {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  color: var(--vp-c-text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.reg-card__copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.reg-card__copy:hover {
+  background-color: var(--vp-c-default-soft);
+  color: var(--vp-c-text-1);
+}
+
+.reg-card__copy.is-copied {
+  color: var(--vp-c-brand-1);
+}
+
+.reg-card__copy svg {
+  width: 14px;
+  height: 14px;
+}
+
+.reg-card__model {
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  color: var(--vp-c-text-1);
+  word-break: break-all;
+}
+
+.reg-card__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.reg-card__action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.reg-card__action--ghost {
+  border: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1) !important;
+}
+
+.reg-card__action--ghost:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1) !important;
+}
+
+.reg-card__action--primary {
+  background-color: var(--vp-button-brand-bg);
+  color: var(--vp-c-white) !important;
+  border: 1px solid var(--vp-button-brand-border);
+}
+
+.reg-card__action--primary:hover {
+  background-color: var(--vp-button-brand-hover-bg);
+  border-color: var(--vp-button-brand-hover-border);
+}
+
+.reg-card__action svg {
+  width: 14px;
+  height: 14px;
+}
+
+.reg-card__spacer {
+  flex: 1;
+}
+
+/**
+ * Clickable count pill (e.g. "12 tools", "4 skills") used inline with the
+ * static capability pills. Same shape as .reg-pill--accent but interactive.
+ */
+.reg-pill--button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px 3px 6px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.reg-pill--button:hover {
+  background-color: var(--vp-c-brand-soft);
+  border-color: var(--vp-c-brand-1);
+}
+
+.reg-pill--button.is-open {
+  background-color: var(--vp-c-brand-1);
+  color: var(--vp-c-white);
+}
+
+.reg-pill__chev {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 700;
+  transition: transform 0.2s;
+}
+
+.reg-pill--button.is-open .reg-pill__chev {
+  transform: rotate(90deg);
+}
+
+/**
+ * Single panel that swaps content between tools and skills when one of the
+ * count buttons is active. Slim border, integrated with card flow.
+ */
+.reg-card__panel {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background-color: var(--vp-c-bg);
+  overflow: hidden;
+}
+
+.reg-card__panel-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.reg-card__panel-item {
+  padding: 12px 14px;
+  border-top: 1px solid var(--vp-c-divider);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reg-card__panel-item:first-child {
+  border-top: none;
+}
+
+.reg-card__panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.reg-card__panel-name {
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  word-break: break-word;
+}
+
+.reg-card__panel-id {
+  font-family: var(--vp-font-family-mono);
+  font-size: 11px;
+  color: var(--vp-c-text-3);
+}
+
+.reg-card__panel-license {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.reg-card__panel-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--vp-c-text-2);
+}
+
+.reg-card__panel-link {
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vp-c-brand-1);
+  text-decoration: none !important;
+}
+
+.reg-card__panel-link:hover {
+  text-decoration: underline !important;
+}
+
+/**
+ * Browser controls (search + filter + count) shared by AgentsBrowser and SkillsBrowser.
+ */
+.reg-browser__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.reg-browser__search {
+  flex: 1 1 280px;
+  position: relative;
+}
+
+.reg-browser__search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  color: var(--vp-c-text-3);
+  pointer-events: none;
+}
+
+.reg-browser__search input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  font-family: inherit;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.reg-browser__search input:focus {
+  outline: none;
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
+}
+
+.reg-browser__filter {
+  min-width: 200px;
+  padding: 10px 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.reg-browser__filter:focus {
+  outline: none;
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
+}
+
+.reg-browser__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 16px 0 24px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.reg-browser__clear {
+  border: none;
+  background: transparent;
+  color: var(--vp-c-brand-1);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.reg-browser__clear:hover {
+  text-decoration: underline;
+}
+
+.reg-browser__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .reg-browser__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .reg-browser__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.reg-browser__empty {
+  padding: 56px 24px;
+  text-align: center;
+  border: 1px dashed var(--vp-c-divider);
+  border-radius: 12px;
+  color: var(--vp-c-text-2);
+}
+
+.reg-browser__error {
+  padding: 24px;
+  border: 1px solid var(--vp-c-danger-1, #e0414f);
+  border-radius: 12px;
+  background-color: rgba(224, 65, 79, 0.06);
+}
+
+.reg-browser__error h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--vp-c-danger-1, #e0414f);
+}
+
+.reg-browser__error code {
+  display: block;
+  margin: 8px 0 12px;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.reg-browser__retry {
+  padding: 8px 14px;
+  border: 1px solid var(--vp-button-brand-border);
+  border-radius: 8px;
+  background-color: var(--vp-button-brand-bg);
+  color: var(--vp-c-white);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.reg-browser__retry:hover {
+  background-color: var(--vp-button-brand-hover-bg);
+}
+
+.reg-browser__loading {
+  padding: 56px 24px;
+  text-align: center;
+  color: var(--vp-c-text-2);
+}
+
+.reg-browser__footer {
+  margin-top: 40px;
+  padding: 20px 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background-color: var(--vp-c-bg-soft);
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+  line-height: 1.6;
+}
+
+.reg-browser__footer code {
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+}

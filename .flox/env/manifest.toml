@@ -20,5 +20,5 @@ codex.pkg-group = "ai"
 
 [hook]
 on-activate = """
-  npm install
+  (cd "$FLOX_ENV_PROJECT/docs" && npm install)
 """

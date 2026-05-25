@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -23,21 +23,38 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.4.0
         with:
-          node-version-file: 'package.json'
-          cache: 'npm'
+          node-version-file: "docs/package.json"
+          cache: "npm"
+          cache-dependency-path: "docs/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Lint
-        run: npm run lint
+        working-directory: docs
 
       - name: Build
         run: npm run build
+        working-directory: docs
+
+  format:
+    name: Check formatting
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version-file: "docs/package.json"
+
+      - name: Check formatting with Prettier
+        run: npx --yes prettier@3.8.3 --check .
 
   codegen-fresh:
     name: ADL types up to date
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2
@@ -45,19 +62,22 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.4.0
         with:
-          node-version-file: 'package.json'
-          cache: 'npm'
+          node-version-file: "docs/package.json"
+          cache: "npm"
+          cache-dependency-path: "docs/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
+        working-directory: docs
 
       - name: Regenerate ADL types
         run: npm run codegen
+        working-directory: docs
 
-      - name: Fail if src/types/adl.ts drifted from upstream ADL schema
+      - name: Fail if docs/.vitepress/types/adl.ts drifted from upstream ADL schema
         run: |
-          if ! git diff --exit-code src/types/adl.ts; then
-            echo "::error::src/types/adl.ts is out of sync with the upstream ADL JSON Schema."
-            echo "::error::Run 'npm run codegen' locally and commit the result."
+          if ! git diff --exit-code docs/.vitepress/types/adl.ts; then
+            echo "::error::docs/.vitepress/types/adl.ts is out of sync with the upstream ADL JSON Schema."
+            echo "::error::Run 'npm run codegen' inside docs/ and commit the result."
             exit 1
           fi

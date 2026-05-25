@@ -1,28 +1,43 @@
 ---
-version: '3'
+version: "3"
 
 tasks:
   dev:
-    desc: Start development server with hot module replacement
+    desc: Start VitePress dev server with hot reload
     cmd: npm run dev
+    dir: docs
 
   build:
-    desc: Build for production
+    desc: Build the static site into docs/.vitepress/dist
     cmd: npm run build
-
-  lint:
-    desc: Lint code with ESLint
-    cmds:
-      - npm run lint
-      - markdownlint --ignore '**/node_modules/**' --fix .
+    dir: docs
 
   preview:
-    desc: Preview production build
+    desc: Serve the production build locally
     cmd: npm run preview
+    dir: docs
 
   install:
-    desc: Install dependencies
+    desc: Install dependencies (inside docs/)
     cmd: npm install
+    dir: docs
+
+  codegen:
+    desc: Regenerate docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema
+    cmd: npm run codegen
+    dir: docs
+
+  lint:
+    desc: Run markdownlint with auto-fix
+    cmd: markdownlint --ignore '**/node_modules/**' --ignore '**/.vitepress/cache/**' --ignore '**/.vitepress/dist/**' --fix .
+
+  format:
+    desc: Format the repo with Prettier
+    cmd: prettier --write .
+
+  format:check:
+    desc: Check formatting (same check CI runs)
+    cmd: prettier --check .
 
   default:
     desc: Show available tasks

@@ -1,89 +1,109 @@
 <div align="center">
 
-# Agents Registry
+# Inference Gateway Registry
 
 [![Deploy to Pages](https://github.com/inference-gateway/registry/actions/workflows/static.yml/badge.svg)](https://github.com/inference-gateway/registry/actions/workflows/static.yml)
-[![Claude Code](https://github.com/inference-gateway/registry/actions/workflows/claude.yml/badge.svg)](https://github.com/inference-gateway/registry/actions/workflows/claude.yml)
+[![CI](https://github.com/inference-gateway/registry/actions/workflows/ci.yml/badge.svg)](https://github.com/inference-gateway/registry/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-7-646CFF.svg)](https://vitejs.dev/)
+[![VitePress](https://img.shields.io/badge/VitePress-1.6-3c8772.svg)](https://vitepress.dev/)
+[![Vue](https://img.shields.io/badge/Vue-3.5-3c8772.svg)](https://vuejs.org/)
 
-A modern web application for managing and discovering agent-to-agent (A2A) services in the inference-gateway
-ecosystem. This registry serves as a centralized hub for containerized agents that provide specialized services and
-can communicate with each other autonomously.
+Discovery hub for A2A (Agent-to-Agent) services and portable skills in the
+inference-gateway ecosystem. Every entry follows the
+[Agent Definition Language](https://adl.inference-gateway.com/) schema.
 
 </div>
 
 ## Overview
 
-The Agents Registry is built with React 19, TypeScript, and Vite, providing a fast and responsive interface for
-browsing available agents. Each agent is packaged as an OCI container and includes rich metadata about its
-capabilities, usage, and integration requirements.
+The registry is a static documentation site that lists ADL-compliant agents and
+portable skills. Both catalogs are fetched at runtime from sibling repos via
+jsDelivr, so adding or updating an entry doesn't require redeploying this site:
 
-## Features
+- **Agents catalog**: [`inference-gateway/agents`](https://github.com/inference-gateway/agents)
+  -> `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json`
+- **Skills catalog**: [`inference-gateway/skills`](https://github.com/inference-gateway/skills)
+  -> `https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json`
 
-- **Agent Discovery**: Browse and search through available agents by name, description, or tags
-- **Category Filtering**: Organize agents by their primary function and use case
-- **Container Information**: View OCI container details including repository, tags, and image sizes
-- **Rich Metadata**: Access comprehensive information about each agent's capabilities and requirements
-- **Responsive Design**: Modern UI with dark theme and smooth animations
-- **Documentation Integration**: Built-in guides and setup instructions
+Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` /
+`VITE_SKILLS_CATALOG_URL` (the Vite env vars exposed by VitePress).
 
-## Quick Start
+## Tech stack
 
-```bash
-# Install dependencies
+- [VitePress](https://vitepress.dev/) 1.6 for the static site
+- [Vue 3](https://vuejs.org/) Composition API for the dynamic Agents and Skills browsers
+- Plain Markdown for the landing page and How-To guides
+- Deployed to [GitHub Pages](https://registry.inference-gateway.com) on push to `main`
+
+The look and feel matches the
+[ADL docs site](https://adl.inference-gateway.com/) (teal `#3c8772`, Inter,
+light/dark toggle).
+
+## Quick start
+
+```sh
+# All commands run from the docs/ workspace
+cd docs
+
+# Install dependencies (requires Node ^24.15.0)
 npm install
 
-# Start development server
+# Start the dev server with HMR
 npm run dev
 
-# Build for production
+# Build the static site into docs/.vitepress/dist
 npm run build
+
+# Serve the production build locally
+npm run preview
 ```
 
-## Architecture
+A `Taskfile.yml` at the repo root wraps the same commands (`task dev`,
+`task build`, `task preview`, `task install`, `task lint`, `task codegen`,
+`task format`, `task format:check`).
 
-The registry is a pure static SPA. Both catalogs it shows — agents and skills — are fetched at runtime from sibling
-repos on the jsdelivr CDN, so adding or updating an entry does not require redeploying this app:
+## Project layout
 
-- **Agents catalog**: [`inference-gateway/agents`](https://github.com/inference-gateway/agents) →
-  `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json`
-- **Skills catalog**: [`inference-gateway/skills`](https://github.com/inference-gateway/skills) →
-  `https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json`
+```text
+docs/
+├── index.md                       # Landing page (hero + features)
+├── agents/index.md                # Embeds <AgentsBrowser />
+├── skills/index.md                # Embeds <SkillsBrowser />
+├── how-to/                        # Six markdown how-to guides
+├── public/                        # Favicons, OG images, CNAME, robots.txt
+└── .vitepress/
+    ├── config.ts                  # Nav, sidebar, theme color, head meta
+    ├── theme/{index.ts,custom.css}
+    ├── components/                # AgentsBrowser, SkillsBrowser, AgentCard, SkillCard
+    ├── lib/                       # agentService, skillService, adl, types
+    └── types/adl.ts               # Generated from the upstream ADL JSON Schema
+scripts/codegen-adl.mjs            # Regenerates the ADL TypeScript types
+```
 
-Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` / `VITE_SKILLS_CATALOG_URL`.
+## Adding new agents
 
-Agents follow the [Agent Definition Language](https://github.com/inference-gateway/adl) (ADL) schema. The TypeScript
-types in `src/types/adl.ts` are **generated** from the upstream ADL JSON Schema via `npm run codegen` — do not
-hand-edit. The agents catalog repo aggregates each agent's canonical `agent.yaml` (hosted in that agent's own
-repo) into a single `catalog.json` on push and on a daily cron.
+Agent metadata is **not** in this repo. Any public GitHub repo that ships an
+ADL `agent.yaml` at its root is eligible. Open a PR against
+[`inference-gateway/agents`](https://github.com/inference-gateway/agents)
+adding one entry to `agents.yaml` with the repo URL and an optional `ref`.
+CI in the agents repo rebuilds `catalog.json` on merge; the new agent appears
+on this site within the jsDelivr `@main` cache window (up to ~12h) with no
+redeploy here.
 
-## Adding New Agents
+To submit a new **skill**, open a PR against `inference-gateway/skills`.
 
-Any public GitHub repo with an ADL `agent.yaml` at its root is eligible. Open a PR against
-[`inference-gateway/agents`](https://github.com/inference-gateway/agents) adding one entry to `agents.yaml` with
-the repo URL and an optional `ref`. CI rebuilds `catalog.json` on merge; the new agent appears in this registry
-within the jsdelivr `@main` cache window (up to ~12h) with no redeploy here.
-
-## Technology Stack
-
-- **React 19** - Modern UI framework with latest features
-- **TypeScript 5.8** - Type safety and enhanced developer experience
-- **Vite 7** - Fast build tool and development server
-- **TailwindCSS 4.1** - Utility-first CSS framework
-- **React Router DOM 7** - Client-side routing
+The ADL schema itself lives in [`inference-gateway/adl`](https://github.com/inference-gateway/adl).
+Schema changes require running `npm run codegen` inside `docs/` here to refresh
+`docs/.vitepress/types/adl.ts`.
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
-3. Make your improvements (UI, routing, services, docs)
-4. Submit a pull request
-
-To submit a new **agent**, open a PR against `inference-gateway/agents` instead.
+3. Make your changes inside `docs/`
+4. Run `npm run build` to confirm it still builds
+5. Open a pull request
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the LICENSE file for details.
+Apache 2.0 - see [LICENSE](./LICENSE).

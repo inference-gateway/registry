@@ -1,0 +1,24 @@
+# Auto-managed by tooling
+AGENTS.md
+CLAUDE.md
+CHANGELOG.md
+
+# Build artifacts
+dist
+docs/.vitepress/cache
+docs/.vitepress/dist
+
+# Generated code (refresh with `task codegen`)
+docs/.vitepress/types/adl.ts
+
+# Lockfiles
+**/package-lock.json
+
+# Binary assets
+docs/public
+
+# Flox env
+.flox
+
+# AI configurations
+.infer
