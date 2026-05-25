@@ -69,6 +69,21 @@
   max-width: 720px;
 }
 
+/* The bare "page" layout doesn't apply doc-layout link styles, so plain
+   anchors would inherit body text color. Target unclassed <a> only so card
+   actions and panel links keep their own styling. */
+.reg-page__container a:not([class]) {
+  font-weight: 500;
+  color: var(--vp-c-brand-1);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.25s;
+}
+
+.reg-page__container a:not([class]):hover {
+  color: var(--vp-c-brand-2);
+}
+
 @media (min-width: 768px) {
   .reg-page .VPPage {
     padding: 48px 32px 96px;
