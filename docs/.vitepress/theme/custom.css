@@ -554,6 +554,41 @@
   box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
 }
 
+.reg-browser__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 1px solid var(--vp-button-brand-border);
+  border-radius: 8px;
+  background-color: var(--vp-button-brand-bg);
+  color: var(--vp-c-white);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.reg-browser__add:hover {
+  background-color: var(--vp-button-brand-hover-bg);
+  border-color: var(--vp-button-brand-hover-border);
+}
+
+.reg-browser__add:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
+}
+
+.reg-browser__add-icon {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+
 .reg-browser__meta {
   display: flex;
   align-items: center;
@@ -659,4 +694,182 @@
 .reg-browser__footer code {
   font-family: var(--vp-font-family-mono);
   font-size: 12px;
+}
+
+/**
+ * Modal dialog used by AddEntryDialog. Native <dialog> element styled to
+ * match the registry's card/button tokens. Backdrop dim + slight blur.
+ */
+.reg-dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-width: 560px;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+}
+
+.dark .reg-dialog {
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+}
+
+.reg-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+.reg-dialog__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.reg-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 16px 24px;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.reg-dialog__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+}
+
+.reg-dialog__close {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--vp-c-text-2);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.reg-dialog__close:hover {
+  background-color: var(--vp-c-default-soft);
+  color: var(--vp-c-text-1);
+}
+
+.reg-dialog__body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.reg-dialog__instructions {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+}
+
+.reg-dialog__snippet {
+  position: relative;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background-color: var(--vp-c-bg-soft);
+  overflow: hidden;
+}
+
+.reg-dialog__snippet pre {
+  margin: 0;
+  padding: 12px 48px 12px 14px;
+  background: transparent;
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--vp-c-text-1);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.reg-dialog__snippet code {
+  background: transparent !important;
+  padding: 0 !important;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.reg-dialog__snippet-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.reg-dialog__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.reg-dialog__cancel {
+  border: none;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.reg-dialog__cancel:hover {
+  background-color: var(--vp-c-default-soft);
+  color: var(--vp-c-text-1);
+}
+
+.reg-dialog__primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border: 1px solid var(--vp-button-brand-border);
+  border-radius: 8px;
+  background-color: var(--vp-button-brand-bg);
+  color: var(--vp-c-white);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.reg-dialog__primary:hover {
+  background-color: var(--vp-button-brand-hover-bg);
+  border-color: var(--vp-button-brand-hover-border);
+}
+
+.reg-dialog__primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--vp-c-brand-soft);
+}
+
+.reg-dialog__primary svg {
+  width: 14px;
+  height: 14px;
 }

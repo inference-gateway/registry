@@ -4,12 +4,18 @@ import type { CatalogAgent } from "../lib/types";
 import { loadAgents } from "../lib/agentService";
 import { deriveTags } from "../lib/adl";
 import AgentCard from "./AgentCard.vue";
+import AddEntryDialog from "./AddEntryDialog.vue";
 
 const agents = ref<CatalogAgent[]>([]);
 const loading = ref(true);
 const loadError = ref<string | null>(null);
 const searchTerm = ref("");
 const selectedTag = ref("");
+const showAddDialog = ref(false);
+
+const agentSnippet = `  - url: https://github.com/<owner>/<repo>
+    ref: main
+`;
 
 async function fetchAgents() {
   loading.value = true;
@@ -99,6 +105,14 @@ function clearFilters() {
             #{{ tag }}
           </option>
         </select>
+        <button
+          type="button"
+          class="reg-browser__add"
+          @click="showAddDialog = true"
+        >
+          <span class="reg-browser__add-icon" aria-hidden="true">+</span>
+          Add agent
+        </button>
       </div>
 
       <div class="reg-browser__meta">
@@ -155,6 +169,16 @@ function clearFilters() {
         with the repo URL of any public agent that ships an
         <code>agent.yaml</code> at its root.
       </div>
+
+      <AddEntryDialog
+        v-model:open="showAddDialog"
+        title="List a new agent"
+        filename="agents.yaml"
+        instructions="Append this entry to the end of agents.yaml in inference-gateway/agents, then replace <owner>/<repo> with your agent's repo path. The repo must ship an agent.yaml at its root. GitHub will fork the repo and open a pull request for you."
+        :snippet="agentSnippet"
+        snippet-lang="yaml"
+        edit-url="https://github.com/inference-gateway/agents/edit/main/agents.yaml"
+      />
     </section>
   </ClientOnly>
 </template>
