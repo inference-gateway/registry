@@ -1,3 +1,4 @@
+// TODO: make this support ADL directly
 export interface Agent {
   id: string;
   name: string;
