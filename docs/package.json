@@ -11,7 +11,7 @@
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview",
-    "codegen": "node ../scripts/codegen-adl.mjs"
+    "codegen": "node scripts/codegen-adl.mjs"
   },
   "devDependencies": {
     "json-schema-to-typescript": "^15.0.4",

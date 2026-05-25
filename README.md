@@ -71,13 +71,13 @@ docs/
 ├── skills/index.md                # Embeds <SkillsBrowser />
 ├── how-to/                        # Six markdown how-to guides
 ├── public/                        # Favicons, OG images, CNAME, robots.txt
+├── scripts/codegen-adl.mjs        # Regenerates the ADL TypeScript types
 └── .vitepress/
     ├── config.ts                  # Nav, sidebar, theme color, head meta
     ├── theme/{index.ts,custom.css}
     ├── components/                # AgentsBrowser, SkillsBrowser, AgentCard, SkillCard
     ├── lib/                       # agentService, skillService, adl, types
     └── types/adl.ts               # Generated from the upstream ADL JSON Schema
-scripts/codegen-adl.mjs            # Regenerates the ADL TypeScript types
 ```
 
 ## Adding new agents

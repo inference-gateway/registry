@@ -57,7 +57,7 @@ catalog repo on the CDN**. There is no agent or skill metadata in this repo.
   `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json`
   (override with `VITE_AGENTS_CATALOG_URL`).
 - **Types are generated**, not hand-written. `docs/.vitepress/types/adl.ts` is
-  produced by `scripts/codegen-adl.mjs` from the ADL JSON Schema. Run
+  produced by `docs/scripts/codegen-adl.mjs` from the ADL JSON Schema. Run
   `npm run codegen` after ADL changes; commit the regenerated file. The CI
   check job verifies the committed output is fresh. **Do not hand-edit
   `docs/.vitepress/types/adl.ts`.**

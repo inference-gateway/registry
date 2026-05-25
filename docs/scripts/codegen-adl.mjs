@@ -15,7 +15,6 @@ const SCHEMA_URL =
 const OUTPUT = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "..",
-  "docs",
   ".vitepress",
   "types",
   "adl.ts",
