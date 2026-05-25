@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, type Ref } from "vue";
 import type { CatalogAgent } from "../lib/types";
 import {
   deriveDisplayName,
@@ -46,7 +46,7 @@ function togglePanel(p: Exclude<Panel, null>) {
   openPanel.value = openPanel.value === p ? null : p;
 }
 
-async function copy(text: string, flag: { value: boolean }) {
+async function copyToClipboard(text: string, flag: Ref<boolean>) {
   try {
     await navigator.clipboard.writeText(text);
     flag.value = true;
@@ -54,6 +54,18 @@ async function copy(text: string, flag: { value: boolean }) {
   } catch (err) {
     console.error("Failed to copy to clipboard:", err);
   }
+}
+
+function copyCommand() {
+  copyToClipboard(installCommand.value, copiedCommand);
+}
+
+function copyImage() {
+  if (!image.value) return;
+  copyToClipboard(
+    `${image.value.repository}:${image.value.tag}`,
+    copiedImage,
+  );
 }
 </script>
 
@@ -217,7 +229,7 @@ async function copy(text: string, flag: { value: boolean }) {
           class="reg-card__copy"
           :class="{ 'is-copied': copiedCommand }"
           :title="copiedCommand ? 'Copied' : 'Copy CLI command'"
-          @click="copy(installCommand, copiedCommand)"
+          @click="copyCommand"
         >
           <svg
             v-if="copiedCommand"
@@ -252,7 +264,7 @@ async function copy(text: string, flag: { value: boolean }) {
           class="reg-card__copy"
           :class="{ 'is-copied': copiedImage }"
           :title="copiedImage ? 'Copied' : 'Copy OCI image URL'"
-          @click="copy(`${image.repository}:${image.tag}`, copiedImage)"
+          @click="copyImage"
         >
           <svg
             v-if="copiedImage"
