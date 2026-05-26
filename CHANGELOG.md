@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.4](https://github.com/inference-gateway/registry/compare/v0.2.3...v0.2.4) (2026-05-26)
+
+### 🎨 Miscellaneous
+
+* Highlight code syntax ([108faf0](https://github.com/inference-gateway/registry/commit/108faf001751df0fee08da548180482e0244f862))
+
 ## [0.2.3](https://github.com/inference-gateway/registry/compare/v0.2.2...v0.2.3) (2026-05-26)
 
 ### 📚 Documentation
