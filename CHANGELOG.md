@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.3](https://github.com/inference-gateway/registry/compare/v0.2.2...v0.2.3) (2026-05-26)
+
+### 📚 Documentation
+
+* **skills:** Rewrite list-a-skill how-to for skills.yaml indexer ([#18](https://github.com/inference-gateway/registry/issues/18)) ([abf17fc](https://github.com/inference-gateway/registry/commit/abf17fcc30853722139a46826580237adf181d27)), closes [inference-gateway/skills#4](https://github.com/inference-gateway/skills/issues/4)
+
 ## [0.2.2](https://github.com/inference-gateway/registry/compare/v0.2.1...v0.2.2) (2026-05-26)
 
 ### 🐛 Bug Fixes
