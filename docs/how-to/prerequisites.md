@@ -7,25 +7,69 @@ image, or open the "+ Add agent" PR.
 
 ## The `infer` CLI
 
-The CLI is what runs the copy-paste commands shown on every card. Install
-it once:
+The CLI is what runs the copy-paste commands shown on every card. Pick one
+of the install methods below.
+
+### Install script (user-local)
+
+The script defaults to `/usr/local/bin`, which needs root. Point it at a
+directory on your `PATH` that you own to avoid `sudo`:
 
 ```sh
-# Go install (binary lands as `cli`; rename or alias to `infer`)
-go install github.com/inference-gateway/cli@latest
-
-# OR install script (pin a version in production)
-curl -fsSL https://raw.githubusercontent.com/inference-gateway/cli/main/install.sh | bash
+mkdir -p "$HOME/.local/bin"
+curl -fsSL https://raw.githubusercontent.com/inference-gateway/cli/main/install.sh \
+  | bash -s -- --install-dir "$HOME/.local/bin"
 ```
 
-Verify with:
+Make sure `$HOME/.local/bin` is on your `PATH`. Pin a version in production
+with `--version vX.Y.Z`.
+
+### Nix flakes
+
+The CLI ships a `flake.nix` exposing `infer` as both a package and an app.
+
+Run it once without installing:
+
+```sh
+nix run github:inference-gateway/cli -- --version
+```
+
+Install it into your profile:
+
+```sh
+nix profile install github:inference-gateway/cli
+```
+
+Or add it to a system / home-manager config by referencing the flake input
+`github:inference-gateway/cli` and pulling `packages.<system>.infer`.
+
+### Flox
+
+Flox can consume the same flake. Add `infer` to an existing Flox
+environment with:
+
+```sh
+flox install --flake github:inference-gateway/cli infer
+```
+
+Or declaratively, by editing the env's `manifest.toml` (`flox edit`):
+
+```toml
+[install]
+infer.flake = "github:inference-gateway/cli"  # pin a tag in production, e.g. ".../v0.112.1"
+```
+
+Then `flox activate` puts `infer` on your `PATH`.
+
+### Verify
 
 ```sh
 infer --version
 ```
 
-Full installation options (container image, specific versions, etc.) live in
-the [CLI repo](https://github.com/inference-gateway/cli).
+Full installation options (container image, manual download with checksum
+verification, etc.) live in the
+[CLI repo](https://github.com/inference-gateway/cli).
 
 ## A running gateway
 
