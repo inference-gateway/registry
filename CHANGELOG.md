@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2](https://github.com/inference-gateway/registry/compare/v0.2.1...v0.2.2) (2026-05-26)
+
+### 🐛 Bug Fixes
+
+* **catalog:** Respect spec.acronyms in deriveDisplayName ([#17](https://github.com/inference-gateway/registry/issues/17)) ([152cb38](https://github.com/inference-gateway/registry/commit/152cb38493efd14d13a99767799c3acc20a78574))
+* **docs:** Provide correct guide how to install infer CLI ([95b8059](https://github.com/inference-gateway/registry/commit/95b805931568ce2bd4bf891bb242326ed36778e0))
+
 ## [0.2.1](https://github.com/inference-gateway/registry/compare/v0.2.0...v0.2.1) (2026-05-25)
 
 ### 📚 Documentation
