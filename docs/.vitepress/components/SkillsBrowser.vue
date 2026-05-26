@@ -3,12 +3,25 @@ import { computed, onMounted, ref } from "vue";
 import type { Skill } from "../lib/types";
 import { loadSkills } from "../lib/skillService";
 import SkillCard from "./SkillCard.vue";
+import AddEntryDialog from "./AddEntryDialog.vue";
 
 const skills = ref<Skill[]>([]);
 const loading = ref(true);
 const loadError = ref<string | null>(null);
 const searchTerm = ref("");
 const selectedVendor = ref("");
+const showAddDialog = ref(false);
+
+const skillSnippet = `  - url: https://github.com/<owner>/<repo>
+    ref: v1.0.0
+    path: SKILL.md
+    vendor: <your-org-or-handle>
+    license: Apache-2.0
+    tags:
+      - <tag>
+    categories:
+      - developer-tools
+`;
 
 async function fetchSkills() {
   loading.value = true;
@@ -89,6 +102,14 @@ function clearFilters() {
             {{ vendor }}
           </option>
         </select>
+        <button
+          type="button"
+          class="reg-browser__add"
+          @click="showAddDialog = true"
+        >
+          <span class="reg-browser__add-icon" aria-hidden="true">+</span>
+          Add skill
+        </button>
       </div>
 
       <div class="reg-browser__meta">
@@ -135,14 +156,26 @@ function clearFilters() {
           target="_blank"
           rel="noopener noreferrer"
           ><code>catalog.json</code></a
-        >. To submit a skill, open a PR against
+        >. To list a new skill, open a PR against
         <a
           href="https://github.com/inference-gateway/skills"
           target="_blank"
           rel="noopener noreferrer"
           >inference-gateway/skills</a
-        >.
+        >
+        with one entry appended to <code>skills.yaml</code> pointing at any
+        public repo that ships a <code>SKILL.md</code>.
       </div>
+
+      <AddEntryDialog
+        v-model:open="showAddDialog"
+        title="List a new skill"
+        filename="skills.yaml"
+        instructions="Append this entry to the end of skills.yaml in inference-gateway/skills, then replace the placeholders with values for your skill. The repo must ship a SKILL.md with valid Agent Skills frontmatter. GitHub will fork the repo and open a pull request for you."
+        :snippet="skillSnippet"
+        snippet-lang="yaml"
+        edit-url="https://github.com/inference-gateway/skills/edit/main/skills.yaml"
+      />
     </section>
   </ClientOnly>
 </template>

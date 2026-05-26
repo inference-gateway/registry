@@ -3,6 +3,9 @@
 Any public GitHub repo that ships an ADL `agent.yaml` at its root can be
 listed in the catalog. Adding it is a one-line PR.
 
+For listing a portable skill instead, see
+[List a Skill](/how-to/list-a-skill).
+
 ## Prerequisite: a public repo with `agent.yaml` at root
 
 The catalog aggregator pulls `agent.yaml` directly from your repo. It
