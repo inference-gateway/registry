@@ -44,11 +44,17 @@ export function deriveProvider(agent: CatalogAgent): string | null {
 }
 
 export function deriveDisplayName(agent: CatalogAgent): string {
+  const acronyms = new Map(
+    (agent.spec?.acronyms ?? []).map((a) => [a.toLowerCase(), a]),
+  );
   return agent.metadata.name
     .split("-")
-    .map((part) =>
-      part.length === 0 ? part : part[0].toUpperCase() + part.slice(1),
-    )
+    .map((part) => {
+      if (part.length === 0) return part;
+      const preserved = acronyms.get(part.toLowerCase());
+      if (preserved !== undefined) return preserved;
+      return part[0].toUpperCase() + part.slice(1);
+    })
     .join(" ");
 }
 
