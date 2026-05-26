@@ -84,6 +84,21 @@
   color: var(--vp-c-brand-2);
 }
 
+/* The bare "page" layout also skips doc-layout inline code styles. Mirror
+   the vp-doc treatment so `infer ...` snippets in intro copy get the
+   familiar code pill instead of bare monospace. */
+.reg-page__container > p code {
+  font-family: var(--vp-font-family-mono);
+  font-size: var(--vp-code-font-size);
+  color: var(--vp-code-color);
+  background-color: var(--vp-code-bg);
+  border-radius: 4px;
+  padding: 3px 6px;
+  transition:
+    color 0.25s,
+    background-color 0.5s;
+}
+
 @media (min-width: 768px) {
   .reg-page .VPPage {
     padding: 48px 32px 96px;
@@ -200,6 +215,7 @@
   color: var(--vp-c-text-2);
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
