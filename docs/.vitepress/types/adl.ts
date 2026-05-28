@@ -15,6 +15,37 @@ export interface Metadata {
   name: string;
   description: string;
   version: string;
+  /**
+   * Author of the agent. Optional; when provided, 'name' is required. 'email' and 'url' are optional contact fields.
+   */
+  author?: {
+    name: string;
+    email?: string;
+    url?: string;
+  };
+  /**
+   * SPDX identifier under which the agent is distributed, or "Proprietary" for closed-source agents. Mirrors the enum used for Skill.license so the same accepted set applies at the agent level. New identifiers may be added in future minor versions of the schema.
+   */
+  license?:
+    | 'MIT'
+    | 'Apache-2.0'
+    | 'BSD-2-Clause'
+    | 'BSD-3-Clause'
+    | 'GPL-2.0'
+    | 'GPL-3.0'
+    | 'LGPL-2.1'
+    | 'LGPL-3.0'
+    | 'MPL-2.0'
+    | 'ISC'
+    | 'CC0-1.0'
+    | 'CC-BY-4.0'
+    | 'CC-BY-SA-4.0'
+    | 'Unlicense'
+    | 'Proprietary';
+  /**
+   * Discoverability tags for the agent (e.g. 'calendar', 'automation'). Consumers may merge these with tool- and skill-level tags when indexing.
+   */
+  tags?: string[];
 }
 export interface Spec {
   capabilities: Capabilities;
@@ -83,7 +114,7 @@ export interface Tool {
   inject?: string[];
 }
 /**
- * Markdown playbook injected into the agent's system prompt. Pulled from the skills registry or scaffolded blank with bare: true.
+ * Markdown playbook the agent can discover and load on demand at runtime. Each skill's metadata (name and description) is advertised to the model at startup; the SKILL.md body is read lazily when the model invokes the skill. Pulled from the skills registry or scaffolded blank with bare: true.
  */
 export interface Skill {
   id: string;
@@ -179,7 +210,7 @@ export interface DevelopmentConfig {
   sandbox?: SandboxConfig;
   ai?: AIConfig;
   /**
-   * Extra packages to install into the development sandbox (flox, devcontainer, dockerCompose) on top of whatever the generator pulls in by default. Use this for cross-cutting tools that aren't tied to one of the project's languages — e.g. 'deno@2.1.4', 'kubectl@1.31.0', 'terraform@1.9.5'. Each entry follows the '<package>@<version>' form; consumers are responsible for resolving the package against the sandbox's native package source (Nixpkgs for flox, apt/apk/feature for devcontainer, image layers for dockerCompose).
+   * Extra packages to install into the development sandbox (flox, devcontainer, dockerCompose) on top of whatever the generator pulls in by default. Use this for cross-cutting tools that aren't tied to one of the project's languages - e.g. 'deno@2.1.4', 'kubectl@1.31.0', 'terraform@1.9.5'. Each entry follows the '<package>@<version>' form; consumers are responsible for resolving the package against the sandbox's native package source (Nixpkgs for flox, apt/apk/feature for devcontainer, image layers for dockerCompose).
    */
   deps?: string[];
 }
