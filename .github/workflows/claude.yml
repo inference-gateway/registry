@@ -37,6 +37,6 @@ jobs:
       actions: read
     uses: inference-gateway/.github/.github/workflows/claude.yml@v0.2.1
     with:
-      language: "go"
+      language: "node"
       markdownlint: true
     secrets: inherit
