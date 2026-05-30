@@ -232,9 +232,15 @@ export interface DockerComposeConfig {
   enabled: boolean;
 }
 /**
- * Configures generation of AI-assistant documentation (CLAUDE.md, AGENTS.md) and provisioning of coding agents (Claude Code, Codex, Gemini, OpenCode, Infer, ...) inside sandbox environments. Each coding agent is toggled independently via its own subsection; by default every agent is disabled.
+ * Configures AI-assistant integration for the agent project: generation of AI-assistant documentation (CLAUDE.md, AGENTS.md) and provisioning of coding-agent orchestrators inside sandbox environments.
  */
 export interface AIConfig {
+  orchestrators?: OrchestratorsConfig;
+}
+/**
+ * Coding-agent orchestrators to provision inside the sandbox (Claude Code, Codex, Gemini, OpenCode, Infer, ...). Each orchestrator is toggled independently via its own subsection; by default every orchestrator is disabled.
+ */
+export interface OrchestratorsConfig {
   claudecode?: ClaudeCodeConfig;
   codex?: CodexConfig;
   gemini?: GeminiConfig;
