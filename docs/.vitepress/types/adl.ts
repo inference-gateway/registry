@@ -90,6 +90,47 @@ export interface Agent {
   systemPrompt?: string;
   maxTokens?: number;
   temperature?: number;
+  /**
+   * MCP (Model Context Protocol) servers the agent connects to at runtime to discover and call external tools and capabilities, in addition to the locally generated 'spec.tools'. Only meaningful for an LLM-backed agent: A2A itself does not require an LLM, so this lives under 'spec.agent'. Each entry declares a transport plus the connection details for that transport.
+   */
+  mcps?: MCP[];
+}
+/**
+ * A single MCP (Model Context Protocol) server the agent can connect to. 'stdio' launches a local subprocess and talks over stdin/stdout (use 'command', 'args', and 'env'); 'http' and 'sse' connect to a remote endpoint (use 'url' and 'headers'). Connection details that do not apply to the chosen transport are simply omitted; the schema does not constrain which combination is present so consumers can stay lenient.
+ */
+export interface MCP {
+  /**
+   * Identifier for the MCP server, unique within the agent. Consumers typically use it to namespace the tools the server exposes.
+   */
+  name: string;
+  /**
+   * How the agent connects to the MCP server. New transports may be added in future minor versions; consumers should be lenient about unknown values.
+   */
+  transport: 'stdio' | 'sse' | 'http';
+  /**
+   * Executable to launch for a 'stdio' server (e.g. 'npx', 'uvx', 'docker'). Ignored by remote transports.
+   */
+  command?: string;
+  /**
+   * Arguments passed to 'command' when launching a 'stdio' server.
+   */
+  args?: string[];
+  /**
+   * Environment variables set when launching a 'stdio' server (e.g. API keys or tokens the server needs).
+   */
+  env?: {
+    [k: string]: string;
+  };
+  /**
+   * Endpoint URL for an 'http' or 'sse' server. Ignored by the 'stdio' transport.
+   */
+  url?: string;
+  /**
+   * Extra HTTP headers sent when connecting to an 'http' or 'sse' server (e.g. 'Authorization').
+   */
+  headers?: {
+    [k: string]: string;
+  };
 }
 export interface Service {
   type: 'service' | 'repository' | 'client' | 'middleware';
