@@ -69,6 +69,7 @@ export interface Spec {
   scm?: SCM;
   development?: DevelopmentConfig;
   deployment?: DeploymentConfig;
+  telemetry?: TelemetryConfig;
 }
 export interface Capabilities {
   streaming: boolean;
@@ -319,9 +320,10 @@ export interface InferConfig {
   enabled: boolean;
 }
 export interface DeploymentConfig {
-  type?: 'kubernetes' | 'cloudrun';
+  type?: 'kubernetes' | 'cloudrun' | 'vercel';
   cloudrun?: CloudRunConfig;
   kubernetes?: KubernetesConfig;
+  vercel?: VercelConfig;
 }
 export interface CloudRunConfig {
   image?: ImageConfig;
@@ -355,6 +357,56 @@ export interface ServiceConfig {
 }
 export interface KubernetesConfig {
   image?: ImageConfig;
+}
+/**
+ * Configuration for deploying to Vercel. Unlike kubernetes/cloudrun which deploy prebuilt container images, Vercel deploys from source via its own build pipeline.
+ */
+export interface VercelConfig {
+  /**
+   * Vercel project name.
+   */
+  project?: string;
+  /**
+   * Vercel team ID or slug the project belongs to.
+   */
+  team?: string;
+  /**
+   * Vercel framework identifier (e.g. "nextjs", "nuxtjs"). When omitted Vercel auto-detects.
+   */
+  framework?: string;
+  /**
+   * Vercel function runtime. "nodejs" for the serverless Node.js runtime (supports full Node API); "edge" for the Edge runtime (limited API, runs in V8 isolates at the edge).
+   */
+  runtime?: 'nodejs' | 'edge';
+  /**
+   * Vercel region identifiers where the function is deployed (e.g. "iad1", "gru1", "hkg1"). Omitting lets Vercel decide.
+   */
+  regions?: string[];
+  /**
+   * Configuration for Vercel serverless functions.
+   */
+  functions?: {
+    /**
+     * Memory limit in MB (e.g. 1024).
+     */
+    memory?: number;
+    /**
+     * Maximum function execution time in seconds.
+     */
+    maxDuration?: number;
+  };
+  /**
+   * Environment variables injected into the Vercel deployment. Values can use the ${VAR} placeholder convention for secrets; never inline a real secret here. See docs/reference/secrets.md.
+   */
+  environment?: {
+    [k: string]: string;
+  };
+}
+/**
+ * Toggles OpenTelemetry instrumentation for the generated agent. When enabled, the consumer (e.g. adl-cli) pulls OpenTelemetry dependencies into the project, instruments the built-in tool calls with spans, and turns on the ADK's telemetry/metrics server (the A2A_TELEMETRY_ENABLE switch) so traces, metrics, and logs can be exported. As with spec.artifacts the schema deliberately exposes only the on/off switch; the exporter endpoint, metrics port, and sampling are resolved by the consumer and the runtime environment rather than pinned in the manifest. Telemetry is disabled by default - omit the block or set 'enabled: false' to keep it off.
+ */
+export interface TelemetryConfig {
+  enabled: boolean;
 }
 
 /** Provenance for a catalog entry; injected by the aggregator (inference-gateway/agents). */
