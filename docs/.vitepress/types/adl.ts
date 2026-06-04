@@ -86,7 +86,19 @@ export interface Card {
   iconUrl?: string;
 }
 export interface Agent {
-  provider?: '' | 'openai' | 'anthropic' | 'ollama' | 'deepseek' | 'google' | 'mistral' | 'groq';
+  provider?:
+    | ''
+    | 'openai'
+    | 'anthropic'
+    | 'ollama'
+    | 'deepseek'
+    | 'google'
+    | 'mistral'
+    | 'groq'
+    | 'cohere'
+    | 'cloudflare'
+    | 'moonshot'
+    | 'ollama_cloud';
   model?: string;
   systemPrompt?: string;
   maxTokens?: number;
