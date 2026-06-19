@@ -332,10 +332,11 @@ export interface InferConfig {
   enabled: boolean;
 }
 export interface DeploymentConfig {
-  type?: 'kubernetes' | 'cloudrun' | 'vercel';
+  type?: 'kubernetes' | 'cloudrun' | 'vercel' | 'cloudflare';
   cloudrun?: CloudRunConfig;
   kubernetes?: KubernetesConfig;
   vercel?: VercelConfig;
+  cloudflare?: CloudflareConfig;
 }
 export interface CloudRunConfig {
   image?: ImageConfig;
@@ -409,6 +410,41 @@ export interface VercelConfig {
   };
   /**
    * Environment variables injected into the Vercel deployment. Values can use the ${VAR} placeholder convention for secrets; never inline a real secret here. See docs/reference/secrets.md.
+   */
+  environment?: {
+    [k: string]: string;
+  };
+}
+/**
+ * Configuration for deploying to Cloudflare Workers. Like vercel and unlike kubernetes/cloudrun, Workers deploy from source via wrangler rather than a prebuilt container image, so there is no image sub-block. This models Workers (the server/serverless product, the right target for an A2A agent server), not Pages. Consumers (e.g. adl-cli) translate this block into wrangler configuration (wrangler.toml / wrangler.jsonc).
+ */
+export interface CloudflareConfig {
+  /**
+   * Worker name - the script name registered with Cloudflare (e.g. "customer-support-agent"). Surfaces as the wrangler "name" field.
+   */
+  name?: string;
+  /**
+   * Cloudflare account ID that owns the Worker. Prefer a ${VAR} placeholder over inlining the value.
+   */
+  accountId?: string;
+  /**
+   * Workers runtime compatibility date in YYYY-MM-DD form (e.g. "2025-01-01"). Effectively required by wrangler; when omitted the generator supplies a default. See https://developers.cloudflare.com/workers/configuration/compatibility-dates/.
+   */
+  compatibilityDate?: string;
+  /**
+   * Workers runtime compatibility flags (e.g. "nodejs_compat" to enable Node.js API compatibility). Workers always run on the V8-isolate edge runtime, so Node API needs are met via flags rather than a runtime enum.
+   */
+  compatibilityFlags?: string[];
+  /**
+   * Custom routes / domains the Worker is served on (e.g. "agent.example.com/*"). Omit to rely on the workers.dev subdomain.
+   */
+  routes?: string[];
+  /**
+   * Whether the Worker is exposed on its *.workers.dev subdomain. Set false when serving exclusively via custom routes.
+   */
+  workersDev?: boolean;
+  /**
+   * Plain-text environment variables (wrangler "vars") injected into the Worker. Values can use the ${VAR} placeholder convention; never inline a real secret here - Cloudflare secrets are set out-of-band with "wrangler secret put". See docs/reference/secrets.md.
    */
   environment?: {
     [k: string]: string;
