@@ -98,7 +98,9 @@ export interface Agent {
     | 'cohere'
     | 'cloudflare'
     | 'moonshot'
-    | 'ollama_cloud';
+    | 'ollama_cloud'
+    | 'nvidia'
+    | 'minimax';
   model?: string;
   systemPrompt?: string;
   maxTokens?: number;
