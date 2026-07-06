@@ -6,7 +6,7 @@
       "claude-code": {
         "pkg-path": "claude-code",
         "pkg-group": "claude-code",
-        "version": "^2.1.197"
+        "version": "^2.1.201"
       },
       "codex": {
         "pkg-path": "codex",
