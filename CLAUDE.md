@@ -146,7 +146,7 @@ schema there, then `npm run codegen` inside `docs/` here to refresh
   commit it back as `chore(release): ... [skip ci]`, and create a GitHub
   release. A follow-up `trigger_deploy` job dispatches `static.yml` on
   `main` only when `new_release_published == 'true'`. Requires
-  `BOT_GH_APP_ID` / `BOT_GH_APP_PRIVATE_KEY` org secrets.
+  `RELEASER_APP_ID` / `RELEASER_APP_PRIVATE_KEY` org secrets.
 - `.github/workflows/ci.yml` - builds `docs/` on PR + push to `main`, runs
   `prettier --check .` over the repo (pinned to the same Prettier version as
   Flox), and verifies `docs/.vitepress/types/adl.ts` is fresh against the
