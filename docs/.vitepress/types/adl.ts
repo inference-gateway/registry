@@ -3,6 +3,30 @@
 // Source: https://cdn.jsdelivr.net/gh/inference-gateway/adl@main/schema/v1/schema.json
 
 /**
+ * Curated examples that demonstrate the agent's capabilities. Each entry has a 'title' and 'description'; consumers (e.g. adl-cli) use these to render an 'Examples' section in the generated README.md, linking each example to a scratchpad or playground for the agent.
+ */
+export type Examples = Example[];
+/**
+ * Selects the traces exporter. Exactly one key must be present (enforced by oneOf); the key name is what the consumer emits as OTEL_TRACES_EXPORTER. Only 'otlp' is supported for traces today; new exporters may be added as additional keys in a future minor version.
+ */
+export type TelemetryTracesExporter = {
+  otlp?: TelemetryOTLPExporter;
+} & TelemetryTracesExporter1;
+export type TelemetryTracesExporter1 = {
+  [k: string]: unknown;
+};
+/**
+ * Selects the metrics exporter. Exactly one key must be present (enforced by oneOf); the key name is what the consumer emits as OTEL_METRICS_EXPORTER. 'otlp' pushes to a collector; 'prometheus' exposes a pull/scrape endpoint.
+ */
+export type TelemetryMetricsExporter = {
+  otlp?: TelemetryOTLPExporter;
+  prometheus?: TelemetryPrometheusExporter;
+} & TelemetryMetricsExporter1;
+export type TelemetryMetricsExporter1 = {
+  [k: string]: unknown;
+};
+
+/**
  * JSON Schema for Agent Definition Language manifests (apiVersion adl.inference-gateway.com/v1).
  */
 export interface ADLAgent {
@@ -50,6 +74,8 @@ export interface Metadata {
 export interface Spec {
   capabilities: Capabilities;
   card?: Card;
+  documentation?: Documentation;
+  examples?: Examples;
   agent?: Agent;
   config?: {
     [k: string]: {
@@ -84,6 +110,43 @@ export interface Card {
   defaultOutputModes?: string[];
   documentationUrl?: string;
   iconUrl?: string;
+}
+/**
+ * Hand-authored documentation pages the generated project owns and ships itself. Each entry in 'pages' declares a page the consumer (e.g. adl-cli) scaffolds as a stub markdown file at 'path' with the given 'title', to be filled in by the maintainers. This is distinct from 'spec.card.documentationUrl', which is a single link to already-published external docs: 'documentation.pages' describes the docs the project generates and maintains in-tree.
+ */
+export interface Documentation {
+  /**
+   * Documentation pages to scaffold. At least one page is required when the 'documentation' block is present.
+   *
+   * @minItems 1
+   */
+  pages: [DocumentationPage, ...DocumentationPage[]];
+}
+/**
+ * A single documentation page. 'title' is the human-readable heading; 'path' is where the consumer writes the stub file, relative to the generated project's docs root (e.g. 'docs/getting-started.md').
+ */
+export interface DocumentationPage {
+  /**
+   * Human-readable page title, used as the heading and in navigation.
+   */
+  title: string;
+  /**
+   * Destination path for the generated stub file, relative to the generated project's docs root (e.g. 'docs/getting-started.md').
+   */
+  path: string;
+}
+/**
+ * A single example entry. 'title' is the human-readable heading shown in the generated README's Examples section; 'description' explains what the example demonstrates.
+ */
+export interface Example {
+  /**
+   * Short, descriptive title for the example (e.g. 'Basic chat', 'Tool use').
+   */
+  title: string;
+  /**
+   * One- or two-sentence explanation of what the example demonstrates.
+   */
+  description: string;
 }
 export interface Agent {
   provider?:
@@ -254,6 +317,14 @@ export interface SCM {
   provider?: 'github' | 'gitlab' | 'bitbucket';
   url?: string;
   github_app?: boolean;
+  /**
+   * Name of the repository secret holding the GitHub App client ID used by the generated release (CD) workflow when github_app is enabled.
+   */
+  app_id_secret?: string;
+  /**
+   * Name of the repository secret holding the GitHub App private key used by the generated release (CD) workflow when github_app is enabled.
+   */
+  app_private_key_secret?: string;
   issue_templates?: boolean;
   dependabot?: boolean;
   ci?: boolean;
@@ -308,6 +379,14 @@ export interface OrchestratorsConfig {
  */
 export interface ClaudeCodeConfig {
   enabled: boolean;
+  /**
+   * Name of the repository secret holding the GitHub App client ID used by the generated Claude Code workflow.
+   */
+  appIdSecret?: string;
+  /**
+   * Name of the repository secret holding the GitHub App private key used by the generated Claude Code workflow.
+   */
+  appPrivateKeySecret?: string;
 }
 /**
  * Provision OpenAI's Codex coding agent inside the sandbox.
@@ -332,6 +411,14 @@ export interface OpenCodeConfig {
  */
 export interface InferConfig {
   enabled: boolean;
+  /**
+   * Name of the repository secret holding the GitHub App client ID used by the generated infer workflow.
+   */
+  appIdSecret?: string;
+  /**
+   * Name of the repository secret holding the GitHub App private key used by the generated infer workflow.
+   */
+  appPrivateKeySecret?: string;
 }
 export interface DeploymentConfig {
   type?: 'kubernetes' | 'cloudrun' | 'vercel' | 'cloudflare';
@@ -453,10 +540,53 @@ export interface CloudflareConfig {
   };
 }
 /**
- * Toggles OpenTelemetry instrumentation for the generated agent. When enabled, the consumer (e.g. adl-cli) pulls OpenTelemetry dependencies into the project, instruments the built-in tool calls with spans, and turns on the ADK's telemetry/metrics server (the A2A_TELEMETRY_ENABLE switch) so traces, metrics, and logs can be exported. As with spec.artifacts the schema deliberately exposes only the on/off switch; the exporter endpoint, metrics port, and sampling are resolved by the consumer and the runtime environment rather than pinned in the manifest. Telemetry is disabled by default - omit the block or set 'enabled: false' to keep it off.
+ * OpenTelemetry instrumentation for the generated agent. 'enabled' is the master switch (mapped to the ADK's A2A_TELEMETRY_ENABLE): when true the consumer (e.g. adl-cli) pulls OpenTelemetry dependencies into the project, instruments the built-in tool calls with spans, and turns on the telemetry/metrics server. The optional 'traces' and 'metrics' blocks select a per-signal exporter following the OpenTelemetry SDK declarative-configuration model - the exporter is nested under each signal and the single key beneath 'exporter' picks it (otlp = push, prometheus = pull), so there is no separate exporter enum and no signal-agnostic protocol block. Every field maps 1:1 to a standard OTEL_* environment variable, which the consumer emits as a generated .env.example default. Omitting a signal (or its 'exporter' block) disables that signal: OTEL_TRACES_EXPORTER=none / OTEL_METRICS_EXPORTER=none. Headers, credentials, and sampling are deliberately kept out of the manifest and resolved at runtime through the environment. 'traces' and 'metrics' are optional and purely additive, so an existing '{ enabled: true }' manifest stays valid. Telemetry is disabled by default - omit the block or set 'enabled: false' to keep it off.
  */
 export interface TelemetryConfig {
+  /**
+   * Master switch for OpenTelemetry instrumentation, mapped to the ADK's A2A_TELEMETRY_ENABLE. When false (the default) no telemetry is wired in, regardless of any 'traces'/'metrics' blocks.
+   */
   enabled: boolean;
+  traces?: TelemetryTracesConfig;
+  metrics?: TelemetryMetricsConfig;
+}
+/**
+ * Tracing (spans) signal configuration. The 'exporter' key selects how spans leave the process; omitting 'exporter' (or the whole 'traces' block) disables tracing -> OTEL_TRACES_EXPORTER=none.
+ */
+export interface TelemetryTracesConfig {
+  exporter?: TelemetryTracesExporter;
+}
+/**
+ * OTLP push exporter for a single signal. Selecting it sets OTEL_{TRACES,METRICS}_EXPORTER=otlp. When both traces and metrics use otlp with identical settings the consumer may emit the shared OTEL_EXPORTER_OTLP_ENDPOINT / OTEL_EXPORTER_OTLP_PROTOCOL; otherwise it emits the per-signal OTEL_EXPORTER_OTLP_TRACES_* / OTEL_EXPORTER_OTLP_METRICS_* variants. Authentication headers and credentials are never taken from the manifest - they are supplied at runtime via OTEL_EXPORTER_OTLP_HEADERS and friends.
+ */
+export interface TelemetryOTLPExporter {
+  /**
+   * Collector endpoint, e.g. http://localhost:4318. Maps 1:1 to OTEL_EXPORTER_OTLP_TRACES_ENDPOINT / OTEL_EXPORTER_OTLP_METRICS_ENDPOINT (or the shared OTEL_EXPORTER_OTLP_ENDPOINT when both signals match). A ${VAR} placeholder is accepted and resolved by the consumer at runtime. Optional; when omitted the OTLP SDK default applies.
+   */
+  endpoint?: string;
+  /**
+   * OTLP wire protocol. Maps 1:1 to OTEL_EXPORTER_OTLP_TRACES_PROTOCOL / OTEL_EXPORTER_OTLP_METRICS_PROTOCOL (or the shared OTEL_EXPORTER_OTLP_PROTOCOL). Optional; when omitted the OTLP SDK default applies.
+   */
+  protocol?: 'http/protobuf' | 'grpc';
+}
+/**
+ * Metrics signal configuration. The 'exporter' key selects how metrics are exposed or pushed; omitting 'exporter' (or the whole 'metrics' block) disables metrics -> OTEL_METRICS_EXPORTER=none.
+ */
+export interface TelemetryMetricsConfig {
+  exporter?: TelemetryMetricsExporter;
+}
+/**
+ * Prometheus pull exporter (metrics only): the agent exposes a scrape endpoint instead of pushing. Selecting it sets OTEL_METRICS_EXPORTER=prometheus.
+ */
+export interface TelemetryPrometheusExporter {
+  /**
+   * Host/interface the scrape endpoint binds to (e.g. "" for all interfaces). Maps 1:1 to OTEL_EXPORTER_PROMETHEUS_HOST. Optional; when omitted the SDK default applies.
+   */
+  host?: string;
+  /**
+   * Port the scrape endpoint listens on (OpenTelemetry default 9464). Maps 1:1 to OTEL_EXPORTER_PROMETHEUS_PORT. Optional; when omitted the SDK default applies.
+   */
+  port?: number;
 }
 
 /** Provenance for a catalog entry; injected by the aggregator (inference-gateway/agents). */
