@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1](https://github.com/inference-gateway/registry/compare/v0.3.0...v0.3.1) (2026-07-19)
+
+### 🐛 Bug Fixes
+
+* **deps:** override vite to 6.4.3 to patch fs.deny bypass ([#69](https://github.com/inference-gateway/registry/issues/69)) ([47d7f3c](https://github.com/inference-gateway/registry/commit/47d7f3c1b30fa86f7ab0035ddefa9202cc985f2c))
+
 ## [0.3.0](https://github.com/inference-gateway/registry/compare/v0.2.4...v0.3.0) (2026-07-19)
 
 ### ✨ Features
