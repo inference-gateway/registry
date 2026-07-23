@@ -168,15 +168,53 @@ export interface Agent {
   systemPrompt?: string;
   maxTokens?: number;
   temperature?: number;
+  mcp?: MCP;
+}
+/**
+ * MCP (Model Context Protocol) configuration for the agent: the servers it connects to at runtime plus the runtime settings for the ADK's built-in MCP client. Only meaningful for an LLM-backed agent - A2A itself does not require an LLM - so this lives under 'spec.agent'. 'servers' declares *which* servers to connect to; the remaining fields are the *how* (enable toggle, endpoint, refresh, timeouts, retry/backoff), applied globally across those servers. They mirror the connection/retry model the Go ADK exposes, which is HTTP-only with a single endpoint and one timeout/retry set (there is no per-server override). 'enabled' is the master switch, mapped to 'A2A_MCP_ENABLE': when false (the default) no MCP client is wired in and no MCP code is generated, even if 'servers' lists servers. Every config field maps 1:1 to an 'A2A_MCP_*' environment variable, and its value in the manifest becomes the default the generated project emits (e.g. in .env.example); the matching environment variable overrides it at runtime. The list of server base URLs the client connects to ('A2A_MCP_SERVERS') is derived from the 'servers' entries, not set here. The MCP client is disabled by default - omit this block or set 'enabled: false' to keep it off.
+ */
+export interface MCP {
   /**
-   * MCP (Model Context Protocol) servers the agent connects to at runtime to discover and call external tools and capabilities, in addition to the locally generated 'spec.tools'. Only meaningful for an LLM-backed agent: A2A itself does not require an LLM, so this lives under 'spec.agent'. Each entry declares a transport plus the connection details for that transport.
+   * Master switch for the MCP client, mapped to 'A2A_MCP_ENABLE'. When false (the default) no MCP client is generated or wired in, regardless of any servers listed in 'servers'.
    */
-  mcps?: MCP[];
+  enabled: boolean;
+  /**
+   * MCP servers the agent connects to at runtime to discover and call external tools and capabilities, in addition to the locally generated 'spec.tools'. Each entry declares a transport plus the connection details for that transport.
+   */
+  servers?: MCPServer[];
+  /**
+   * Path appended to each server base URL to reach its MCP endpoint. Maps 1:1 to 'A2A_MCP_ENDPOINT'.
+   */
+  endpoint?: string;
+  /**
+   * How often the client re-discovers the tools each server exposes, as a Go duration string (e.g. '5m', '30s', '1h30m'). Maps 1:1 to 'A2A_MCP_REFRESH_INTERVAL'.
+   */
+  refreshInterval?: string;
+  /**
+   * Timeout for establishing a connection to an MCP server, as a Go duration string. Maps 1:1 to 'A2A_MCP_DIAL_TIMEOUT'.
+   */
+  dialTimeout?: string;
+  /**
+   * Timeout for a single MCP tool call, as a Go duration string. Maps 1:1 to 'A2A_MCP_CALL_TIMEOUT'.
+   */
+  callTimeout?: string;
+  /**
+   * Maximum number of retries for a failed MCP operation. '0' means retry forever. Maps 1:1 to 'A2A_MCP_MAX_RETRIES'.
+   */
+  maxRetries?: number;
+  /**
+   * Initial backoff between retries, as a Go duration string. Maps 1:1 to 'A2A_MCP_RETRY_INTERVAL'.
+   */
+  retryInterval?: string;
+  /**
+   * Maximum backoff between retries once the interval has grown, as a Go duration string. Maps 1:1 to 'A2A_MCP_RETRY_MAX_INTERVAL'.
+   */
+  retryMaxInterval?: string;
 }
 /**
  * A single MCP (Model Context Protocol) server the agent can connect to. 'stdio' launches a local subprocess and talks over stdin/stdout (use 'command', 'args', and 'env'); 'http' and 'sse' connect to a remote endpoint (use 'url' and 'headers'). Connection details that do not apply to the chosen transport are simply omitted; the schema does not constrain which combination is present so consumers can stay lenient.
  */
-export interface MCP {
+export interface MCPServer {
   /**
    * Identifier for the MCP server, unique within the agent. Consumers typically use it to namespace the tools the server exposes.
    */
