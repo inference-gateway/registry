@@ -1,5 +1,5 @@
 // AUTO-GENERATED - DO NOT EDIT.
-// Regenerate with: npm run codegen
+// Regenerate with: bun run codegen
 // Source: https://cdn.jsdelivr.net/gh/inference-gateway/adl@main/schema/v1/schema.json
 
 /**

@@ -38,7 +38,7 @@ delete schema.$id;
 const compiled = await compile(schema, "ADLAgent", {
   bannerComment: "",
   additionalProperties: false,
-  style: { singleQuote: true, semi: true, printWidth: 100 },
+  style: { singleQuote: false, semi: true, printWidth: 100 },
 });
 
 const banner = `// AUTO-GENERATED - DO NOT EDIT.
