@@ -30,7 +30,16 @@ async function copy(text: string, flag: { value: boolean }) {
           <span class="reg-card__sub-accent">{{ skill.vendor }}</span>
         </div>
       </div>
-      <span class="reg-card__badge">{{ skill.license }}</span>
+      <div class="reg-card__head-end">
+        <img
+          v-if="skill.logo"
+          :src="skill.logo"
+          :alt="skill.language ?? ''"
+          class="reg-card__lang-logo"
+          :title="skill.language ?? ''"
+        />
+        <span class="reg-card__badge">{{ skill.license }}</span>
+      </div>
     </header>
 
     <p class="reg-card__desc">{{ skill.description }}</p>
