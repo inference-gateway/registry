@@ -54,7 +54,7 @@ catalog repo on the CDN**. There is no agent or skill metadata in this repo.
   `inference-gateway/agents`, which keeps an `agents.yaml` list of repo URLs +
   refs and runs a build job (push + daily cron) to fetch, validate, and bundle
   them into `catalog.json`. The site fetches that at runtime via
-  `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json`
+  `https://cdn.jsdelivr.net/gh/inference-gateway/agents@latest/catalog.json`
   (override with `VITE_AGENTS_CATALOG_URL`).
 - **Types are generated**, not hand-written. `docs/.vitepress/types/adl.ts` is
   produced by `docs/scripts/codegen-adl.mjs` from the ADL JSON Schema. Run
@@ -79,7 +79,7 @@ catalog repo on the CDN**. There is no agent or skill metadata in this repo.
 ### Skills: runtime, external
 
 - Fetched at runtime from
-  `https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json`
+  `https://cdn.jsdelivr.net/gh/inference-gateway/skills@latest/catalog.json`
   (override with `VITE_SKILLS_CATALOG_URL`). The skills catalog lives in a
   **separate repo** (`inference-gateway/skills`).
 - `docs/.vitepress/lib/skillService.ts` memoizes the fetch the same way as

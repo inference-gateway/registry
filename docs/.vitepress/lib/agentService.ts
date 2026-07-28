@@ -2,7 +2,7 @@ import type { Catalog, CatalogAgent } from "./types";
 
 const CATALOG_URL =
   import.meta.env.VITE_AGENTS_CATALOG_URL ??
-  "https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json";
+  "https://cdn.jsdelivr.net/gh/inference-gateway/agents@latest/catalog.json";
 
 let cached: Promise<CatalogAgent[]> | null = null;
 

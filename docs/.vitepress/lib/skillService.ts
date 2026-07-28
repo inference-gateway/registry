@@ -2,7 +2,7 @@ import type { Skill, SkillCatalog } from "./types";
 
 const CATALOG_URL =
   import.meta.env.VITE_SKILLS_CATALOG_URL ??
-  "https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json";
+  "https://cdn.jsdelivr.net/gh/inference-gateway/skills@latest/catalog.json";
 
 let cached: Promise<Skill[]> | null = null;
 
