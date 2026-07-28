@@ -14,6 +14,10 @@ export interface Skill {
   tags: string[];
   categories: string[];
   homepage?: string;
+  /** Programming language the skill targets (e.g. "go", "typescript", "rust"). */
+  language?: string;
+  /** Devicon SVG URL for the language logo. */
+  logo?: string;
 }
 
 export interface SkillCatalog {
