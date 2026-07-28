@@ -34,7 +34,7 @@
       }
     },
     "hook": {
-      "on-activate": "  bun install --frozen-lockfile\n"
+      "on-activate": "  git config core.hooksPath .githooks\n  bun install --frozen-lockfile\n"
     },
     "options": {}
   },

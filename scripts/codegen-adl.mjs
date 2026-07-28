@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
-// Regenerates docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema.
-// Run with `npm run codegen` whenever ADL changes.
+// Regenerates .vitepress/types/adl.ts from the upstream ADL JSON Schema.
+// Run with `bun run codegen` whenever ADL changes.
 // CI verifies the committed output is fresh:
-//   npm run codegen && git diff --exit-code docs/.vitepress/types/adl.ts
+//   bun run codegen && git diff --exit-code .vitepress/types/adl.ts
 import { writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
@@ -42,7 +42,7 @@ const compiled = await compile(schema, "ADLAgent", {
 });
 
 const banner = `// AUTO-GENERATED - DO NOT EDIT.
-// Regenerate with: npm run codegen
+// Regenerate with: bun run codegen
 // Source: ${SCHEMA_URL}
 
 `;

@@ -1,3 +1,4 @@
+#!/bin/sh
 STAGED=$(git diff --cached --name-only --diff-filter=ACM)
 
 if [ -z "$STAGED" ]; then

@@ -6,23 +6,23 @@ This repository is a static [VitePress](https://vitepress.dev/) site for the
 inference-gateway registry. The visual language matches the ADL docs site
 (teal `#3c8772`, Inter font, light + dark toggle).
 
-All site code lives under `docs/`:
+All site code lives at the repo root:
 
-- `docs/index.md` - landing page (hero + feature cards, VitePress `layout: home`).
-- `docs/agents/index.md` and `docs/skills/index.md` - thin shells that embed
+- `index.md` - landing page (hero + feature cards, VitePress `layout: home`).
+- `agents/index.md` and `skills/index.md` - thin shells that embed
   `<AgentsBrowser />` and `<SkillsBrowser />`.
-- `docs/how-to/*.md` - six markdown how-to guides (prerequisites,
+- `how-to/*.md` - six markdown how-to guides (prerequisites,
   browse-and-install, list-an-agent, list-a-skill, build-agents, enterprise).
-- `docs/.vitepress/config.ts` - nav, sidebar, theme color, head meta, sitemap.
-- `docs/.vitepress/theme/{index.ts,custom.css}` - default-theme extension and
+- `.vitepress/config.ts` - nav, sidebar, theme color, head meta, sitemap.
+- `.vitepress/theme/{index.ts,custom.css}` - default-theme extension and
   brand overrides (teal CSS vars + Inter font).
-- `docs/.vitepress/components/` - Vue 3 Composition API components
+- `.vitepress/components/` - Vue 3 Composition API components
   (`AgentsBrowser.vue`, `SkillsBrowser.vue`, `AgentCard.vue`, `SkillCard.vue`).
-- `docs/.vitepress/lib/` - data services (`agentService.ts`, `skillService.ts`),
+- `.vitepress/lib/` - data services (`agentService.ts`, `skillService.ts`),
   ADL helpers (`adl.ts`), and type re-exports (`types.ts`).
-- `docs/.vitepress/types/adl.ts` - **generated** from the upstream ADL JSON
+- `.vitepress/types/adl.ts` - **generated** from the upstream ADL JSON
   Schema. Do not hand-edit; run `bun run codegen` instead.
-- `docs/public/` - favicons, OG images, manifest, robots, CNAME.
+- `public/` - favicons, OG images, manifest, robots, CNAME.
 
 Agent and skill metadata do **not** live in this repo - both are fetched at
 runtime from sibling catalog repos (`inference-gateway/agents` and
@@ -30,17 +30,17 @@ runtime from sibling catalog repos (`inference-gateway/agents` and
 
 ## Build, Test, and Development Commands
 
-All commands run inside `docs/`:
+All commands run from the repo root:
 
 - `bun install`: install dependencies. Bun `>=1.2` is required.
 - `bun run dev`: start the VitePress dev server with HMR.
-- `bun run build`: build the static site into `docs/.vitepress/dist`.
+- `bun run build`: build the static site into `.vitepress/dist`.
 - `bun run preview`: serve the production build locally.
-- `bun run codegen`: regenerate `docs/.vitepress/types/adl.ts` from the
+- `bun run codegen`: regenerate `.vitepress/types/adl.ts` from the
   upstream ADL JSON Schema. Run after ADL changes and commit the result.
 
-A `Taskfile.yml` at the repo root wraps these (`task dev`, `task build`, etc.)
-and `cd`s into `docs/` for you. `task lint` runs `markdownlint --fix` over
+A `Taskfile.yml` at the repo root wraps these (`task dev`, `task build`, etc.).
+`task lint` runs `markdownlint --fix` over
 the repo. `task format` / `task format:check` run Prettier over the repo
 (`AGENTS.md`, `CLAUDE.md`, and `CHANGELOG.md` are excluded via
 `.prettierignore`); Prettier is provided by the Flox env.
@@ -52,7 +52,7 @@ the repo. `task format` / `task format:check` run Prettier over the repo
   are camelCase (`agentService.ts`).
 - Style components with the VitePress `--vp-c-*` CSS variables so they track
   light / dark mode automatically. Shared styles live in
-  `docs/.vitepress/theme/custom.css` under the `.reg-card` / `.reg-browser__*`
+  `.vitepress/theme/custom.css` under the `.reg-card` / `.reg-browser__*`
   namespaces.
 - Markdown is line-length-limited to 120 characters. If spell checking flags
   valid project terminology, add it to `cspell.json`.
@@ -60,7 +60,7 @@ the repo. `task format` / `task format:check` run Prettier over the repo
 ## Testing Guidelines
 
 No test framework is configured. For now, validate changes with
-`bun run build` inside `docs/`.
+`bun run build`.
 
 ## Agent and Skill Metadata Workflow
 
@@ -79,8 +79,8 @@ the architecture changes intentionally.
 - **Skills** (`inference-gateway/skills`): per-skill files in that repo; PR
   to add or update.
 - The ADL schema itself lives in `inference-gateway/adl`. Schema changes
-  require running `bun run codegen` inside `docs/` here to refresh
-  `docs/.vitepress/types/adl.ts`.
+  require running `bun run codegen` here to refresh
+  `.vitepress/types/adl.ts`.
 
 ## Commit & Pull Request Guidelines
 
@@ -90,4 +90,4 @@ example `chore(deps): bump dev dependencies`. Prefer scoped messages such as
 
 Pull requests should include a concise description, linked issue when
 available, and screenshots for visible UI changes. Note the verification
-commands you ran (typically `bun run build` inside `docs/`).
+commands you ran (typically `bun run build`).

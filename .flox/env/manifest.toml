@@ -19,5 +19,6 @@ codex.pkg-group = "codex"
 
 [hook]
 on-activate = """
+  git config core.hooksPath .githooks
   bun install --frozen-lockfile
 """

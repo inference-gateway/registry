@@ -13,6 +13,13 @@ export default defineConfig({
     "Discovery hub for A2A (Agent-to-Agent) services and portable skills in the Inference Gateway ecosystem. Every entry follows the Agent Definition Language schema.",
   cleanUrls: true,
   lastUpdated: true,
+  srcExclude: [
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "CHANGELOG.md",
+    "LICENSE",
+  ],
   sitemap: {
     hostname: "https://registry.inference-gateway.com/",
   },
@@ -138,8 +145,7 @@ export default defineConfig({
       { icon: "github", link: "https://github.com/inference-gateway/registry" },
     ],
     editLink: {
-      pattern:
-        "https://github.com/inference-gateway/registry/edit/main/docs/:path",
+      pattern: "https://github.com/inference-gateway/registry/edit/main/:path",
       text: "Edit this page on GitHub",
     },
     footer: {

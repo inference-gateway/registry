@@ -5,17 +5,17 @@ CHANGELOG.md
 
 # Build artifacts
 dist
-docs/.vitepress/cache
-docs/.vitepress/dist
+docs/docs/.vitepress/cache
+docs/docs/.vitepress/dist
 
 # Generated code (refresh with `task generate`)
-docs/.vitepress/types/adl.ts
+docs/docs/.vitepress/types/adl.ts
 
 # Lockfiles
 **/package-lock.json
 
 # Binary assets
-docs/public
+docs/docs/public
 
 # Flox env
 .flox

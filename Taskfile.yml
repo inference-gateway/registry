@@ -5,27 +5,22 @@ tasks:
   dev:
     desc: Start VitePress dev server with hot reload
     cmd: bun run dev
-    dir: docs
 
   build:
-    desc: Build the static site into docs/.vitepress/dist
+    desc: Build the static site into .vitepress/dist
     cmd: bun run build
-    dir: docs
 
   preview:
     desc: Serve the production build locally
     cmd: bun run preview
-    dir: docs
 
   install:
-    desc: Install dependencies (inside docs/)
+    desc: Install dependencies
     cmd: bun install
-    dir: docs
 
   generate:
-    desc: Regenerate docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema
+    desc: Regenerate .vitepress/types/adl.ts from the upstream ADL JSON Schema
     cmd: bun run codegen
-    dir: docs
 
   lint:
     desc: Run markdownlint (same check CI runs)

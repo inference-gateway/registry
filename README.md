@@ -42,8 +42,8 @@ light/dark toggle).
 ## Quick start
 
 ```sh
-# All commands run from the docs/ workspace
-cd docs
+# All commands run from the repo root
+
 
 # Install dependencies (requires Bun >=1.2)
 bun install
@@ -51,7 +51,7 @@ bun install
 # Start the dev server with HMR
 bun run dev
 
-# Build the static site into docs/.vitepress/dist
+# Build the static site into .vitepress/dist
 bun run build
 
 # Serve the production build locally
@@ -65,7 +65,6 @@ A `Taskfile.yml` at the repo root wraps the same commands (`task dev`,
 ## Project layout
 
 ```text
-docs/
 ├── index.md                       # Landing page (hero + features)
 ├── agents/index.md                # Embeds <AgentsBrowser />
 ├── skills/index.md                # Embeds <SkillsBrowser />
@@ -93,14 +92,14 @@ redeploy here.
 To submit a new **skill**, open a PR against `inference-gateway/skills`.
 
 The ADL schema itself lives in [`inference-gateway/adl`](https://github.com/inference-gateway/adl).
-Schema changes require running `bun run codegen` inside `docs/` here to refresh
-`docs/.vitepress/types/adl.ts`.
+Schema changes require running `bun run codegen` here to refresh
+`.vitepress/types/adl.ts`.
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
-3. Make your changes inside `docs/`
+3. Make your changes
 4. Run `bun run build` to confirm it still builds
 5. Open a pull request
 
