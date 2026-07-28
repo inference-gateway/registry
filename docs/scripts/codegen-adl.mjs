@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 // Regenerates docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema.
 // Run with `npm run codegen` whenever ADL changes.
 // CI verifies the committed output is fresh:

@@ -21,7 +21,7 @@ All site code lives under `docs/`:
 - `docs/.vitepress/lib/` - data services (`agentService.ts`, `skillService.ts`),
   ADL helpers (`adl.ts`), and type re-exports (`types.ts`).
 - `docs/.vitepress/types/adl.ts` - **generated** from the upstream ADL JSON
-  Schema. Do not hand-edit; run `npm run codegen` instead.
+  Schema. Do not hand-edit; run `bun run codegen` instead.
 - `docs/public/` - favicons, OG images, manifest, robots, CNAME.
 
 Agent and skill metadata do **not** live in this repo - both are fetched at
@@ -32,11 +32,11 @@ runtime from sibling catalog repos (`inference-gateway/agents` and
 
 All commands run inside `docs/`:
 
-- `npm install`: install dependencies. Node `^24.15.0` is required.
-- `npm run dev`: start the VitePress dev server with HMR.
-- `npm run build`: build the static site into `docs/.vitepress/dist`.
-- `npm run preview`: serve the production build locally.
-- `npm run codegen`: regenerate `docs/.vitepress/types/adl.ts` from the
+- `bun install`: install dependencies. Bun `>=1.2` is required.
+- `bun run dev`: start the VitePress dev server with HMR.
+- `bun run build`: build the static site into `docs/.vitepress/dist`.
+- `bun run preview`: serve the production build locally.
+- `bun run codegen`: regenerate `docs/.vitepress/types/adl.ts` from the
   upstream ADL JSON Schema. Run after ADL changes and commit the result.
 
 A `Taskfile.yml` at the repo root wraps these (`task dev`, `task build`, etc.)
@@ -60,7 +60,7 @@ the repo. `task format` / `task format:check` run Prettier over the repo
 ## Testing Guidelines
 
 No test framework is configured. For now, validate changes with
-`npm run build` inside `docs/`.
+`bun run build` inside `docs/`.
 
 ## Agent and Skill Metadata Workflow
 
@@ -79,7 +79,7 @@ the architecture changes intentionally.
 - **Skills** (`inference-gateway/skills`): per-skill files in that repo; PR
   to add or update.
 - The ADL schema itself lives in `inference-gateway/adl`. Schema changes
-  require running `npm run codegen` inside `docs/` here to refresh
+  require running `bun run codegen` inside `docs/` here to refresh
   `docs/.vitepress/types/adl.ts`.
 
 ## Commit & Pull Request Guidelines
@@ -90,4 +90,4 @@ example `chore(deps): bump dev dependencies`. Prefer scoped messages such as
 
 Pull requests should include a concise description, linked issue when
 available, and screenshots for visible UI changes. Note the verification
-commands you ran (typically `npm run build` inside `docs/`).
+commands you ran (typically `bun run build` inside `docs/`).

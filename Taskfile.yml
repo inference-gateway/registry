@@ -4,27 +4,27 @@ version: "3"
 tasks:
   dev:
     desc: Start VitePress dev server with hot reload
-    cmd: npm run dev
+    cmd: bun run dev
     dir: docs
 
   build:
     desc: Build the static site into docs/.vitepress/dist
-    cmd: npm run build
+    cmd: bun run build
     dir: docs
 
   preview:
     desc: Serve the production build locally
-    cmd: npm run preview
+    cmd: bun run preview
     dir: docs
 
   install:
     desc: Install dependencies (inside docs/)
-    cmd: npm install
+    cmd: bun install
     dir: docs
 
   generate:
     desc: Regenerate docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema
-    cmd: npm run codegen
+    cmd: bun run codegen
     dir: docs
 
   lint:

@@ -1,9 +1,6 @@
 schema-version = "1.13.0"
 
 [install]
-nodejs_24.pkg-path = "nodejs_24"
-nodejs_24.version = "^24.15.0"
-nodejs_24.outputs = "all"
 prettier.pkg-path = "prettier"
 prettier.version = "^3.8.3"
 markdownlint-cli.pkg-path = "markdownlint-cli"
@@ -17,6 +14,7 @@ claude-code.pkg-group = "claude-code"
 codex.pkg-path = "codex"
 codex.version = "^0.142.3"
 codex.pkg-group = "codex"
+bun.pkg-path = "bun"
 
 [hook]
 on-activate = """
