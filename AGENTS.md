@@ -84,9 +84,9 @@ the architecture changes intentionally.
 
 ## Commit & Pull Request Guidelines
 
-Recent history follows conventional commits with capitalized subjects, for
-example `chore(deps): Bump dev dependencies`. Prefer scoped messages such as
-`feat(registry): Add agents browser`.
+Recent history follows conventional commits with lowercase subjects, for
+example `chore(deps): bump dev dependencies`. Prefer scoped messages such as
+`feat(registry): add agents browser`.
 
 Pull requests should include a concise description, linked issue when
 available, and screenshots for visible UI changes. Note the verification

@@ -54,7 +54,7 @@ workflow in `inference-gateway/agents` runs on every push that touches
 2. Validates it against the ADL JSON Schema.
 3. Rejects duplicate `metadata.name` collisions.
 4. Sorts entries by name and writes `catalog.json`.
-5. Auto-commits with `chore(catalog): Rebuild catalog.json [skip ci]`.
+5. Auto-commits with `chore(catalog): rebuild catalog.json [skip ci]`.
 
 The jsDelivr `@main` cache window then bounds visibility - your entry
 typically appears here within a few hours, at most ~12.

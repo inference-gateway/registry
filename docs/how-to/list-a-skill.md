@@ -94,7 +94,7 @@ workflow in `inference-gateway/skills` runs on every push that touches
 3. Rejects duplicate `name` collisions across local and external entries.
 4. Validates `license` is in the ADL Skill enum.
 5. Sorts entries and writes `catalog.json`.
-6. Opens a follow-up PR (`chore(catalog): Rebuild catalog.json`) for a
+6. Opens a follow-up PR (`chore(catalog): rebuild catalog.json`) for a
    maintainer to merge.
 
 Once that rebuild PR lands on `main`, the jsDelivr `@main` cache window
@@ -149,8 +149,8 @@ difference is where the file lives.
 
 ## Conventions
 
-- Conventional commits, capitalized subject -
-  `feat(catalog): Add foo-skill` is the expected style. Semantic-release in
+- Conventional commits, lowercase subject -
+  `feat(catalog): add foo-skill` is the expected style. Semantic-release in
   the skills repo reads these to compute versions.
 - Do **not** hand-edit `catalog.json`, `CHANGELOG.md`, or the `release` /
   `updated` fields - all three are regenerated (the catalog by the build

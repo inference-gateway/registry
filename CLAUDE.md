@@ -119,8 +119,8 @@ schema there, then `npm run codegen` inside `docs/` here to refresh
 
 ## Conventions
 
-- Commits follow conventional commits with a **capitalized** subject
-  (e.g. `feat(client): Add retry mechanism`, `fix(auth): Resolve token
+- Commits follow conventional commits with a lowercase subject
+  (e.g. `feat(client): add retry mechanism`, `fix(auth): resolve token
   validation issue`). The Claude GitHub Action enforces this via its system
   prompt.
 - Markdown is line-length-limited to 120 chars (`.markdownlint.json`); MD029,
