@@ -19,5 +19,5 @@ codex.pkg-group = "codex"
 
 [hook]
 on-activate = """
-  (cd "$FLOX_ENV_PROJECT/docs" && bun install)
+  bun install --cwd docs --frozen-lockfile
 """
