@@ -21,9 +21,9 @@ portable skills. Both catalogs are fetched at runtime from sibling repos via
 jsDelivr, so adding or updating an entry doesn't require redeploying this site:
 
 - **Agents catalog**: [`inference-gateway/agents`](https://github.com/inference-gateway/agents)
-  -> `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json`
+  -> `https://cdn.jsdelivr.net/gh/inference-gateway/agents@latest/catalog.json`
 - **Skills catalog**: [`inference-gateway/skills`](https://github.com/inference-gateway/skills)
-  -> `https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json`
+  -> `https://cdn.jsdelivr.net/gh/inference-gateway/skills@latest/catalog.json`
 
 Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` /
 `VITE_SKILLS_CATALOG_URL` (the Vite env vars exposed by VitePress).

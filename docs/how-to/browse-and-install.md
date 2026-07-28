@@ -68,8 +68,8 @@ Card fields map directly to the underlying schema:
 Both catalogs are fetched at runtime - this site is just a static
 front-end:
 
-- Agents: `https://cdn.jsdelivr.net/gh/inference-gateway/agents@main/catalog.json`
-- Skills: `https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json`
+- Agents: `https://cdn.jsdelivr.net/gh/inference-gateway/agents@latest/catalog.json`
+- Skills: `https://cdn.jsdelivr.net/gh/inference-gateway/skills@latest/catalog.json`
 
 The `@main` ref is cached by jsDelivr for up to ~12 hours, so a freshly
 merged entry may not appear here immediately. For local development you

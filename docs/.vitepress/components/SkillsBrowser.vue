@@ -152,7 +152,7 @@ function clearFilters() {
       <div class="reg-browser__footer">
         The full catalog is also served as JSON at
         <a
-          href="https://cdn.jsdelivr.net/gh/inference-gateway/skills@main/catalog.json"
+          href="https://cdn.jsdelivr.net/gh/inference-gateway/skills@latest/catalog.json"
           target="_blank"
           rel="noopener noreferrer"
           ><code>catalog.json</code></a
