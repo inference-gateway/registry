@@ -34,7 +34,7 @@
       }
     },
     "hook": {
-      "on-activate": "  bun install --cwd docs --frozen-lockfile\n"
+      "on-activate": "  bun install --frozen-lockfile\n"
     },
     "options": {}
   },

@@ -19,5 +19,5 @@ codex.pkg-group = "codex"
 
 [hook]
 on-activate = """
-  bun install --cwd docs --frozen-lockfile
+  bun install --frozen-lockfile
 """
