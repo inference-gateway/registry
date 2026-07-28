@@ -7,9 +7,7 @@ const props = defineProps<{ skill: Skill }>();
 const copiedNpx = ref(false);
 const copiedCommand = ref(false);
 const copiedSource = ref(false);
-const npxCommand = computed(
-  () => `npx skills add ${props.skill.source}`,
-);
+const npxCommand = computed(() => `npx skills add ${props.skill.source}`);
 const installCommand = computed(
   () => `infer skills install ${props.skill.name}`,
 );
