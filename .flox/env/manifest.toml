@@ -7,8 +7,6 @@ prettier.pkg-path = "prettier"
 prettier.version = "^3.8.3"
 markdownlint-cli.pkg-path = "markdownlint-cli"
 markdownlint-cli.version = "^0.48.0"
-go-task.pkg-path = "go-task"
-go-task.version = "^3.48.0"
 infer.flake = "github:inference-gateway/cli/v0.154.0"
 claude-code.pkg-path = "claude-code"
 claude-code.version = "^2.1.201"
@@ -19,6 +17,5 @@ codex.pkg-group = "codex"
 
 [hook]
 on-activate = """
-  git config core.hooksPath .githooks
   bun install --frozen-lockfile
 """

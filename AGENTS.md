@@ -39,9 +39,8 @@ All commands run from the repo root:
 - `bun run codegen`: regenerate `.vitepress/types/adl.ts` from the
   upstream ADL JSON Schema. Run after ADL changes and commit the result.
 
-A `Taskfile.yml` at the repo root wraps these (`task dev`, `task build`, etc.).
-`task lint` runs `markdownlint --fix` over
-the repo. `task format` / `task format:check` run Prettier over the repo
+`bun run lint` runs `markdownlint --fix` over
+the repo. `bun run format` / `bun run format:check` run Prettier over the repo
 (`AGENTS.md`, `CLAUDE.md`, and `CHANGELOG.md` are excluded via
 `.prettierignore`); Prettier is provided by the Flox env.
 
