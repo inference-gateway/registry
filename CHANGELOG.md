@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0](https://github.com/inference-gateway/registry/compare/v0.3.1...v0.4.0) (2026-07-28)
+
+### ✨ Features
+
+* **skills:** show language logo on skill cards from catalog ([#76](https://github.com/inference-gateway/registry/issues/76)) ([e565594](https://github.com/inference-gateway/registry/commit/e5655941890b836c07523702f9537ee2a8af5bfb))
+
+### 🐛 Bug Fixes
+
+* **ci:** update maintainer app ID to client ID in workflows and documentation ([48549b2](https://github.com/inference-gateway/registry/commit/48549b201767ca13d2364f5835a18c71d900022e))
+
+### 👷 CI
+
+* **claude:** centralize claude.yml via reusable workflow ([#71](https://github.com/inference-gateway/registry/issues/71)) ([316cc5c](https://github.com/inference-gateway/registry/commit/316cc5c9b4e8a47add48a79b0f64affa576a570e))
+* **claude:** centralize claude.yml via reusable workflow ([#72](https://github.com/inference-gateway/registry/issues/72)) ([5802154](https://github.com/inference-gateway/registry/commit/580215443bb9978ba63bfb123db8fdedea1c33c5))
+* **claude:** centralize claude.yml via reusable workflow ([#75](https://github.com/inference-gateway/registry/issues/75)) ([c7d4ae9](https://github.com/inference-gateway/registry/commit/c7d4ae908eb511b7afc350094b081a17ca74fbf1))
+* **deps-dev:** bump postcss from 8.5.15 to 8.5.23 in /docs ([#73](https://github.com/inference-gateway/registry/issues/73)) ([f1f8b89](https://github.com/inference-gateway/registry/commit/f1f8b89f556c5819aad550c77d61a734da156081))
+* **deps:** bump actions/checkout from 7.0.0 to 7.0.1 in the github-actions group ([#70](https://github.com/inference-gateway/registry/issues/70)) ([61ab128](https://github.com/inference-gateway/registry/commit/61ab1289a6e0ee1e9a98fed3765dbd417dcb9934))
+
+### 🔧 Miscellaneous
+
+* **deps:** bump infer CLI v0.147.1 -> v0.153.1 ([#74](https://github.com/inference-gateway/registry/issues/74)) ([ec7f82b](https://github.com/inference-gateway/registry/commit/ec7f82b2ff886b18896b956ce949e69868066bc2))
+
 ## [0.3.1](https://github.com/inference-gateway/registry/compare/v0.3.0...v0.3.1) (2026-07-19)
 
 ### 🐛 Bug Fixes
