@@ -28,5 +28,8 @@ dist-ssr
 *.sln
 *.sw?
 
+# Lockfiles (using bun.lock)
+package-lock.json
+
 # Secret files
 .env

@@ -58,6 +58,10 @@ bun run build
 bun run preview
 ```
 
+A `Taskfile.yml` at the repo root wraps the same commands (`task dev`,
+`task build`, `task preview`, `task install`, `task lint`, `task generate`,
+`task format`, `task format:check`).
+
 ## Project layout
 
 ```text
