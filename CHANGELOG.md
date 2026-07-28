@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0](https://github.com/inference-gateway/registry/compare/v0.4.0...v0.5.0) (2026-07-28)
+
+### ✨ Features
+
+* **skills:** add per-skill npx install command with copy-to-clipboard ([#79](https://github.com/inference-gateway/registry/issues/79)) ([fa5aa6b](https://github.com/inference-gateway/registry/commit/fa5aa6b68081ee9eb2ea703e349232593a9e80c3))
+
+### 🐛 Bug Fixes
+
+* read catalogs from jsDelivr [@latest](https://github.com/latest) instead of [@main](https://github.com/main) ([#77](https://github.com/inference-gateway/registry/issues/77)) ([594348d](https://github.com/inference-gateway/registry/commit/594348db58e81e9df3b84dfd2c72f72e6c4c37f2)), references [inference-gateway/skills#86](https://github.com/inference-gateway/skills/issues/86) [pre-#86](https://github.com/pre-/issues/86)
+
+### 📚 Documentation
+
+* update commit message guidelines to use lowercase subjects ([fcdd707](https://github.com/inference-gateway/registry/commit/fcdd7070a732f7c2cb54f736e9a986597f62bc58))
+
+### 🔧 Miscellaneous
+
+* add symlink for CLAUDE.md -> AGENTS.md ([c75aad1](https://github.com/inference-gateway/registry/commit/c75aad19ac0b767f96a27e236e8458958497ea38))
+
 ## [0.4.0](https://github.com/inference-gateway/registry/compare/v0.3.1...v0.4.0) (2026-07-28)
 
 ### ✨ Features
