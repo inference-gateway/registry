@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.1](https://github.com/inference-gateway/registry/compare/v0.5.0...v0.5.1) (2026-07-29)
+
+### ♻️ Improvements
+
+* **registry:** switch to Bun and flatten project structure ([#80](https://github.com/inference-gateway/registry/issues/80)) ([7f30f68](https://github.com/inference-gateway/registry/commit/7f30f6806a2a29f1750d881b192e57cbe667c416))
+
+### 🔧 Miscellaneous
+
+* **deps:** update codex and infer versions ([faed0be](https://github.com/inference-gateway/registry/commit/faed0bea0301527d43da06c298751a527c229d0a))
+
 ## [0.5.0](https://github.com/inference-gateway/registry/compare/v0.4.0...v0.5.0) (2026-07-28)
 
 ### ✨ Features
