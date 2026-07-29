@@ -1,5 +1,5 @@
 // AUTO-GENERATED - DO NOT EDIT.
-// Regenerate with: npm run codegen
+// Regenerate with: bun run codegen
 // Source: https://cdn.jsdelivr.net/gh/inference-gateway/adl@main/schema/v1/schema.json
 
 /**
@@ -30,8 +30,8 @@ export type TelemetryMetricsExporter1 = {
  * JSON Schema for Agent Definition Language manifests (apiVersion adl.inference-gateway.com/v1).
  */
 export interface ADLAgent {
-  apiVersion: 'adl.inference-gateway.com/v1';
-  kind: 'Agent';
+  apiVersion: "adl.inference-gateway.com/v1";
+  kind: "Agent";
   metadata: Metadata;
   spec: Spec;
 }
@@ -51,21 +51,21 @@ export interface Metadata {
    * SPDX identifier under which the agent is distributed, or "Proprietary" for closed-source agents. Mirrors the enum used for Skill.license so the same accepted set applies at the agent level. New identifiers may be added in future minor versions of the schema.
    */
   license?:
-    | 'MIT'
-    | 'Apache-2.0'
-    | 'BSD-2-Clause'
-    | 'BSD-3-Clause'
-    | 'GPL-2.0'
-    | 'GPL-3.0'
-    | 'LGPL-2.1'
-    | 'LGPL-3.0'
-    | 'MPL-2.0'
-    | 'ISC'
-    | 'CC0-1.0'
-    | 'CC-BY-4.0'
-    | 'CC-BY-SA-4.0'
-    | 'Unlicense'
-    | 'Proprietary';
+    | "MIT"
+    | "Apache-2.0"
+    | "BSD-2-Clause"
+    | "BSD-3-Clause"
+    | "GPL-2.0"
+    | "GPL-3.0"
+    | "LGPL-2.1"
+    | "LGPL-3.0"
+    | "MPL-2.0"
+    | "ISC"
+    | "CC0-1.0"
+    | "CC-BY-4.0"
+    | "CC-BY-SA-4.0"
+    | "Unlicense"
+    | "Proprietary";
   /**
    * Discoverability tags for the agent (e.g. 'calendar', 'automation'). Consumers may merge these with tool- and skill-level tags when indexing.
    */
@@ -150,20 +150,20 @@ export interface Example {
 }
 export interface Agent {
   provider?:
-    | ''
-    | 'openai'
-    | 'anthropic'
-    | 'ollama'
-    | 'deepseek'
-    | 'google'
-    | 'mistral'
-    | 'groq'
-    | 'cohere'
-    | 'cloudflare'
-    | 'moonshot'
-    | 'ollama_cloud'
-    | 'nvidia'
-    | 'minimax';
+    | ""
+    | "openai"
+    | "anthropic"
+    | "ollama"
+    | "deepseek"
+    | "google"
+    | "mistral"
+    | "groq"
+    | "cohere"
+    | "cloudflare"
+    | "moonshot"
+    | "ollama_cloud"
+    | "nvidia"
+    | "minimax";
   model?: string;
   systemPrompt?: string;
   maxTokens?: number;
@@ -222,7 +222,7 @@ export interface MCPServer {
   /**
    * How the agent connects to the MCP server. New transports may be added in future minor versions; consumers should be lenient about unknown values.
    */
-  transport: 'stdio' | 'sse' | 'http';
+  transport: "stdio" | "sse" | "http";
   /**
    * Executable to launch for a 'stdio' server (e.g. 'npx', 'uvx', 'docker'). Ignored by remote transports.
    */
@@ -249,7 +249,7 @@ export interface MCPServer {
   };
 }
 export interface Service {
-  type: 'service' | 'repository' | 'client' | 'middleware';
+  type: "service" | "repository" | "client" | "middleware";
   interface: string;
   factory: string;
   description: string;
@@ -284,21 +284,21 @@ export interface Skill {
    * License under which the skill is distributed. Must be one of the accepted SPDX license identifiers, or "Proprietary" for closed-source skills. Consumers should mirror this value in the SKILL.md frontmatter so the licence travels with the playbook; shipping a separate LICENSE file alongside SKILL.md is optional and not enforced by the schema. New identifiers may be added in future minor versions of the schema.
    */
   license?:
-    | 'MIT'
-    | 'Apache-2.0'
-    | 'BSD-2-Clause'
-    | 'BSD-3-Clause'
-    | 'GPL-2.0'
-    | 'GPL-3.0'
-    | 'LGPL-2.1'
-    | 'LGPL-3.0'
-    | 'MPL-2.0'
-    | 'ISC'
-    | 'CC0-1.0'
-    | 'CC-BY-4.0'
-    | 'CC-BY-SA-4.0'
-    | 'Unlicense'
-    | 'Proprietary';
+    | "MIT"
+    | "Apache-2.0"
+    | "BSD-2-Clause"
+    | "BSD-3-Clause"
+    | "GPL-2.0"
+    | "GPL-3.0"
+    | "LGPL-2.1"
+    | "LGPL-3.0"
+    | "MPL-2.0"
+    | "ISC"
+    | "CC0-1.0"
+    | "CC-BY-4.0"
+    | "CC-BY-SA-4.0"
+    | "Unlicense"
+    | "Proprietary";
   tags?: string[];
 }
 export interface Server {
@@ -352,7 +352,7 @@ export interface Hooks {
   post?: string[];
 }
 export interface SCM {
-  provider?: 'github' | 'gitlab' | 'bitbucket';
+  provider?: "github" | "gitlab" | "bitbucket";
   url?: string;
   github_app?: boolean;
   /**
@@ -459,7 +459,7 @@ export interface InferConfig {
   appPrivateKeySecret?: string;
 }
 export interface DeploymentConfig {
-  type?: 'kubernetes' | 'cloudrun' | 'vercel' | 'cloudflare';
+  type?: "kubernetes" | "cloudrun" | "vercel" | "cloudflare";
   cloudrun?: CloudRunConfig;
   kubernetes?: KubernetesConfig;
   vercel?: VercelConfig;
@@ -517,7 +517,7 @@ export interface VercelConfig {
   /**
    * Vercel function runtime. "nodejs" for the serverless Node.js runtime (supports full Node API); "edge" for the Edge runtime (limited API, runs in V8 isolates at the edge).
    */
-  runtime?: 'nodejs' | 'edge';
+  runtime?: "nodejs" | "edge";
   /**
    * Vercel region identifiers where the function is deployed (e.g. "iad1", "gru1", "hkg1"). Omitting lets Vercel decide.
    */
@@ -605,7 +605,7 @@ export interface TelemetryOTLPExporter {
   /**
    * OTLP wire protocol. Maps 1:1 to OTEL_EXPORTER_OTLP_TRACES_PROTOCOL / OTEL_EXPORTER_OTLP_METRICS_PROTOCOL (or the shared OTEL_EXPORTER_OTLP_PROTOCOL). Optional; when omitted the OTLP SDK default applies.
    */
-  protocol?: 'http/protobuf' | 'grpc';
+  protocol?: "http/protobuf" | "grpc";
 }
 /**
  * Metrics signal configuration. The 'exporter' key selects how metrics are exposed or pushed; omitting 'exporter' (or the whole 'metrics' block) disables metrics -> OTEL_METRICS_EXPORTER=none.

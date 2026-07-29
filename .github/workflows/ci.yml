@@ -20,20 +20,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7.0.0
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2.2.0
         with:
-          node-version-file: "docs/package.json"
-          cache: "npm"
-          cache-dependency-path: "docs/package-lock.json"
+          cache: true
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: docs
+        run: bun install --frozen-lockfile
 
       - name: Build
-        run: npm run build
-        working-directory: docs
+        run: bun run build
 
   format:
     name: Check formatting
@@ -44,13 +40,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7.0.0
-        with:
-          node-version-file: "docs/package.json"
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2.2.0
 
       - name: Check formatting with Prettier
-        run: npx --yes prettier@3.8.3 --check .
+        run: bun x prettier@3.8.3 --check .
 
   lint:
     name: Lint markdown
@@ -61,13 +55,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7.0.0
-        with:
-          node-version-file: "docs/package.json"
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2.2.0
 
       - name: Run markdownlint
-        run: npx --yes markdownlint-cli@0.48.0 --ignore '**/node_modules/**' --ignore '**/.vitepress/cache/**' --ignore '**/.vitepress/dist/**' --ignore AGENTS.md --ignore CLAUDE.md --ignore CHANGELOG.md .
+        run: bun x markdownlint-cli@0.48.0 --ignore '**/node_modules/**' --ignore '**/.vitepress/cache/**' --ignore '**/.vitepress/dist/**' --ignore AGENTS.md --ignore CLAUDE.md --ignore CHANGELOG.md .
 
   codegen-fresh:
     name: ADL types up to date
@@ -76,25 +68,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7.0.0
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2.2.0
         with:
-          node-version-file: "docs/package.json"
-          cache: "npm"
-          cache-dependency-path: "docs/package-lock.json"
+          cache: true
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: docs
+        run: bun install --frozen-lockfile
 
       - name: Regenerate ADL types
-        run: npm run codegen
-        working-directory: docs
+        run: bun run codegen
 
-      - name: Fail if docs/.vitepress/types/adl.ts drifted from upstream ADL schema
+      - name: Fail if .vitepress/types/adl.ts drifted from upstream ADL schema
         run: |
-          if ! git diff --exit-code docs/.vitepress/types/adl.ts; then
-            echo "::error::docs/.vitepress/types/adl.ts is out of sync with the upstream ADL JSON Schema."
-            echo "::error::Run 'npm run codegen' inside docs/ and commit the result."
+          if ! git diff --exit-code .vitepress/types/adl.ts; then
+            echo "::error::.vitepress/types/adl.ts is out of sync with the upstream ADL JSON Schema."
+            echo "::error::Run 'bun run codegen' and commit the result."
             exit 1
           fi

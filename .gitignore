@@ -13,8 +13,8 @@ dist-ssr
 *.local
 
 # VitePress build artifacts
-docs/.vitepress/dist
-docs/.vitepress/cache
+.vitepress/dist
+.vitepress/cache
 
 # Editor directories and files
 .vscode/*
@@ -27,6 +27,9 @@ docs/.vitepress/cache
 *.njsproj
 *.sln
 *.sw?
+
+# Lockfiles (using bun.lock)
+package-lock.json
 
 # Secret files
 .env

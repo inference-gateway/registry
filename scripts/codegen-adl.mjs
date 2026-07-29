@@ -1,8 +1,8 @@
-#!/usr/bin/env node
-// Regenerates docs/.vitepress/types/adl.ts from the upstream ADL JSON Schema.
-// Run with `npm run codegen` whenever ADL changes.
+#!/usr/bin/env bun
+// Regenerates .vitepress/types/adl.ts from the upstream ADL JSON Schema.
+// Run with `bun run codegen` whenever ADL changes.
 // CI verifies the committed output is fresh:
-//   npm run codegen && git diff --exit-code docs/.vitepress/types/adl.ts
+//   bun run codegen && git diff --exit-code .vitepress/types/adl.ts
 import { writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
@@ -38,11 +38,11 @@ delete schema.$id;
 const compiled = await compile(schema, "ADLAgent", {
   bannerComment: "",
   additionalProperties: false,
-  style: { singleQuote: true, semi: true, printWidth: 100 },
+  style: { singleQuote: false, semi: true, printWidth: 100 },
 });
 
 const banner = `// AUTO-GENERATED - DO NOT EDIT.
-// Regenerate with: npm run codegen
+// Regenerate with: bun run codegen
 // Source: ${SCHEMA_URL}
 
 `;
