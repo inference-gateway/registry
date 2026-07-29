@@ -1,10 +1,11 @@
+#!/bin/sh
 STAGED=$(git diff --cached --name-only --diff-filter=ACM)
 
 if [ -z "$STAGED" ]; then
   exit 0
 fi
 
-echo "▸ pre-commit: running format + lint..."
+echo "> pre-commit: running format + lint..."
 
 task format
 task lint:fix
@@ -12,4 +13,4 @@ task lint:fix
 # Re-stage files that were already staged, in case format/lint rewrote them.
 echo "$STAGED" | xargs git add --
 
-echo "▸ pre-commit: done."
+echo "> pre-commit: done."
