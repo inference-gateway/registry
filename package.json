@@ -11,9 +11,11 @@
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview",
-    "codegen": "scripts/codegen-adl.mjs"
+    "codegen": "scripts/codegen-adl.mjs",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "json-schema-to-typescript": "^15.0.4",
     "vitepress": "^1.6.4",
     "vue": "^3.5.34"
