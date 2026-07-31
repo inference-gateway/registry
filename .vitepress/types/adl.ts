@@ -110,6 +110,48 @@ export interface Card {
   defaultOutputModes?: string[];
   documentationUrl?: string;
   iconUrl?: string;
+  /**
+   * Whether the deployed agent serves a richer, authenticated AgentCard via the A2A 'GetExtendedAgentCard' method (GET /extendedAgentCard; A2A spec section 7). When true, the generated ADK wires up that endpoint; clients that authenticate receive an extended card, and misconfigured/unsupported calls follow the A2A error contract (-32007 ExtendedAgentCardNotConfiguredError when the extended card is declared but not configured / -32004 UnsupportedOperationError when the agent does not support it). Optional; defaults to false when omitted.
+   */
+  supportsExtendedAgentCard?: boolean;
+  /**
+   * Statically declared A2A/OpenAPI security schemes advertised on the AgentCard (A2A spec section 7), keyed by an arbitrary scheme name referenced from 'security'. Use this only for schemes that cannot be derived from runtime config - 'apiKey', 'http', and 'mutualTLS'. OIDC/OAuth2 schemes are deliberately excluded here: they are runtime concerns (AUTH_ISSUER_URL / AUTH_CLIENT_ID / AUTH_CLIENT_SECRET env) and the ADK derives their declaration at startup, so baking an issuer into the manifest would be wrong per environment.
+   */
+  securitySchemes?: {
+    [k: string]: SecurityScheme;
+  };
+  /**
+   * Security requirements advertised on the AgentCard (A2A spec section 7). Each entry is a map from a scheme name declared in 'securitySchemes' to a list of required scopes (empty for schemes without scopes); multiple keys in one entry are ANDed, and separate array entries are ORed - the same semantics as the OpenAPI/A2A 'security' field. This flat DSL form is what authors write; consumers (e.g. adl-cli) map it onto the ADK's AgentCard 'security' shape ({ schemes: { <name>: { list: [scopes] } } }).
+   */
+  security?: {
+    [k: string]: string[];
+  }[];
+}
+/**
+ * A single statically declared security scheme in a flat, OpenAPI-3.0-style authoring form: a 'type' discriminator with sibling fields. This is the DSL form authors write; consumers (e.g. adl-cli) map it onto the ADK's A2A v1.0 AgentCard 'SecurityScheme', which is a per-variant wrapper object ('type' -> the wrapper key, 'in' -> 'location'). The 'type' selects the variant: 'apiKey' (key passed in a header, query param, or cookie), 'http' (HTTP auth such as Basic or Bearer), or 'mutualTLS' (client-certificate auth). OIDC/OAuth2 are intentionally not modelled here because the ADK derives them from runtime config.
+ */
+export interface SecurityScheme {
+  type: "apiKey" | "http" | "mutualTLS";
+  /**
+   * Human-readable description of the scheme.
+   */
+  description?: string;
+  /**
+   * For 'apiKey': the name of the header, query parameter, or cookie carrying the key.
+   */
+  name?: string;
+  /**
+   * For 'apiKey': where the key is sent.
+   */
+  in?: "query" | "header" | "cookie";
+  /**
+   * For 'http': the HTTP Authorization scheme name (e.g. 'Basic', 'Bearer'), per RFC 7235.
+   */
+  scheme?: string;
+  /**
+   * For 'http' with a 'Bearer' scheme: a hint identifying the bearer token format (e.g. 'JWT'). Informational only.
+   */
+  bearerFormat?: string;
 }
 /**
  * Hand-authored documentation pages the generated project owns and ships itself. Each entry in 'pages' declares a page the consumer (e.g. adl-cli) scaffolds as a stub markdown file at 'path' with the given 'title', to be filled in by the maintainers. This is distinct from 'spec.card.documentationUrl', which is a single link to already-published external docs: 'documentation.pages' describes the docs the project generates and maintains in-tree.
