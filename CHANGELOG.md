@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.2](https://github.com/inference-gateway/registry/compare/v0.5.1...v0.5.2) (2026-08-04)
+
+### 🐛 Bug Fixes
+
+* correct MCP configuration documentation for enabled flag ([971535f](https://github.com/inference-gateway/registry/commit/971535f53e080787505c399c5c701d23edb14737))
+
+### 👷 CI
+
+* **claude:** centralize claude.yml via reusable workflow ([#81](https://github.com/inference-gateway/registry/issues/81)) ([c5faccd](https://github.com/inference-gateway/registry/commit/c5faccd68e6516f7fcca4d0d09ea9ca976042506))
+* **claude:** centralize claude.yml via reusable workflow ([#83](https://github.com/inference-gateway/registry/issues/83)) ([9c5b69e](https://github.com/inference-gateway/registry/commit/9c5b69ecb079c57f638f032c6d0cc6767078e98a))
+* **claude:** centralize claude.yml via reusable workflow ([#84](https://github.com/inference-gateway/registry/issues/84)) ([54c87c0](https://github.com/inference-gateway/registry/commit/54c87c01f1fe74fc175cb12ffb179cea35bab45a))
+
+### 🔧 Miscellaneous
+
+* **deps:** bump infer CLI v0.154.0 -> v0.155.0 ([#82](https://github.com/inference-gateway/registry/issues/82)) ([575c949](https://github.com/inference-gateway/registry/commit/575c949d3f46440458eb3db242db5980d375b90e))
+* **flox:** add lockfile ([0a1a616](https://github.com/inference-gateway/registry/commit/0a1a616f06a65293d051aaa79aa34c88a747b1b0))
+* make .githooks/pre-commit executable ([9f45f2b](https://github.com/inference-gateway/registry/commit/9f45f2b5bf3466f89cc44b9c93be284f98f5d858))
+
 ## [0.5.1](https://github.com/inference-gateway/registry/compare/v0.5.0...v0.5.1) (2026-07-29)
 
 ### ♻️ Improvements
