@@ -348,9 +348,23 @@ export interface Server {
   scheme?: string;
   debug?: boolean;
   auth?: AuthConfig;
+  authz?: AuthzConfig;
 }
 export interface AuthConfig {
   enabled?: boolean;
+}
+/**
+ * Authorization configuration for the agent server. 'enabled' is the master switch: when true the generated project scaffolds a user-owned authorization callback. 'mode' selects the default policy when the user has not yet written custom logic: 'allow-all' permits every request, 'deny-all' rejects every request, 'custom' means the user must implement their own logic. Both fields are optional; when omitted the scaffold is not generated and mode defaults to 'allow-all'.
+ */
+export interface AuthzConfig {
+  /**
+   * Master switch for authorization. When true, the generated project scaffolds a user-owned BeforeTool callback for authorization. Off by default.
+   */
+  enabled?: boolean;
+  /**
+   * Default authorization policy when the user has not yet written custom logic.
+   */
+  mode?: "allow-all" | "deny-all" | "custom";
 }
 export interface Language {
   go?: GoConfig;
