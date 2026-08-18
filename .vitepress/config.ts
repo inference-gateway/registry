@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // VitePress configuration for the Inference Gateway Registry.
 //
-// The site is published at https://registry.inference-gateway.com/ via GitHub Pages.
+// The site is published at https://registry.inference-gateway.com/ via Cloudflare Workers.
 // Visual language tracks the ADL docs site so the two read as a family.
 export default defineConfig({
   base: "/",
