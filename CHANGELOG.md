@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0](https://github.com/inference-gateway/registry/compare/v0.5.2...v0.6.0) (2026-08-27)
+
+### ✨ Features
+
+* **ci:** migrate site hosting from GitHub Pages to Cloudflare Workers ([#88](https://github.com/inference-gateway/registry/issues/88)) ([6cc78ae](https://github.com/inference-gateway/registry/commit/6cc78aea430a2e8cf5a14e953144e3f59b303fa5))
+
+### 🐛 Bug Fixes
+
+* **ci:** deploy site with wrangler instead of GitHub Pages ([#89](https://github.com/inference-gateway/registry/issues/89)) ([bb2535d](https://github.com/inference-gateway/registry/commit/bb2535d3b332f0ddad966dfd08c764e62f6234d3))
+
+### 👷 CI
+
+* **deps-dev:** bump vue from 3.5.40 to 3.5.41 in the npm group ([#86](https://github.com/inference-gateway/registry/issues/86)) ([ad8cb5b](https://github.com/inference-gateway/registry/commit/ad8cb5bb6d7c6302f162e58747f2e8b290ed7017))
+
+### 🔧 Miscellaneous
+
+* **deps:** bump infer CLI v0.155.0 -> v0.164.0 ([#85](https://github.com/inference-gateway/registry/issues/85)) ([ae64b23](https://github.com/inference-gateway/registry/commit/ae64b2382f13718ae70728618ba58607a1363f7d))
+* **deps:** update flox dependencies ([9ae1e24](https://github.com/inference-gateway/registry/commit/9ae1e247a2959d2e87c834208aa81957bd6de11b))
+* **types:** regenerate adl types for tools config ([#90](https://github.com/inference-gateway/registry/issues/90)) ([ba95128](https://github.com/inference-gateway/registry/commit/ba95128a5d9d6a7d6244e15b79571e84e8fd4435))
+
 ## [0.5.2](https://github.com/inference-gateway/registry/compare/v0.5.1...v0.5.2) (2026-08-04)
 
 ### 🐛 Bug Fixes
