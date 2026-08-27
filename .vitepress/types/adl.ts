@@ -78,6 +78,7 @@ export interface Spec {
   examples?: Examples;
   agent?: Agent;
   config?: {
+    tools?: ToolsConfig;
     [k: string]: {
       [k: string]: unknown;
     };
@@ -289,6 +290,62 @@ export interface MCPServer {
   headers?: {
     [k: string]: string;
   };
+}
+/**
+ * Per-tool configuration under spec.config.tools. The five reserved built-in tool IDs (read, bash, write, edit, fetch) have typed shapes validated here; any other key is a user-defined tool's config and stays free-form.
+ */
+export interface ToolsConfig {
+  read?: ReadToolConfig;
+  bash?: BashToolConfig;
+  write?: WriteToolConfig;
+  edit?: EditToolConfig;
+  fetch?: FetchToolConfig;
+  [k: string]: {
+    [k: string]: unknown;
+  };
+}
+/**
+ * Configuration for the reserved read built-in tool.
+ */
+export interface ReadToolConfig {
+  enabled?: boolean;
+  max_lines?: number;
+  allowed_roots?: string[];
+}
+/**
+ * Configuration for the reserved bash built-in tool.
+ */
+export interface BashToolConfig {
+  enabled?: boolean;
+  whitelist?: string[];
+  timeout_seconds?: number;
+  working_dir?: string;
+}
+/**
+ * Configuration for the reserved write built-in tool.
+ */
+export interface WriteToolConfig {
+  enabled?: boolean;
+  allowed_roots?: string[];
+}
+/**
+ * Configuration for the reserved edit built-in tool.
+ */
+export interface EditToolConfig {
+  enabled?: boolean;
+  allowed_roots?: string[];
+}
+/**
+ * Configuration for the reserved fetch built-in tool. When allowed_domains is empty, internal/private addresses are denied by default (SSRF guard) unless allow_internal is true.
+ */
+export interface FetchToolConfig {
+  enabled?: boolean;
+  allowed_domains?: string[];
+  max_bytes?: number;
+  timeout_seconds?: number;
+  download_dir?: string;
+  allow_downloads?: boolean;
+  allow_internal?: boolean;
 }
 export interface Service {
   type: "service" | "repository" | "client" | "middleware";
