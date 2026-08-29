@@ -1,93 +1,67 @@
-# Repository Guidelines
+# Inference Gateway Registry
 
-## Project Structure & Module Organization
+Static VitePress site listing ADL-compliant A2A agents and portable skills.
+Visual language matches the ADL docs site (teal `#3c8772`, Inter font,
+light/dark toggle).
 
-This repository is a static [VitePress](https://vitepress.dev/) site for the
-inference-gateway registry. The visual language matches the ADL docs site
-(teal `#3c8772`, Inter font, light + dark toggle).
+## Commands (all from repo root; requires Bun >=1.2)
 
-All site code lives at the repo root:
+- `bun install` - install deps; `prepare` hook points git at `.githooks/`.
+- `bun run dev` - VitePress dev server with HMR.
+- `bun run build` - build static site into `.vitepress/dist`.
+- `bun run preview` - serve the production build locally.
+- `bun run codegen` - regenerate `.vitepress/types/adl.ts` from the upstream
+  ADL JSON Schema (`scripts/codegen-adl.mjs`, fetches from jsDelivr).
 
-- `index.md` - landing page (hero + feature cards, VitePress `layout: home`).
-- `agents/index.md` and `skills/index.md` - thin shells that embed
-  `<AgentsBrowser />` and `<SkillsBrowser />`.
-- `how-to/*.md` - six markdown how-to guides (prerequisites,
-  browse-and-install, list-an-agent, list-a-skill, build-agents, enterprise).
+`Taskfile.yml` wraps these (`task dev`, `task build`, ...). `task lint` runs
+markdownlint; `task format` / `task format:check` run Prettier (provided by
+the Flox env; `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md` are excluded).
+CI runs build, Prettier check, markdownlint, and a codegen-fresh check that
+fails if the committed `adl.ts` drifted from the upstream schema.
+
+## Testing
+
+No test framework. Validate changes with `bun run build`.
+
+## Layout
+
+- `index.md`, `agents/index.md`, `skills/index.md` - landing page and thin
+  shells embedding `<AgentsBrowser />` / `<SkillsBrowser />`.
+- `how-to/*.md` - six guides (prerequisites, browse-and-install,
+  list-an-agent, list-a-skill, build-agents, enterprise).
 - `.vitepress/config.ts` - nav, sidebar, theme color, head meta, sitemap.
-- `.vitepress/theme/{index.ts,custom.css}` - default-theme extension and
-  brand overrides (teal CSS vars + Inter font).
-- `.vitepress/components/` - Vue 3 Composition API components
-  (`AgentsBrowser.vue`, `SkillsBrowser.vue`, `AgentCard.vue`, `SkillCard.vue`).
+- `.vitepress/components/` - Vue 3 Composition API browsers and cards.
 - `.vitepress/lib/` - data services (`agentService.ts`, `skillService.ts`),
-  ADL helpers (`adl.ts`), and type re-exports (`types.ts`).
-- `.vitepress/types/adl.ts` - **generated** from the upstream ADL JSON
-  Schema. Do not hand-edit; run `bun run codegen` instead.
-- `public/` - favicons, OG images, manifest, robots, CNAME.
+  ADL helpers (`adl.ts`), type re-exports.
+- `.vitepress/types/adl.ts` - generated; never hand-edit.
+- `public/` - favicons, OG images, manifest, robots.
+- `wrangler.jsonc` - Cloudflare Workers deployment config.
 
-Agent and skill metadata do **not** live in this repo - both are fetched at
-runtime from sibling catalog repos (`inference-gateway/agents` and
-`inference-gateway/skills`) via jsDelivr.
+## Architecture gotchas
 
-## Build, Test, and Development Commands
+- Agent/skill metadata does NOT live in this repo. Catalogs are fetched at
+  runtime from sibling repos via jsDelivr (`inference-gateway/agents`,
+  `inference-gateway/skills` -> `catalog.json`). To add an agent or skill, PR
+  the catalog repo, not this one. Override URLs locally with
+  `VITE_AGENTS_CATALOG_URL` / `VITE_SKILLS_CATALOG_URL`.
+- The ADL schema lives in `inference-gateway/adl`; after schema changes run
+  `bun run codegen` and commit the result (CI enforces freshness).
+- Deployment: `.github/workflows/static.yml` deploys `wrangler.jsonc` assets
+  to Cloudflare Workers (registry.inference-gateway.com) on manual dispatch.
+  README's "GitHub Pages" wording is stale.
 
-All commands run from the repo root:
+## Coding style
 
-- `bun install`: install dependencies. Bun `>=1.2` is required.
-- `bun run dev`: start the VitePress dev server with HMR.
-- `bun run build`: build the static site into `.vitepress/dist`.
-- `bun run preview`: serve the production build locally.
-- `bun run codegen`: regenerate `.vitepress/types/adl.ts` from the
-  upstream ADL JSON Schema. Run after ADL changes and commit the result.
+- Vue 3 Composition API (`<script setup lang="ts">`); components PascalCase
+  (`AgentCard.vue`), `lib/` modules camelCase (`agentService.ts`).
+- Style with VitePress `--vp-c-*` CSS variables so light/dark works
+  automatically; shared styles in `.vitepress/theme/custom.css` under
+  `.reg-card` / `.reg-browser__*`.
+- Markdown lines <=120 characters. Add project terminology to `cspell.json`.
 
-A `Taskfile.yml` at the repo root wraps these (`task dev`, `task build`, etc.).
-`task lint` runs `markdownlint --fix` over
-the repo. `task format` / `task format:check` run Prettier over the repo
-(`AGENTS.md`, `CLAUDE.md`, and `CHANGELOG.md` are excluded via
-`.prettierignore`); Prettier is provided by the Flox env.
+## Commits & PRs
 
-## Coding Style & Naming Conventions
-
-- Use Vue 3 Composition API (`<script setup lang="ts">`) for components.
-- Component filenames are PascalCase (`AgentCard.vue`); modules under `lib/`
-  are camelCase (`agentService.ts`).
-- Style components with the VitePress `--vp-c-*` CSS variables so they track
-  light / dark mode automatically. Shared styles live in
-  `.vitepress/theme/custom.css` under the `.reg-card` / `.reg-browser__*`
-  namespaces.
-- Markdown is line-length-limited to 120 characters. If spell checking flags
-  valid project terminology, add it to `cspell.json`.
-
-## Testing Guidelines
-
-No test framework is configured. For now, validate changes with
-`bun run build`.
-
-## Agent and Skill Metadata Workflow
-
-Agent and skill metadata live outside this repo and are fetched at runtime via
-jsDelivr. Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` /
-`VITE_SKILLS_CATALOG_URL`. Do not add catalog data to this repository unless
-the architecture changes intentionally.
-
-- **Agents** (`inference-gateway/agents`): the catalog repo holds only an
-  `agents.yaml` list of upstream GitHub repo URLs. Each agent's canonical
-  `agent.yaml` (ADL format) lives in that agent's own repo. The catalog repo's
-  CI fetches, validates against the ADL schema, and bundles into
-  `catalog.json` on push and a daily cron. To add a new agent, open a PR
-  adding one entry to `agents.yaml`. Third-party repos are welcome; pin a
-  release tag when you can.
-- **Skills** (`inference-gateway/skills`): per-skill files in that repo; PR
-  to add or update.
-- The ADL schema itself lives in `inference-gateway/adl`. Schema changes
-  require running `bun run codegen` here to refresh
-  `.vitepress/types/adl.ts`.
-
-## Commit & Pull Request Guidelines
-
-Recent history follows conventional commits with lowercase subjects, for
-example `chore(deps): bump dev dependencies`. Prefer scoped messages such as
-`feat(registry): add agents browser`.
-
-Pull requests should include a concise description, linked issue when
-available, and screenshots for visible UI changes. Note the verification
-commands you ran (typically `bun run build`).
+Conventional commits, lowercase, scoped (`feat(registry): add agents
+browser`). PRs: concise description, linked issue when available, screenshots
+for visible UI changes, and the verification command run (typically
+`bun run build`).
