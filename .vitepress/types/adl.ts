@@ -79,9 +79,12 @@ export interface Spec {
   agent?: Agent;
   config?: {
     tools?: ToolsConfig;
-    [k: string]: {
-      [k: string]: unknown;
-    };
+    [k: string]:
+      | {
+          [k: string]: unknown;
+        }
+      | ToolsConfig
+      | undefined;
   };
   services?: {
     [k: string]: Service;
@@ -300,9 +303,16 @@ export interface ToolsConfig {
   write?: WriteToolConfig;
   edit?: EditToolConfig;
   fetch?: FetchToolConfig;
-  [k: string]: {
-    [k: string]: unknown;
-  };
+  [k: string]:
+    | {
+        [k: string]: unknown;
+      }
+    | ReadToolConfig
+    | BashToolConfig
+    | WriteToolConfig
+    | EditToolConfig
+    | FetchToolConfig
+    | undefined;
 }
 /**
  * Configuration for the reserved read built-in tool.
