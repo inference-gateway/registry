@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1](https://github.com/inference-gateway/registry/compare/v0.6.0...v0.6.1) (2026-09-04)
+
+### 👷 CI
+
+* **deps-dev:** bump the npm group with 2 updates ([#94](https://github.com/inference-gateway/registry/issues/94)) ([1105896](https://github.com/inference-gateway/registry/commit/1105896bbac107abffb9d3c4f9c81ea42efabdb3))
+
+### 📚 Documentation
+
+* **registry:** rewrite AGENTS.md per agents.md standard ([#93](https://github.com/inference-gateway/registry/issues/93)) ([1681c83](https://github.com/inference-gateway/registry/commit/1681c834d66c1f4e0cf3fc5bb579b18b3a2ff2c0))
+
+### 🔧 Miscellaneous
+
+* **deps:** bump claude-code 2.1.201 -> 2.1.238 ([#91](https://github.com/inference-gateway/registry/issues/91)) ([5962ab5](https://github.com/inference-gateway/registry/commit/5962ab55c085eeca2d232438ddc59ec6eae97362))
+* **deps:** bump claude-code 2.1.238 -> 2.1.245 ([#95](https://github.com/inference-gateway/registry/issues/95)) ([c1fbd9c](https://github.com/inference-gateway/registry/commit/c1fbd9c3e25e5c5eca93ca6d87d5db7c94684922))
+* **deps:** bump infer CLI v0.182.1 -> v0.183.0 ([#92](https://github.com/inference-gateway/registry/issues/92)) ([2ed6c25](https://github.com/inference-gateway/registry/commit/2ed6c2576b45d119b2d0e3df2ad63f4c4a90e77f))
+
 ## [0.6.0](https://github.com/inference-gateway/registry/compare/v0.5.2...v0.6.0) (2026-08-27)
 
 ### ✨ Features
