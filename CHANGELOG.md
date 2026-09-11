@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.3](https://github.com/inference-gateway/registry/compare/v0.6.2...v0.6.3) (2026-09-11)
+
+### 🔧 Miscellaneous
+
+* **registry:** regenerate adl types from upstream schema ([#98](https://github.com/inference-gateway/registry/issues/98)) ([03b674b](https://github.com/inference-gateway/registry/commit/03b674b394f8f5026bdecb528a1be3f4a826fdcb))
+
 ## [0.6.2](https://github.com/inference-gateway/registry/compare/v0.6.1...v0.6.2) (2026-09-11)
 
 ### 🐛 Bug Fixes
