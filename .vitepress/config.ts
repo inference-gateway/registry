@@ -4,6 +4,18 @@ import { defineConfig } from "vitepress";
 //
 // The site is published at https://registry.inference-gateway.com/ via Cloudflare Workers.
 // Visual language tracks the ADL docs site so the two read as a family.
+
+const hostname = "https://registry.inference-gateway.com";
+
+// Canonical path for a page, matching the URL form in sitemap.xml (cleanUrls:
+// true, so no `.html`): `index.md` -> `/`, `agents/index.md` -> `/agents/`,
+// `how-to/prerequisites.md` -> `/how-to/prerequisites`.
+function canonicalPath(relativePath: string): string {
+  return (
+    "/" + relativePath.replace(/(^|\/)index\.md$/, "$1").replace(/\.md$/, "")
+  );
+}
+
 export default defineConfig({
   base: "/",
   lang: "en-US",
@@ -80,13 +92,6 @@ export default defineConfig({
     [
       "meta",
       {
-        property: "og:url",
-        content: "https://registry.inference-gateway.com/",
-      },
-    ],
-    [
-      "meta",
-      {
         property: "og:image",
         content: "https://registry.inference-gateway.com/og-image.webp",
       },
@@ -116,6 +121,14 @@ export default defineConfig({
       },
     ],
   ],
+  transformPageData(pageData) {
+    const url = hostname + canonicalPath(pageData.relativePath);
+    pageData.frontmatter.head ??= [];
+    pageData.frontmatter.head.push(
+      ["link", { rel: "canonical", href: url }],
+      ["meta", { property: "og:url", content: url }],
+    );
+  },
   themeConfig: {
     nav: [
       { text: "Agents", link: "/agents/", activeMatch: "^/agents/" },
