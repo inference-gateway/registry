@@ -486,6 +486,14 @@ export interface SCM {
    * Name of the repository secret holding the GitHub App private key used by the generated release (CD) workflow when github_app is enabled.
    */
   app_private_key_secret?: string;
+  /**
+   * Name of the repository secret holding the GitHub App client ID used by the generated CI workflow (e.g. the ADL drift pull request) when github_app is enabled. Falls back to app_id_secret when unset, so CI and CD can run as different GitHub Apps.
+   */
+  ci_app_id_secret?: string;
+  /**
+   * Name of the repository secret holding the GitHub App private key used by the generated CI workflow when github_app is enabled. Falls back to app_private_key_secret when unset.
+   */
+  ci_app_private_key_secret?: string;
   issue_templates?: boolean;
   dependabot?: boolean;
   ci?: boolean;
