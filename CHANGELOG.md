@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.2](https://github.com/inference-gateway/registry/compare/v0.6.1...v0.6.2) (2026-09-11)
+
+### 🐛 Bug Fixes
+
+* **registry:** emit per-page canonical url and og:url ([#97](https://github.com/inference-gateway/registry/issues/97)) ([c187ab8](https://github.com/inference-gateway/registry/commit/c187ab85fdf597ebcf5c65b83c8cda5624b51f9b))
+
 ## [0.6.1](https://github.com/inference-gateway/registry/compare/v0.6.0...v0.6.1) (2026-09-04)
 
 ### 👷 CI
