@@ -521,6 +521,8 @@
 
 /**
  * Browser controls (search + filter + count) shared by AgentsBrowser and SkillsBrowser.
+ * Form control text must stay >= 16px: iOS Safari auto-zooms into smaller
+ * inputs on focus and leaves the mobile page stuck zoomed.
  */
 .reg-browser__controls {
   display: flex;
@@ -552,7 +554,7 @@
   border-radius: 8px;
   background-color: var(--vp-c-bg);
   color: var(--vp-c-text-1);
-  font-size: 14px;
+  font-size: 16px;
   font-family: inherit;
   transition:
     border-color 0.2s,
@@ -572,7 +574,7 @@
   border-radius: 8px;
   background-color: var(--vp-c-bg);
   color: var(--vp-c-text-1);
-  font-size: 14px;
+  font-size: 16px;
   font-family: inherit;
   cursor: pointer;
 }
