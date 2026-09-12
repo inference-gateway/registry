@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.4](https://github.com/inference-gateway/registry/compare/v0.6.3...v0.6.4) (2026-09-12)
+
+### 🐛 Bug Fixes
+
+* **registry:** keep form controls at 16px to stop iOS input zoom ([#99](https://github.com/inference-gateway/registry/issues/99)) ([972fe45](https://github.com/inference-gateway/registry/commit/972fe45d333a56a9c379ca807466c8564f26a7e7))
+
 ## [0.6.3](https://github.com/inference-gateway/registry/compare/v0.6.2...v0.6.3) (2026-09-11)
 
 ### 🔧 Miscellaneous
