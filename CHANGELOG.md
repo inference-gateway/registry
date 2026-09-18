@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.5](https://github.com/inference-gateway/registry/compare/v0.6.4...v0.6.5) (2026-09-18)
+
+### 📚 Documentation
+
+* **registry:** document --user flag for infer skills install ([#103](https://github.com/inference-gateway/registry/issues/103)) ([927efb3](https://github.com/inference-gateway/registry/commit/927efb3acb24ce8ef2085368e4074077886fe607))
+
+### 🔧 Miscellaneous
+
+* **deps:** bump claude-code 2.1.245 -> 2.1.266 ([#100](https://github.com/inference-gateway/registry/issues/100)) ([3d3706a](https://github.com/inference-gateway/registry/commit/3d3706a6e018ae180cfb876dd043de91cc60be5c))
+* **deps:** bump infer CLI v0.183.0 -> v0.192.0 ([#101](https://github.com/inference-gateway/registry/issues/101)) ([5ce139c](https://github.com/inference-gateway/registry/commit/5ce139c1270e6b22a9c9b0a753d072f3d2672eff))
+
 ## [0.6.4](https://github.com/inference-gateway/registry/compare/v0.6.3...v0.6.4) (2026-09-12)
 
 ### 🐛 Bug Fixes
