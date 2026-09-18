@@ -9,7 +9,7 @@ const copiedCommand = ref(false);
 const copiedSource = ref(false);
 const npxCommand = computed(() => `npx skills add ${props.skill.source}`);
 const installCommand = computed(
-  () => `infer skills install ${props.skill.name}`,
+  () => `infer skills install ${props.skill.name} --user`,
 );
 
 async function copy(text: string, flag: { value: boolean }) {

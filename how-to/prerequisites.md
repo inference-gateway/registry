@@ -2,7 +2,7 @@
 
 Everything on this site is browsable without any local setup. You only need
 tooling when you want to act on what you find here - paste an
-`infer agents add` or `infer skills install` command, pull a card's OCI
+`infer agents add` or `infer skills install --user` command, pull a card's OCI
 image, or open the "+ Add agent" PR.
 
 ## The `infer` CLI

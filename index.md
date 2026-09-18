@@ -25,13 +25,13 @@ features:
     details: Every listed agent ships an `agent.yaml` that follows the Agent Definition Language schema, so capabilities, tools, and skills are uniformly typed and discoverable.
   - icon: 🧩
     title: Portable skills
-    details: Drop-in markdown playbooks installable with `infer skills install <name>`. Vendor-neutral and reusable across any ADL agent.
+    details: Drop-in markdown playbooks installable with `infer skills install <name> --user`. Vendor-neutral and reusable across any ADL agent.
   - icon: 🛰️
     title: Live catalog
     details: Agent and skill entries are fetched at runtime from the catalog repos via jsDelivr. Listing a new entry takes a PR - no redeploy of this site.
   - icon: 🚀
     title: One-command install
-    details: Each card surfaces a ready-to-paste `infer agents add` or `infer skills install` command and, where available, the OCI image tag.
+    details: Each card surfaces a ready-to-paste `infer agents add` or `infer skills install --user` command and, where available, the OCI image tag.
   - icon: 🔌
     title: Vendor-neutral
     details: Swap providers (OpenAI, Anthropic, DeepSeek, Google, Mistral, Ollama, Groq) and runtimes without rewriting the agent. ADL keeps everything portable.
