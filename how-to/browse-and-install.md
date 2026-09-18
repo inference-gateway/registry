@@ -42,7 +42,7 @@ when wiring the agent into Kubernetes or Docker Compose yourself.
 Skill cards work the same way:
 
 ```sh
-infer skills install skill-creator
+infer skills install skill-creator --user
 ```
 
 A skill is a markdown playbook injected into an agent's system prompt. The
