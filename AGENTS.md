@@ -4,20 +4,31 @@ Static VitePress site listing ADL-compliant A2A agents and portable skills.
 Visual language matches the ADL docs site (teal `#3c8772`, Inter font,
 light/dark toggle).
 
-## Commands (all from repo root; requires Bun >=1.2)
+## Commands (repo root; requires Bun >=1.2)
 
 - `bun install` - install deps; `prepare` hook points git at `.githooks/`.
 - `bun run dev` - VitePress dev server with HMR.
-- `bun run build` - build static site into `.vitepress/dist`.
+- `bun run build` - build the static site into `.vitepress/dist`.
 - `bun run preview` - serve the production build locally.
-- `bun run codegen` - regenerate `.vitepress/types/adl.ts` from the upstream
-  ADL JSON Schema (`scripts/codegen-adl.mjs`, fetches from jsDelivr).
+- `bun run codegen` - regenerate `.vitepress/types/adl.ts` from the upstream ADL
+  JSON Schema (`scripts/codegen-adl.mjs`, fetches from jsDelivr).
 
-`Taskfile.yml` wraps these (`task dev`, `task build`, ...). `task lint` runs
-markdownlint; `task format` / `task format:check` run Prettier (provided by
-the Flox env; `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md` are excluded).
-CI runs build, Prettier check, markdownlint, and a codegen-fresh check that
-fails if the committed `adl.ts` drifted from the upstream schema.
+`Taskfile.yml` wraps these (`task dev`, `task build`, ...). `task lint` /
+`task lint:fix` run markdownlint (config in `.markdownlint.json`);
+`task format` / `task format:check` run Prettier (both provided by the Flox
+env; CI uses the same checks pinned via `bun x` — `prettier@3.8.3`,
+`markdownlint-cli@0.48.0`). `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md` are
+excluded from both.
+
+The pre-commit hook (`.githooks/pre-commit`) runs `task format` +
+`task lint:fix` on staged files and re-stages any it rewrites — expect commits
+to auto-format.
+
+## CI
+
+`.github/workflows/ci.yml` runs on every PR/push to `main`: build, Prettier
+check, markdownlint, and a codegen-fresh check that fails if the committed
+`.vitepress/types/adl.ts` drifted from the upstream ADL schema.
 
 ## Testing
 
