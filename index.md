@@ -51,6 +51,7 @@ manifests itself.
 - **Skills** live in [`inference-gateway/skills`](https://github.com/inference-gateway/skills).
   PRs add per-skill files. Each skill carries an SPDX `license` field.
 
-CI in each catalog repo validates the entry and regenerates `catalog.json` on
-merge; the new entry appears here within the jsDelivr `@main` cache window
-(up to ~12h).
+CI in each catalog repo validates the entry and regenerates `catalog.json`.
+This site reads each catalog from jsDelivr at `@latest`, which serves the
+catalog repo's newest release tag - so a merged entry appears here once that
+repo publishes a release.

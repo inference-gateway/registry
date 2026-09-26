@@ -71,8 +71,10 @@ front-end:
 - Agents: `https://cdn.jsdelivr.net/gh/inference-gateway/agents@latest/catalog.json`
 - Skills: `https://cdn.jsdelivr.net/gh/inference-gateway/skills@latest/catalog.json`
 
-The `@main` ref is cached by jsDelivr for up to ~12 hours, so a freshly
-merged entry may not appear here immediately. For local development you
+The `@latest` ref resolves to the catalog repo's newest release tag, so a
+freshly merged entry only shows up here once that repo publishes a release.
+Release runs in both catalog repos are manual (`workflow_dispatch`). For
+local development you
 can point at a fork or branch via the `VITE_AGENTS_CATALOG_URL` and
 `VITE_SKILLS_CATALOG_URL` environment variables.
 

@@ -2,7 +2,7 @@
 
 # Inference Gateway Registry
 
-[![Deploy](https://github.com/inference-gateway/registry/actions/workflows/static.yml/badge.svg)](https://github.com/inference-gateway/registry/actions/workflows/static.yml)
+[![Deploy to Pages](https://github.com/inference-gateway/registry/actions/workflows/static.yml/badge.svg)](https://github.com/inference-gateway/registry/actions/workflows/static.yml)
 [![CI](https://github.com/inference-gateway/registry/actions/workflows/ci.yml/badge.svg)](https://github.com/inference-gateway/registry/actions/workflows/ci.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![VitePress](https://img.shields.io/badge/VitePress-1.6-3c8772.svg)](https://vitepress.dev/)
@@ -33,10 +33,7 @@ Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` /
 - [VitePress](https://vitepress.dev/) 1.6 for the static site
 - [Vue 3](https://vuejs.org/) Composition API for the dynamic Agents and Skills browsers
 - Plain Markdown for the landing page and How-To guides
-- Deployed to [Cloudflare Workers](https://registry.inference-gateway.com) by the `Deploy`
-  workflow (`.github/workflows/static.yml`), which runs `bunx wrangler@4 deploy` with the
-  config in `wrangler.jsonc`. It is triggered manually via `workflow_dispatch`, or by
-  `release.yml` after a release is published - pushing to `main` does not deploy.
+- Deployed to [GitHub Pages](https://registry.inference-gateway.com) on push to `main`
 
 The look and feel matches the
 [ADL docs site](https://adl.inference-gateway.com/) (teal `#3c8772`, Inter,
@@ -72,15 +69,12 @@ A `Taskfile.yml` at the repo root wraps the same commands (`task dev`,
 ├── agents/index.md                # Embeds <AgentsBrowser />
 ├── skills/index.md                # Embeds <SkillsBrowser />
 ├── how-to/                        # Six markdown how-to guides
-├── public/                        # Favicons, OG/Twitter images, manifest.json,
-│                                  # robots.txt, languages/*.svg
+├── public/                        # Favicons, OG images, CNAME, robots.txt
 ├── scripts/codegen-adl.mjs        # Regenerates the ADL TypeScript types
-├── wrangler.jsonc                 # Cloudflare Workers config (assets + custom domain)
 └── .vitepress/
     ├── config.ts                  # Nav, sidebar, theme color, head meta
     ├── theme/{index.ts,custom.css}
-    ├── components/                # AgentsBrowser, SkillsBrowser, AgentCard, SkillCard,
-    │                              # AddEntryDialog
+    ├── components/                # AgentsBrowser, SkillsBrowser, AgentCard, SkillCard
     ├── lib/                       # agentService, skillService, adl, types
     └── types/adl.ts               # Generated from the upstream ADL JSON Schema
 ```
@@ -91,9 +85,10 @@ Agent metadata is **not** in this repo. Any public GitHub repo that ships an
 ADL `agent.yaml` at its root is eligible. Open a PR against
 [`inference-gateway/agents`](https://github.com/inference-gateway/agents)
 adding one entry to `agents.yaml` with the repo URL and an optional `ref`.
-CI in the agents repo rebuilds `catalog.json` on merge; the new agent appears
-on this site within the jsDelivr `@main` cache window (up to ~12h) with no
-redeploy here.
+CI in the agents repo rebuilds `catalog.json` on merge. This site reads the
+catalog from jsDelivr at `@latest`, which serves the catalog repo's newest
+release tag, so your agent appears here once that repo publishes a release -
+no redeploy here.
 
 To submit a new **skill**, open a PR against `inference-gateway/skills`.
 
