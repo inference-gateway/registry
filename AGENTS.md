@@ -16,12 +16,12 @@ light/dark toggle).
 `Taskfile.yml` wraps these (`task dev`, `task build`, ...). `task lint` /
 `task lint:fix` run markdownlint (config in `.markdownlint.json`);
 `task format` / `task format:check` run Prettier (both provided by the Flox
-env; CI uses the same checks pinned via `bun x` — `prettier@3.8.3`,
-`markdownlint-cli@0.48.0`). `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md` are
-excluded from both.
+env; CI uses the same checks pinned via `bun x` - `prettier@3.8.3`,
+`markdownlint-cli@0.48.0`). `AGENTS.md` and `CHANGELOG.md` are excluded
+from both.
 
 The pre-commit hook (`.githooks/pre-commit`) runs `task format` +
-`task lint:fix` on staged files and re-stages any it rewrites — expect commits
+`task lint:fix` on staged files and re-stages any it rewrites - expect commits
 to auto-format.
 
 ## CI
@@ -61,7 +61,7 @@ No test framework. Validate changes with `bun run build`.
   to Cloudflare Workers (registry.inference-gateway.com) on manual dispatch.
   README's "GitHub Pages" wording is stale.
 
-## Coding style
+## Coding style and readability
 
 - Vue 3 Composition API (`<script setup lang="ts">`); components PascalCase
   (`AgentCard.vue`), `lib/` modules camelCase (`agentService.ts`).
@@ -69,6 +69,13 @@ No test framework. Validate changes with `bun run build`.
   automatically; shared styles in `.vitepress/theme/custom.css` under
   `.reg-card` / `.reg-browser__*`.
 - Markdown lines <=120 characters. Add project terminology to `cspell.json`.
+- Write self-explanatory code: clear names and small, single-purpose functions carry the intent.
+  If a block needs a comment to be understood, extract it into a well-named function or variable.
+- No inline comments inside function bodies.
+- Doc comments on functions and types are at most 5 lines: what it does and why, not how.
+- No comments above modules, packages, or files.
+- Tool directives are not comments and stay where the tool needs them (lint suppressions, build
+  tags, compiler pragmas, code generation markers).
 
 ## Commits & PRs
 
