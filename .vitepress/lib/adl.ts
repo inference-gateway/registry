@@ -30,6 +30,29 @@ export function deriveImage(
   return null;
 }
 
+// The CLI ships built-in defaults (URL, image, run flag) only for these names -
+// see config/agent_defaults.go in inference-gateway/cli. `infer agents add <name>`
+// fails with "URL is required for unknown agent" for anything else, so every other
+// catalog entry needs an explicit URL (plus image) in its command.
+const CLI_BUILTIN_AGENTS = new Set([
+  "browser-agent",
+  "mock-agent",
+  "google-calendar-agent",
+  "documentation-agent",
+  "n8n-agent",
+]);
+
+export function deriveInstallCommand(agent: CatalogAgent): string {
+  const name = agent.metadata.name;
+  if (CLI_BUILTIN_AGENTS.has(name)) return `infer agents add ${name}`;
+
+  const server = agent.spec?.server;
+  const url = `${server?.scheme || "http"}://localhost:${server?.port ?? 8080}`;
+  const image = deriveImage(agent);
+  const local = image ? ` --oci ${image.repository}:${image.tag} --run` : "";
+  return `infer agents add ${name} ${url}${local}`;
+}
+
 export function deriveRepository(agent: CatalogAgent): string | null {
   return agent.spec?.scm?.url || agent._source?.url || null;
 }

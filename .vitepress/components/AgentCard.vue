@@ -5,6 +5,7 @@ import {
   deriveDisplayName,
   deriveDocs,
   deriveImage,
+  deriveInstallCommand,
   deriveLanguage,
   deriveProvider,
   deriveRepository,
@@ -29,9 +30,7 @@ const language = computed(() => deriveLanguage(props.agent));
 const capabilities = computed(() => props.agent.spec?.capabilities);
 const tools = computed(() => props.agent.spec?.tools ?? []);
 const skills = computed(() => props.agent.spec?.skills ?? []);
-const installCommand = computed(
-  () => `infer agents add ${props.agent.metadata.name}`,
-);
+const installCommand = computed(() => deriveInstallCommand(props.agent));
 
 const badgeText = computed(
   () => provider.value || model.value || language.value || "",
@@ -221,7 +220,7 @@ function copyImage() {
     <div class="reg-card__section">
       <span class="reg-card__label">Add to CLI</span>
       <div class="reg-card__code-row">
-        <code>{{ installCommand }}</code>
+        <code :title="installCommand">{{ installCommand }}</code>
         <button
           class="reg-card__copy"
           :class="{ 'is-copied': copiedCommand }"

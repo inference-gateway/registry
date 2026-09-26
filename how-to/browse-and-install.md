@@ -26,6 +26,21 @@ the `infer agents add` line, then run it:
 infer agents add documentation-agent
 ```
 
+The CLI ships built-in defaults (URL, image, run flag) for `browser-agent`,
+`mock-agent`, `google-calendar-agent`, `documentation-agent`, and
+`n8n-agent`, so those cards show the short form above. Any other agent is
+unknown to the CLI and needs an explicit URL, so its card renders the full
+command instead:
+
+```sh
+infer agents add grafana-agent http://localhost:8080 \
+  --oci ghcr.io/inference-gateway/grafana-agent:0.3.9 --run
+```
+
+The URL comes from the agent's `spec.server` (scheme and port); adjust it if
+you run the agent somewhere other than localhost, or drop `--oci ... --run`
+if you point at an agent that is already running remotely.
+
 The CLI writes a local config entry pointing at the agent. From there the
 gateway can route requests to it - see the
 [CLI repo](https://github.com/inference-gateway/cli) for `infer` semantics.
