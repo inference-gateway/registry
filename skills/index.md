@@ -8,8 +8,8 @@ pageClass: reg-page
 # Skills
 
 Curated, vendor-portable skills you can drop into any agent with
-`infer skills install --user`. Each skill is a markdown playbook injected into the
-agent's system prompt.
+`infer skills install --user`. Each skill is a markdown playbook the agent reads on
+demand - only its name and description are advertised at startup.
 
 <SkillsBrowser />
 

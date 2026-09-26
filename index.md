@@ -49,7 +49,8 @@ manifests itself.
   Any public GitHub repo that ships an ADL `agent.yaml` at its root is eligible.
   Open a PR adding one entry to `agents.yaml` with the repo URL and an optional `ref`.
 - **Skills** live in [`inference-gateway/skills`](https://github.com/inference-gateway/skills).
-  PRs add per-skill files. Each skill carries an SPDX `license` field.
+  Open a PR appending one entry to `skills.yaml` pointing at any public repo that
+  ships a `SKILL.md`. Each skill carries an SPDX `license` field.
 
 CI in each catalog repo validates the entry and regenerates `catalog.json` on
 merge; the new entry appears here within the jsDelivr `@main` cache window

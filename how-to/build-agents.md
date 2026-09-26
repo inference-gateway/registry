@@ -32,7 +32,7 @@ PR.
 A bare-minimum manifest gets you a working card. These optional fields
 make it noticeably better:
 
-- `spec.card.documentationUrl` - adds a **Docs** button on the card.
+- `spec.card.documentationUrl` - adds a **Documentation** button on the card.
 - `spec.deployment.cloudrun.image` or `spec.deployment.kubernetes.image` -
   surfaces the **OCI Image** row. Required to show an image at all for
   repos outside the `inference-gateway` org.

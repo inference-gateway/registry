@@ -26,21 +26,6 @@ the `infer agents add` line, then run it:
 infer agents add documentation-agent
 ```
 
-The CLI ships built-in defaults (URL, image, run flag) for `browser-agent`,
-`mock-agent`, `google-calendar-agent`, `documentation-agent`, and
-`n8n-agent`, so those cards show the short form above. Any other agent is
-unknown to the CLI and needs an explicit URL, so its card renders the full
-command instead:
-
-```sh
-infer agents add grafana-agent http://localhost:8080 \
-  --oci ghcr.io/inference-gateway/grafana-agent:0.3.9 --run
-```
-
-The URL comes from the agent's `spec.server` (scheme and port); adjust it if
-you run the agent somewhere other than localhost, or drop `--oci ... --run`
-if you point at an agent that is already running remotely.
-
 The CLI writes a local config entry pointing at the agent. From there the
 gateway can route requests to it - see the
 [CLI repo](https://github.com/inference-gateway/cli) for `infer` semantics.
@@ -60,7 +45,9 @@ Skill cards work the same way:
 infer skills install skill-creator --user
 ```
 
-A skill is a markdown playbook injected into an agent's system prompt. The
+A skill is a markdown playbook the agent reads on demand: only its name and
+description are advertised to the model at startup, and the `SKILL.md` body is
+loaded lazily when the model invokes the skill. The
 **SPDX license** badge on each card (`MIT`, `Apache-2.0`, `Proprietary`,
 etc.) lets you vet redistribution terms before installing.
 
@@ -73,10 +60,10 @@ Card fields map directly to the underlying schema:
 - **Tools / Skills counts** - `spec.tools[]` and `spec.skills[]`. Expand
   either list for per-entry detail.
 - **Model** - `spec.agent.model` when set.
-- **Source** button - the upstream GitHub repo. For agents this comes from
+- **Repository** button - the upstream GitHub repo. For agents this comes from
   `spec.scm.url`, falling back to the `_source.url` provenance block the
   catalog aggregator injects.
-- **Docs** button - `spec.card.documentationUrl` when set.
+- **Documentation** button - `spec.card.documentationUrl` when set.
 
 ## Where the data comes from
 

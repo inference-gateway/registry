@@ -64,7 +64,7 @@ typically appears here within a few hours, at most ~12.
 The card pulls the following fields straight out of your `agent.yaml`. They
 are not required, but they make the listing more useful:
 
-- `spec.card.documentationUrl` - turns on the **Docs** button on the card.
+- `spec.card.documentationUrl` - turns on the **Documentation** button on the card.
 - `spec.deployment.cloudrun.image` or `spec.deployment.kubernetes.image` -
   enables the **OCI Image** row so users can pin the exact image you
   publish. For repos outside the `inference-gateway` org this is the only
