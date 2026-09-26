@@ -41,7 +41,7 @@ commit, and submit.
 
 - `url` is required and must be a `https://github.com/...` URL.
 - `ref` is optional. Omitting it means `latest`: the build resolves your
-  newest GitHub *release* tag, falling back to the newest git tag only if the
+  newest GitHub _release_ tag, falling back to the newest git tag only if the
   repo has cut no releases at all. A repo with neither releases nor tags fails
   the build. Pinning an explicit release tag is recommended for third-party
   agents so a breaking change upstream cannot silently invalidate the catalog.
