@@ -7,8 +7,8 @@ gets into the cluster, not Operator setup itself.
 
 ## The Operator owns production
 
-The Operator ships four CRDs under `core.inference-gateway.com/v1alpha1`:
-`Gateway`, `Agent`, `Orchestrator`, and `MCP`. HPA tuning, telemetry,
+The Operator ships five CRDs under `core.inference-gateway.com/v1alpha1`:
+`Gateway`, `Agent`, `Orchestrator`, `MCP`, and `GPU`. HPA tuning, telemetry,
 ingress, multi-provider config, RBAC, secret management - all of that
 lives in the [Operator repo](https://github.com/inference-gateway/operator).
 Start there for installation and the full CRD reference.
@@ -30,8 +30,8 @@ spec:
 ```
 
 Then `adl generate --deployment kubernetes` writes the matching `Agent`
-CR (and any supporting manifests) under the project's `deploy/` directory.
-`kubectl apply -f deploy/` installs it, the Operator reconciles it into a
+CR to the project's `k8s/deployment.yaml`.
+`kubectl apply -f k8s/` installs it, the Operator reconciles it into a
 Deployment + Service + HPA, and orchestrators discover it. See the
 [ADL CLI docs](https://adl.inference-gateway.com/) for the full
 `adl generate` flow.
