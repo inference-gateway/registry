@@ -26,9 +26,18 @@ the `infer agents add` line, then run it:
 infer agents add documentation-agent
 ```
 
-The CLI writes a local config entry pointing at the agent. From there the
-gateway can route requests to it - see the
+The CLI resolves any agent published in the catalog by name: it reads the URL
+from `spec.server` and the OCI image from `spec.deployment`, then writes a
+local config entry pointing at the agent. From there the gateway can route
+requests to it - see the
 [CLI repo](https://github.com/inference-gateway/cli) for `infer` semantics.
+
+Pass an explicit URL when the name is not in the catalog, or to override the
+resolved defaults:
+
+```sh
+infer agents add my-agent http://localhost:8080
+```
 
 The **OCI Image** row (e.g. `ghcr.io/inference-gateway/documentation-agent:0.6.3`)
 appears when the agent declares
