@@ -36,28 +36,35 @@ commit, and submit.
 
 ```yaml
 - url: https://github.com/<owner>/<repo>
-  ref: main
+  ref: v1.0.0
 ```
 
 - `url` is required and must be a `https://github.com/...` URL.
-- `ref` is optional and defaults to `main`. Pinning a release tag is
-  recommended for third-party agents so a breaking change upstream cannot
-  silently invalidate the catalog.
+- `ref` is optional. Omitting it means `latest`: the build resolves your
+  newest GitHub _release_ tag, falling back to the newest git tag only if the
+  repo has cut no releases at all. A repo with neither releases nor tags fails
+  the build. Pinning an explicit release tag is recommended for third-party
+  agents so a breaking change upstream cannot silently invalidate the catalog.
 
 ## What happens after merge
 
 The [`build-catalog.yml`](https://github.com/inference-gateway/agents/blob/main/.github/workflows/build-catalog.yml)
-workflow in `inference-gateway/agents` runs on every push that touches
-`agents.yaml`, and on a daily cron at `0 4 * * *` UTC. It:
+workflow in `inference-gateway/agents` runs on pushes to `main` that touch
+`agents.yaml`, `scripts/build-catalog.mjs`, `package.json`,
+`package-lock.json`, or the workflow file itself, plus `workflow_dispatch`.
+There is no cron. It:
 
-1. Fetches `agent.yaml` from each repo at the listed ref.
+1. Fetches `agent.yaml` from each repo at the listed ref (resolving `latest`).
 2. Validates it against the ADL JSON Schema.
 3. Rejects duplicate `metadata.name` collisions.
 4. Sorts entries by name and writes `catalog.json`.
-5. Auto-commits with `chore(catalog): rebuild catalog.json [skip ci]`.
+5. Opens or updates a `chore(catalog): rebuild catalog.json` pull request from
+   the `catalog/update` branch - it does not auto-commit to `main`.
 
-The jsDelivr `@main` cache window then bounds visibility - your entry
-typically appears here within a few hours, at most ~12.
+A maintainer merges that rebuild PR. Your entry then becomes visible here once
+`inference-gateway/agents` publishes a release, because this site reads the
+catalog at jsDelivr `@latest` (the repo's newest tag). Releases there are
+triggered manually.
 
 ## Optional: make the card pop
 

@@ -82,10 +82,14 @@ The build script reads `name` and `description` from the upstream
 
 ## What happens after merge
 
-The [`build-catalog.yml`](https://github.com/inference-gateway/skills/blob/main/.github/workflows/build-catalog.yml)
-workflow in `inference-gateway/skills` runs on every push that touches
-`skills.yaml`, `skills/**`, or the build script; on a daily cron at
-`0 4 * * *` UTC; and on `workflow_dispatch`. It:
+Your entry PR must include the rebuilt `catalog.json`. The
+[`ci.yml`](https://github.com/inference-gateway/skills/blob/main/.github/workflows/ci.yml)
+workflow in `inference-gateway/skills` runs `bun run build` on every pull
+request and fails it with `catalog.json is stale` unless the regenerated file
+is committed. Run `bun run build` and commit the result - never hand-edit
+`catalog.json`.
+
+That build step:
 
 1. Fetches `SKILL.md` from each repo at the listed ref (or reads from the
    local working tree for self-hosted entries).
@@ -94,12 +98,17 @@ workflow in `inference-gateway/skills` runs on every push that touches
 3. Rejects duplicate `name` collisions across local and external entries.
 4. Validates `license` is in the ADL Skill enum.
 5. Sorts entries and writes `catalog.json`.
-6. Opens a follow-up PR (`chore(catalog): rebuild catalog.json`) for a
-   maintainer to merge.
 
-Once that rebuild PR lands on `main`, the jsDelivr `@main` cache window
-bounds visibility - your entry typically appears here within a few hours,
-at most ~12.
+Separately,
+[`build-catalog.yml`](https://github.com/inference-gateway/skills/blob/main/.github/workflows/build-catalog.yml)
+runs on the `0 4 * * *` UTC cron and on `workflow_dispatch` - it has no push
+trigger - and opens a `chore(catalog): rebuild catalog.json` PR for a
+maintainer to merge when upstream `SKILL.md` files have drifted.
+
+Once your PR lands on `main`, your entry becomes visible here after
+`inference-gateway/skills` publishes a release, because this site reads the
+catalog at jsDelivr `@latest` (the repo's newest tag). Releases there are
+triggered manually.
 
 If any fetch, parse, frontmatter, license, or dedupe check fails, the
 workflow aborts before writing `catalog.json` - it never publishes a partial
