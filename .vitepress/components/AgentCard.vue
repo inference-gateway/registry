@@ -96,12 +96,7 @@ function copyImage() {
         class="reg-pill reg-pill--accent"
         >Push</span
       >
-      <span
-        v-if="capabilities?.stateTransitionHistory"
-        class="reg-pill reg-pill--accent"
-      >
-        State History
-      </span>
+
       <button
         v-if="tools.length > 0"
         type="button"
