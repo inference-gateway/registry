@@ -64,6 +64,19 @@ export function deriveDisplayName(agent: CatalogAgent): string {
     .join(" ");
 }
 
+// ADL v1 dropped the pre-release card fields when it aligned with the A2A v1.0.1 AgentCard;
+// catalog entries generated before that still carry them.
+type PreReleaseCard = { preferredTransport?: string };
+
+/** Preferred protocol binding of the agent, from the first declared interface. */
+export function deriveTransport(agent: CatalogAgent): string | null {
+  const card = agent.spec?.card;
+  const declared = card?.supportedInterfaces?.[0]?.protocolBinding;
+  return (
+    declared || (card as PreReleaseCard | undefined)?.preferredTransport || null
+  );
+}
+
 export function deriveLanguage(agent: CatalogAgent): string | null {
   const langs = agent.spec?.language;
   if (!langs) return null;

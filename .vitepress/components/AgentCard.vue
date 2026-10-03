@@ -10,6 +10,7 @@ import {
   deriveProvider,
   deriveRepository,
   deriveTags,
+  deriveTransport,
 } from "../lib/adl";
 
 const props = defineProps<{ agent: CatalogAgent }>();
@@ -28,6 +29,7 @@ const provider = computed(() => deriveProvider(props.agent));
 const model = computed(() => props.agent.spec?.agent?.model || "");
 const language = computed(() => deriveLanguage(props.agent));
 const capabilities = computed(() => props.agent.spec?.capabilities);
+const transport = computed(() => deriveTransport(props.agent));
 const tools = computed(() => props.agent.spec?.tools ?? []);
 const skills = computed(() => props.agent.spec?.skills ?? []);
 const installCommand = computed(() => deriveInstallCommand(props.agent));
@@ -88,6 +90,9 @@ function copyImage() {
     <p class="reg-card__desc">{{ agent.metadata.description }}</p>
 
     <div class="reg-card__pills">
+      <span v-if="transport" class="reg-pill reg-pill--accent">{{
+        transport
+      }}</span>
       <span v-if="capabilities?.streaming" class="reg-pill reg-pill--accent"
         >Streaming</span
       >
