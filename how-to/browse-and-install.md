@@ -8,8 +8,9 @@ copy the command from its card and run it locally.
 Open [Agents](/agents/) or [Skills](/skills/). Each page lists every entry
 in the corresponding catalog with live filters above the grid:
 
-- **Search** matches name, description, and tags (case-insensitive
-  substring).
+- **Search** is a case-insensitive substring match. On Agents it covers the
+  name, description, and derived tags. On Skills it also covers the vendor
+  and the skill's categories.
 - **Tag filter** (agents) narrows by any tag derived from the agent's
   tools and skills.
 - **Vendor filter** (skills) narrows by the maintainer listed on the
@@ -64,8 +65,12 @@ etc.) lets you vet redistribution terms before installing.
 
 Card fields map directly to the underlying schema:
 
-- **Capabilities pills** (`Streaming`, `Push`, `State History`) -
-  `spec.capabilities` on the agent's ADL manifest.
+- **Capabilities pills** (`Streaming`, `Push`) -
+  `spec.capabilities.streaming` and `spec.capabilities.pushNotifications` on
+  the agent's ADL manifest.
+- **Protocol binding pill** (e.g. `JSONRPC`, `GRPC`, `HTTP+JSON`) -
+  `spec.card.supportedInterfaces[0].protocolBinding`, the transport the
+  agent prefers for A2A traffic.
 - **Tools / Skills counts** - `spec.tools[]` and `spec.skills[]`. Expand
   either list for per-entry detail.
 - **Model** - `spec.agent.model` when set.
