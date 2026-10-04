@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.0](https://github.com/inference-gateway/registry/compare/v0.6.5...v0.7.0) (2026-10-04)
+
+### ✨ Features
+
+* **registry:** show preferred protocol binding on cards ([#129](https://github.com/inference-gateway/registry/issues/129)) ([f41e2f7](https://github.com/inference-gateway/registry/commit/f41e2f7fb1283cd04ff386eff186a11d01282514))
+
+### ♻️ Improvements
+
+* **registry:** drop install command cli workaround ([#122](https://github.com/inference-gateway/registry/issues/122)) ([1b5bc88](https://github.com/inference-gateway/registry/commit/1b5bc887ed5a1cac5de39a2cc036f513fdd6672e))
+
+### 🐛 Bug Fixes
+
+* **registry:** render working add command for all agents ([#118](https://github.com/inference-gateway/registry/issues/118)) ([4cd4f29](https://github.com/inference-gateway/registry/commit/4cd4f298cbbb949558564cc74b4709a916c41279))
+
+### 👷 CI
+
+* **claude:** centralize claude.yml via reusable workflow ([#107](https://github.com/inference-gateway/registry/issues/107)) ([e7e0ad8](https://github.com/inference-gateway/registry/commit/e7e0ad8acdde2a3cc0a087bff6193cc68c96fe26))
+* **deps-dev:** bump vue from 3.5.42 to 3.5.43 in the npm group ([#108](https://github.com/inference-gateway/registry/issues/108)) ([f206e7d](https://github.com/inference-gateway/registry/commit/f206e7dde4d1a9ce95ec7925ca74ddf11be0406f))
+
+### 📚 Documentation
+
+* **agents:** add code readability guidelines ([#123](https://github.com/inference-gateway/registry/issues/123)) ([d84306b](https://github.com/inference-gateway/registry/commit/d84306b977f79ef540f1818bb84ce5f2442cf25f))
+* **agents:** add code readability guidelines ([#133](https://github.com/inference-gateway/registry/issues/133)) ([a3544dc](https://github.com/inference-gateway/registry/commit/a3544dc4438716e9fdd114701b175df95cbdcae6))
+* **enterprise:** fix kubectl path and CRD list ([#117](https://github.com/inference-gateway/registry/issues/117)) ([20d8bc4](https://github.com/inference-gateway/registry/commit/20d8bc4062fc02206b610c9ca3be3362bb556e3b))
+* fix stale deploy and layout info in readme ([#134](https://github.com/inference-gateway/registry/issues/134)) ([4141e37](https://github.com/inference-gateway/registry/commit/4141e3790be407355cee9378603e34e332548a97))
+* **how-to:** fix card pills and search scope ([#136](https://github.com/inference-gateway/registry/issues/136)) ([6271f31](https://github.com/inference-gateway/registry/commit/6271f310ef070e73e50d00b60ae6f8bdb2f38d47))
+* **how-to:** use infer version subcommand ([#135](https://github.com/inference-gateway/registry/issues/135)) ([b86fee8](https://github.com/inference-gateway/registry/commit/b86fee8923ecd5a8b0ce831b484460abd0a213f6))
+* **readme:** fix deploy description and layout tree ([#116](https://github.com/inference-gateway/registry/issues/116)) ([dc3706c](https://github.com/inference-gateway/registry/commit/dc3706cebfe20e69dd11a945922f315f9b8dbe27))
+* **registry:** correct catalog [@latest](https://github.com/latest) and workflow docs ([#119](https://github.com/inference-gateway/registry/issues/119)) ([7e3dddd](https://github.com/inference-gateway/registry/commit/7e3dddd09a501002fb825711d8405433dae45253))
+* **registry:** correct skill submission, loading, card labels ([#120](https://github.com/inference-gateway/registry/issues/120)) ([7a1e4ef](https://github.com/inference-gateway/registry/commit/7a1e4efa58f263053aa9f3737fa4204d415560fc))
+* **registry:** refresh agents.md ([#104](https://github.com/inference-gateway/registry/issues/104)) ([1d1842b](https://github.com/inference-gateway/registry/commit/1d1842b39e922c8e603bcf0d72d10e6a038b1aaa))
+
+### 🔧 Miscellaneous
+
+* **deps:** bump claude-code 2.1.266 -> 2.1.278 ([#105](https://github.com/inference-gateway/registry/issues/105)) ([4355673](https://github.com/inference-gateway/registry/commit/4355673702ae12672c51812f55198981f5deb290))
+* **deps:** bump claude-code 2.1.278 -> 2.1.280 ([#109](https://github.com/inference-gateway/registry/issues/109)) ([bedf2cc](https://github.com/inference-gateway/registry/commit/bedf2cc5ae8147bb7402134781559ffaf3ce6fe5))
+* **deps:** bump claude-code 2.1.280 -> 2.1.283 ([#124](https://github.com/inference-gateway/registry/issues/124)) ([4a275e7](https://github.com/inference-gateway/registry/commit/4a275e792ff09a2a9b1ba44f3595f4c33f82dfeb))
+* **deps:** bump claude-code 2.1.283 -> 2.1.285 ([#128](https://github.com/inference-gateway/registry/issues/128)) ([15c100e](https://github.com/inference-gateway/registry/commit/15c100efdf2210d2fcaac9790afc93d394bcc598))
+* **deps:** bump infer CLI v0.192.0 -> v0.205.3 ([#106](https://github.com/inference-gateway/registry/issues/106)) ([bb708ed](https://github.com/inference-gateway/registry/commit/bb708edffe6350fba753b021a3a9196c36b6bef5))
+* **deps:** bump infer CLI v0.205.3 -> v0.208.0 ([#110](https://github.com/inference-gateway/registry/issues/110)) ([f343e60](https://github.com/inference-gateway/registry/commit/f343e60296572653607658c8d0a3d9f2ad4e3e46))
+* **deps:** bump infer CLI v0.208.0 -> v0.218.0 ([#125](https://github.com/inference-gateway/registry/issues/125)) ([40addb1](https://github.com/inference-gateway/registry/commit/40addb1d4e45ff924676ba94e902ad1119e29c44))
+* **deps:** bump infer CLI v0.218.0 -> v0.221.1 ([#126](https://github.com/inference-gateway/registry/issues/126)) ([51d990e](https://github.com/inference-gateway/registry/commit/51d990e9c85e3b9d4ac6a54933cf7fec076cef96))
+
 ## [0.6.5](https://github.com/inference-gateway/registry/compare/v0.6.4...v0.6.5) (2026-09-18)
 
 ### 📚 Documentation
