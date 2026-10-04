@@ -31,7 +31,7 @@ The CLI ships a `flake.nix` exposing `infer` as both a package and an app.
 Run it once without installing:
 
 ```sh
-nix run github:inference-gateway/cli -- --version
+nix run github:inference-gateway/cli -- version
 ```
 
 Install it into your profile:
@@ -64,7 +64,7 @@ Then `flox activate` puts `infer` on your `PATH`.
 ### Verify
 
 ```sh
-infer --version
+infer version
 ```
 
 Full installation options (container image, manual download with checksum
