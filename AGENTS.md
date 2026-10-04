@@ -4,9 +4,9 @@ Static VitePress site listing ADL-compliant A2A agents and portable skills.
 Visual language matches the ADL docs site (teal `#3c8772`, Inter font,
 light/dark toggle).
 
-## Commands (repo root; requires Bun >=1.2)
+## Commands (repo root, requires Bun >=1.2)
 
-- `bun install` - install deps; `prepare` hook points git at `.githooks/`.
+- `bun install` - install deps. The `prepare` hook points git at `.githooks/`.
 - `bun run dev` - VitePress dev server with HMR.
 - `bun run build` - build the static site into `.vitepress/dist`.
 - `bun run preview` - serve the production build locally.
@@ -14,9 +14,9 @@ light/dark toggle).
   JSON Schema (`scripts/codegen-adl.mjs`, fetches from jsDelivr).
 
 `Taskfile.yml` wraps these (`task dev`, `task build`, ...). `task lint` /
-`task lint:fix` run markdownlint (config in `.markdownlint.json`);
-`task format` / `task format:check` run Prettier (both provided by the Flox
-env; CI uses the same checks pinned via `bun x` - `prettier@3.8.3`,
+`task lint:fix` run markdownlint (config in `.markdownlint.json`).
+`task format` / `task format:check` run Prettier. Both are provided by the Flox
+env - CI uses the same checks pinned via `bun x` (`prettier@3.8.3`,
 `markdownlint-cli@0.48.0`). `AGENTS.md` and `CHANGELOG.md` are excluded
 from both.
 
@@ -44,7 +44,7 @@ No test framework. Validate changes with `bun run build`.
 - `.vitepress/components/` - Vue 3 Composition API browsers and cards.
 - `.vitepress/lib/` - data services (`agentService.ts`, `skillService.ts`),
   ADL helpers (`adl.ts`), type re-exports.
-- `.vitepress/types/adl.ts` - generated; never hand-edit.
+- `.vitepress/types/adl.ts` - generated - never hand-edit.
 - `public/` - favicons, OG images, manifest, robots.
 - `wrangler.jsonc` - Cloudflare Workers deployment config.
 
@@ -55,7 +55,7 @@ No test framework. Validate changes with `bun run build`.
   `inference-gateway/skills` -> `catalog.json`). To add an agent or skill, PR
   the catalog repo, not this one. Override URLs locally with
   `VITE_AGENTS_CATALOG_URL` / `VITE_SKILLS_CATALOG_URL`.
-- The ADL schema lives in `inference-gateway/adl`; after schema changes run
+- The ADL schema lives in `inference-gateway/adl`. After schema changes run
   `bun run codegen` and commit the result (CI enforces freshness).
 - Deployment: `.github/workflows/static.yml` deploys `wrangler.jsonc` assets
   to Cloudflare Workers (registry.inference-gateway.com) on manual dispatch.
@@ -63,10 +63,10 @@ No test framework. Validate changes with `bun run build`.
 
 ## Coding style and readability
 
-- Vue 3 Composition API (`<script setup lang="ts">`); components PascalCase
+- Vue 3 Composition API (`<script setup lang="ts">`). Components PascalCase
   (`AgentCard.vue`), `lib/` modules camelCase (`agentService.ts`).
 - Style with VitePress `--vp-c-*` CSS variables so light/dark works
-  automatically; shared styles in `.vitepress/theme/custom.css` under
+  automatically. Shared styles in `.vitepress/theme/custom.css` under
   `.reg-card` / `.reg-browser__*`.
 - Markdown lines <=120 characters. Add project terminology to `cspell.json`.
 - Write self-explanatory code: clear names and small, single-purpose functions carry the intent.
@@ -76,6 +76,8 @@ No test framework. Validate changes with `bun run build`.
 - No comments above modules, packages, or files.
 - Tool directives are not comments and stay where the tool needs them (lint suppressions, build
   tags, compiler pragmas, code generation markers).
+- No semicolons in documentation prose (Markdown files, doc comments): split the sentence or use
+  a dash instead.
 
 ## Commits & PRs
 
