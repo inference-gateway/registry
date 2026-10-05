@@ -1,0 +1,26 @@
+# Inference Gateway Registry
+
+> Discovery hub for A2A (Agent-to-Agent) services and portable skills in the Inference Gateway ecosystem. Every agent follows the Agent Definition Language (ADL) schema. Agents are installed with `infer agents add`, skills with `infer skills install --user`.
+
+The Agents and Skills pages render client-side from the JSON catalogs below - read the catalogs directly for the full, current entry list. To list a new agent or skill, open a PR against the catalog repo, not this site.
+
+## Catalogs
+
+- [Agents catalog](https://cdn.jsdelivr.net/gh/inference-gateway/agents@latest/catalog.json): every listed A2A agent with its ADL metadata
+- [Skills catalog](https://cdn.jsdelivr.net/gh/inference-gateway/skills@latest/catalog.json): every listed portable skill
+
+## Guides
+
+- [Prerequisites](https://registry.inference-gateway.com/how-to/prerequisites): install the `infer` CLI and the tooling needed to act on catalog entries
+- [Browse & Install](https://registry.inference-gateway.com/how-to/browse-and-install): find an agent or skill and run its install command
+- [List an Agent](https://registry.inference-gateway.com/how-to/list-an-agent): add a repo with an ADL `agent.yaml` to the agents catalog
+- [List a Skill](https://registry.inference-gateway.com/how-to/list-a-skill): add a repo with a `SKILL.md` to the skills catalog
+- [Build Custom Agents](https://registry.inference-gateway.com/how-to/build-agents): scaffold a listable agent with the ADL CLI
+- [Enterprise Deployment](https://registry.inference-gateway.com/how-to/enterprise): run catalog agents in Kubernetes with the Inference Gateway Operator
+
+## Optional
+
+- [Agent Definition Language](https://adl.inference-gateway.com/): the schema every agent follows
+- [Agents catalog source](https://github.com/inference-gateway/agents)
+- [Skills catalog source](https://github.com/inference-gateway/skills)
+- [Registry source](https://github.com/inference-gateway/registry)
