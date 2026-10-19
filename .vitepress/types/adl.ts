@@ -517,7 +517,7 @@ export interface SCM {
   cd?: boolean;
 }
 /**
- * Local development experience for the agent: sandboxed dev environments (flox, devcontainer, dockerCompose), AI-assistant integration (CLAUDE.md/AGENTS.md generation, claude-code provisioning), and extra sandbox-level dependencies (deps) for tools that don't belong to any single language's package manager (e.g. deno, kubectl, terraform).
+ * Local development experience for the agent: sandboxed dev environments (flox, devcontainer, dockerCompose), AI-assistant integration (shared AGENTS.md generation, coding-agent provisioning), and extra sandbox-level dependencies (deps) for tools that don't belong to any single language's package manager (e.g. deno, kubectl, terraform).
  */
 export interface DevelopmentConfig {
   sandbox?: SandboxConfig;
@@ -545,7 +545,7 @@ export interface DockerComposeConfig {
   enabled: boolean;
 }
 /**
- * Configures AI-assistant integration for the agent project: generation of AI-assistant documentation (CLAUDE.md, AGENTS.md) and provisioning of coding-agent orchestrators inside sandbox environments.
+ * Configures AI-assistant integration for the agent project: generation of AGENTS.md, the shared instructions file every supported orchestrator reads, and provisioning of coding-agent orchestrators inside sandbox environments.
  */
 export interface AIConfig {
   orchestrators?: OrchestratorsConfig;
@@ -573,6 +573,14 @@ export interface ClaudeCodeConfig {
    * Name of the repository secret holding the GitHub App private key used by the generated Claude Code workflow.
    */
   appPrivateKeySecret?: string;
+  /**
+   * Claude Code plugins the generated workflow installs before the agent runs, as '<plugin>@<marketplace>' (e.g. 'ponytail@ponytail'). Third-party marketplaces must also be listed in pluginMarketplaces.
+   */
+  plugins?: string[];
+  /**
+   * Git URLs of Claude Code plugin marketplaces the generated workflow registers before installing plugins (e.g. 'https://github.com/DietrichGebert/ponytail.git').
+   */
+  pluginMarketplaces?: string[];
 }
 /**
  * Provision OpenAI's Codex coding agent inside the sandbox.
@@ -605,6 +613,10 @@ export interface InferConfig {
    * Name of the repository secret holding the GitHub App private key used by the generated infer workflow.
    */
   appPrivateKeySecret?: string;
+  /**
+   * Infer plugins the generated workflow installs before the agent runs, passed to 'infer plugins install'. Entries are 'owner/repo', 'owner/repo@ref', or a GitHub URL (e.g. 'DietrichGebert/ponytail@v4.8.4').
+   */
+  plugins?: string[];
 }
 export interface DeploymentConfig {
   type?: "kubernetes" | "cloudrun" | "vercel" | "cloudflare";
