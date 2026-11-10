@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.0](https://github.com/inference-gateway/registry/compare/v0.7.0...v0.8.0) (2026-11-10)
+
+### ✨ Features
+
+* **registry:** add llms.txt ([#137](https://github.com/inference-gateway/registry/issues/137)) ([41b5389](https://github.com/inference-gateway/registry/commit/41b5389958f924ad0ff098cbe1c9f4443e7f9aa5))
+
+### 👷 CI
+
+* **deps-dev:** bump vue from 3.5.43 to 3.5.44 in the npm group ([#143](https://github.com/inference-gateway/registry/issues/143)) ([4b2c8fb](https://github.com/inference-gateway/registry/commit/4b2c8fb52846b975260e5623bebbbc666d17620a))
+* **deps:** bump actions/create-github-app-token ([#140](https://github.com/inference-gateway/registry/issues/140)) ([230e02f](https://github.com/inference-gateway/registry/commit/230e02f107c2df3f0397f2fcdee0b805fafdaf7b))
+* **release:** label issues and PRs shipped in an rc with rc ([#145](https://github.com/inference-gateway/registry/issues/145)) ([6434755](https://github.com/inference-gateway/registry/commit/64347553f82ffd050fd4729a1e281b2caa4ed4a4))
+
+### 🔧 Miscellaneous
+
+* **deps:** bump claude-code 2.1.285 -> 2.1.289 ([#138](https://github.com/inference-gateway/registry/issues/138)) ([b28aba0](https://github.com/inference-gateway/registry/commit/b28aba0306e1c47d286556d0ef2a0b0eb64f6049))
+* **deps:** bump claude-code 2.1.289 -> 2.1.296 ([#141](https://github.com/inference-gateway/registry/issues/141)) ([aa10f57](https://github.com/inference-gateway/registry/commit/aa10f57c0d376b3ae4b8e966145b74f049b11428))
+* **deps:** bump claude-code 2.1.296 -> 2.1.308 ([#144](https://github.com/inference-gateway/registry/issues/144)) ([d37e495](https://github.com/inference-gateway/registry/commit/d37e495439456138e4d4248cb6f38bb8e7e40f35))
+* **deps:** bump infer CLI v0.221.1 -> v0.226.0 ([#139](https://github.com/inference-gateway/registry/issues/139)) ([79ec7c6](https://github.com/inference-gateway/registry/commit/79ec7c6e66a95063638902a23018a5e98af960c9))
+* **deps:** bump infer CLI v0.226.0 -> v0.231.1 ([#142](https://github.com/inference-gateway/registry/issues/142)) ([7339819](https://github.com/inference-gateway/registry/commit/7339819f8657c0247cec574674ac3810674caeba))
+
 ## [0.7.0](https://github.com/inference-gateway/registry/compare/v0.6.5...v0.7.0) (2026-10-04)
 
 ### ✨ Features
