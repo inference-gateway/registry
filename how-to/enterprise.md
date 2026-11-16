@@ -32,7 +32,7 @@ spec:
 Then `adl generate --deployment kubernetes` writes the matching `Agent`
 CR to the project's `k8s/deployment.yaml`.
 `kubectl apply -f k8s/` installs it, the Operator reconciles it into a
-Deployment + Service + HPA, and orchestrators discover it. See the
+Deployment and a Service, and orchestrators discover it. See the
 [ADL CLI docs](https://adl.inference-gateway.com/) for the full
 `adl generate` flow.
 
