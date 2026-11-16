@@ -13,7 +13,12 @@
     "Ollama",
     "ollama",
     "OLLAMA",
-    "myorg"
+    "myorg",
+    "csharp",
+    "cpp",
+    "kotlin",
+    "swift",
+    "devicon"
   ],
   "ignorePaths": [
     "node_modules",

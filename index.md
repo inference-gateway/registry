@@ -52,7 +52,10 @@ manifests itself.
   Open a PR appending one entry to `skills.yaml` pointing at any public repo that
   ships a `SKILL.md`. Each skill carries an SPDX `license` field.
 
-CI in each catalog repo validates the entry and regenerates `catalog.json`.
-This site reads each catalog from jsDelivr at `@latest`, which serves the
-catalog repo's newest release tag - so a merged entry appears here once that
-repo publishes a release.
+The catalog repos handle CI differently: a skills pull request must commit the
+rebuilt `catalog.json` (run `bun run build`) or CI fails it with `catalog.json
+is stale`, while an agents pull request is only linted - validation and the
+rebuild happen after merge, opening a `chore(catalog): rebuild catalog.json`
+pull request for a maintainer to merge. Either way, this site reads each
+catalog from jsDelivr at `@latest`, which serves the catalog repo's newest
+release tag - so a merged entry appears here once that repo publishes a release.
