@@ -33,9 +33,9 @@ Override the catalog URLs locally with `VITE_AGENTS_CATALOG_URL` /
 - [VitePress](https://vitepress.dev/) 1.6 for the static site
 - [Vue 3](https://vuejs.org/) Composition API for the dynamic Agents and Skills browsers
 - Plain Markdown for the landing page and How-To guides
-- Deployed to [Cloudflare Workers](https://registry.inference-gateway.com) (`wrangler.jsonc`) by
-  manually running the `Deploy` workflow (`.github/workflows/static.yml`, `workflow_dispatch` only -
-  no push trigger)
+- Deployed to [Cloudflare Workers](https://registry.inference-gateway.com) (`wrangler.jsonc`) by the
+  `Deploy` workflow (`.github/workflows/static.yml`), run manually or automatically whenever the
+  `Release` workflow publishes a new version (its `trigger_deploy` job dispatches `static.yml`)
 
 The look and feel matches the
 [ADL docs site](https://adl.inference-gateway.com/) (teal `#3c8772`, Inter,

@@ -21,8 +21,9 @@ env - CI uses the same checks pinned via `bun x` (`prettier@3.8.3`,
 from both.
 
 The pre-commit hook (`.githooks/pre-commit`) runs `task format` +
-`task lint:fix` on staged files and re-stages any it rewrites - expect commits
-to auto-format.
+`task lint:fix` over the whole repo, not only staged files - both commands
+format `.` per `Taskfile.yml` - then re-stages the files that were already
+staged, so unstaged files can also be rewritten in the working tree.
 
 ## CI
 
@@ -58,8 +59,10 @@ No test framework. Validate changes with `bun run build`.
 - The ADL schema lives in `inference-gateway/adl`. After schema changes run
   `bun run codegen` and commit the result (CI enforces freshness).
 - Deployment: `.github/workflows/static.yml` deploys `wrangler.jsonc` assets
-  to Cloudflare Workers (registry.inference-gateway.com) on manual dispatch.
-  README's "GitHub Pages" wording is stale.
+  to Cloudflare Workers (registry.inference-gateway.com). It runs on manual
+  dispatch, and the `trigger_deploy` job in `.github/workflows/release.yml`
+  runs `gh workflow run static.yml --ref main` whenever the `Release` workflow
+  publishes a new version - so every release deploys the site.
 
 ## Coding style and readability
 
