@@ -32,11 +32,14 @@ commit, and submit.
 
 ## The entry shape
 
-`agents.yaml` is a flat list. Each entry is two lines:
+`agents.yaml` is a mapping, not a flat list: entries are items of a top-level
+`agents:` array, and the build script rejects anything else. Each entry is two
+lines:
 
 ```yaml
-- url: https://github.com/<owner>/<repo>
-  ref: v1.0.0
+agents:
+  - url: https://github.com/<owner>/<repo>
+    ref: v1.0.0
 ```
 
 - `url` is required and must be a `https://github.com/...` URL.

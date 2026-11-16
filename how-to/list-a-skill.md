@@ -42,20 +42,23 @@ fields for your skill, commit, and submit.
 
 ## The entry shape
 
-`skills.yaml` is a flat list. Each entry carries the fields the build job
-cannot derive from `SKILL.md` frontmatter alone:
+`skills.yaml` is a mapping, not a flat list: entries are items of a top-level
+`skills:` array, and the build script rejects anything else. Each entry carries
+the fields the build job cannot derive from `SKILL.md` frontmatter alone:
 
 ```yaml
-- url: https://github.com/<owner>/<repo>
-  ref: v1.0.0
-  path: SKILL.md
-  vendor: <your-org-or-handle>
-  license: Apache-2.0
-  tags:
-    - <tag>
-  categories:
-    - developer-tools
-  homepage: https://<optional-project-url>
+skills:
+  - url: https://github.com/<owner>/<repo>
+    ref: v1.0.0
+    path: SKILL.md
+    vendor: <your-org-or-handle>
+    license: Apache-2.0
+    language: go
+    tags:
+      - <tag>
+    categories:
+      - developer-tools
+    homepage: https://<optional-project-url>
 ```
 
 Per field:
@@ -73,6 +76,13 @@ Per field:
   the vendor filter on `/skills/`.
 - `license` (optional) - SPDX identifier from the ADL Skill enum (see list
   above). Falls back to `SKILL.md` frontmatter `license:` if omitted.
+- `language` (optional) - one of `go`, `rust`, `python`, `typescript`,
+  `javascript`, `java`, `ruby`, `csharp`, `cpp`, `c`, `php`, `kotlin`,
+  `swift`, or `bash`. The build writes it into the catalog together with a
+  matching devicon `logo`, which the registry renders as the corner badge on
+  the card. When the field is unset, the build infers it from the first tag
+  matching one of those keys - so a `go` tag gets the badge for free. Any
+  other value fails the build.
 - `tags` (**required**) - free-form discoverability strings.
 - `categories` (**required**) - higher-level grouping (e.g. `developer-tools`).
 - `homepage` (optional) - landing URL beyond the source repo.
@@ -123,15 +133,16 @@ entry then points `url` back at
 in-repo location:
 
 ```yaml
-- url: https://github.com/inference-gateway/skills
-  path: skills/<name>/SKILL.md
-  vendor: inference-gateway
-  license: Apache-2.0
-  tags:
-    - <tag>
-  categories:
-    - developer-tools
-  homepage: https://github.com/inference-gateway/skills
+skills:
+  - url: https://github.com/inference-gateway/skills
+    path: skills/<name>/SKILL.md
+    vendor: inference-gateway
+    license: Apache-2.0
+    tags:
+      - <tag>
+    categories:
+      - developer-tools
+    homepage: https://github.com/inference-gateway/skills
 ```
 
 The folder name under `skills/` must match the `SKILL.md` frontmatter

@@ -88,7 +88,9 @@ Agent metadata is **not** in this repo. Any public GitHub repo that ships an
 ADL `agent.yaml` at its root is eligible. Open a PR against
 [`inference-gateway/agents`](https://github.com/inference-gateway/agents)
 adding one entry to `agents.yaml` with the repo URL and an optional `ref`.
-CI in the agents repo rebuilds `catalog.json` on merge. This site reads the
+After merge, a workflow opens a `chore(catalog): rebuild catalog.json` pull
+request that a maintainer has to merge - see
+[List an Agent](how-to/list-an-agent.md). This site reads the
 catalog from jsDelivr at `@latest`, which serves the catalog repo's newest
 release tag, so your agent appears here once that repo publishes a release -
 no redeploy here.
