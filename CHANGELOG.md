@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.1](https://github.com/inference-gateway/registry/compare/v0.8.0...v0.8.1) (2026-11-16)
+
+### 👷 CI
+
+* align Dependabot schedule and grouping ([#150](https://github.com/inference-gateway/registry/issues/150)) ([2c12641](https://github.com/inference-gateway/registry/commit/2c12641fe6059750935c7c5c5f43cb7b1cf725d1))
+* **deps-dev:** bump vue from 3.5.44 to 3.5.45 in the npm group ([#147](https://github.com/inference-gateway/registry/issues/147)) ([dd97797](https://github.com/inference-gateway/registry/commit/dd977973c5eed36d69ca3a96a04d52db50a13651))
+
+### 📚 Documentation
+
+* **deploy:** correct deploy trigger and pre-commit hook statements ([#155](https://github.com/inference-gateway/registry/issues/155)) ([3f8f81b](https://github.com/inference-gateway/registry/commit/3f8f81b0dedf0ac90a5b6882e811e56036da4a2a))
+* fix agents.yaml and skills.yaml shapes and catalog CI wording ([#156](https://github.com/inference-gateway/registry/issues/156)) ([f09ccbc](https://github.com/inference-gateway/registry/commit/f09ccbc1ad3b3727e70091eca0636f75ea03a4f0))
+* **how-to:** drop HPA from what an Agent CR reconciles into ([#154](https://github.com/inference-gateway/registry/issues/154)) ([61eeccf](https://github.com/inference-gateway/registry/commit/61eeccff37ab1d5d48b4f2f652dc980d37bcbf27))
+
+### 🔧 Miscellaneous
+
+* **deps:** bump claude-code 2.1.308 -> 2.1.318 ([#146](https://github.com/inference-gateway/registry/issues/146)) ([f8fec76](https://github.com/inference-gateway/registry/commit/f8fec7668045ab70e9b5e79cec8a252f6cea2954))
+* **deps:** bump flox dependencies to latest ([#148](https://github.com/inference-gateway/registry/issues/148)) ([e197cb1](https://github.com/inference-gateway/registry/commit/e197cb1c5fc6041b5c342fe2b8ad963fb63db923))
+* **deps:** bump flox dependencies to latest ([#149](https://github.com/inference-gateway/registry/issues/149)) ([b2a3af5](https://github.com/inference-gateway/registry/commit/b2a3af531ef27e3d2cf74cd6ead37e825ab951c2))
+
 ## [0.8.0](https://github.com/inference-gateway/registry/compare/v0.7.0...v0.8.0) (2026-11-10)
 
 ### ✨ Features
