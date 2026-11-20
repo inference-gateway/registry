@@ -18,7 +18,8 @@ light/dark toggle).
 `task format` / `task format:check` run Prettier. Both are provided by the Flox
 env - CI uses the same checks pinned via `bun x` (`prettier@3.8.3`,
 `markdownlint-cli@0.48.0`). `AGENTS.md` and `CHANGELOG.md` are excluded
-from both.
+from both (markdownlint additionally skips `CLAUDE.md`, Prettier additionally
+skips `public/` and the generated `.vitepress/types/adl.ts`).
 
 The pre-commit hook (`.githooks/pre-commit`) runs `task format` +
 `task lint:fix` over the whole repo, not only staged files - both commands
@@ -46,7 +47,7 @@ No test framework. Validate changes with `bun run build`.
 - `.vitepress/lib/` - data services (`agentService.ts`, `skillService.ts`),
   ADL helpers (`adl.ts`), type re-exports.
 - `.vitepress/types/adl.ts` - generated - never hand-edit.
-- `public/` - favicons, OG images, manifest, robots.
+- `public/` - favicons, OG images, manifest, robots, `llms.txt`, language icons.
 - `wrangler.jsonc` - Cloudflare Workers deployment config.
 
 ## Architecture gotchas
@@ -85,6 +86,8 @@ No test framework. Validate changes with `bun run build`.
 ## Commits & PRs
 
 Conventional commits, lowercase, scoped (`feat(registry): add agents
-browser`). PRs: concise description, linked issue when available, screenshots
+browser`). Releases are cut by semantic-release (`.releaserc.yaml`) from these
+commits - it rewrites `CHANGELOG.md` on release, so never bump versions by
+hand. PRs: concise description, linked issue when available, screenshots
 for visible UI changes, and the verification command run (typically
 `bun run build`).
